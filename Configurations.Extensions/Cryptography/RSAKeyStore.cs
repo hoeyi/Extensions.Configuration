@@ -68,9 +68,6 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
                 
                 var encryptedBytes = rsa.Encrypt(rgb: bytes, fOAEP: true);
 
-                DEBUG_WriteCspParameters(cspParams);
-                DEBUG_WriteRsaProviderToXML(rsa);
-
                 return Convert.ToBase64String(encryptedBytes);
             }
             catch (Exception e)
@@ -98,14 +95,11 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
 
                 var decryptedBytes = rsa.Decrypt(rgb: bytes, fOAEP: true);
 
-                DEBUG_WriteCspParameters(cspParams);
-                DEBUG_WriteRsaProviderToXML(rsa);
-
                 return byteConverter.GetString(decryptedBytes);
             }
             catch (Exception e)
             {
-                logger.LogError(e, ExceptionString.KeyStore_EncryptionFailed);
+                logger.LogError(e, ExceptionString.KeyStore_DecryptionFailed);
                 throw;
             }
         }
@@ -150,8 +144,6 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
                 };
 
                 Debug.WriteLine($"{cspParams.KeyContainerName} created.");
-                DEBUG_WriteCspParameters(cspParams);
-                DEBUG_WriteRsaProviderToXML(rsa);
 
                 return true;
             }
@@ -201,8 +193,6 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
                 // Call Clear to release resources and delete the key from the container.
 
                 Debug.WriteLine($"{cspParams.KeyContainerName} deleted.");
-                DEBUG_WriteCspParameters(cspParams);
-                DEBUG_WriteRsaProviderToXML(rsa);
 
                 return true;
             }
@@ -241,7 +231,7 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
             }
             catch(Exception e)
             {
-                Debug.Write($"{e}");
+                Debug.WriteLine($"{e.Message}");
                 return false;
             }
         }

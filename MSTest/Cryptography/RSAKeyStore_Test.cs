@@ -16,15 +16,22 @@ namespace MSTest.Cryptography
         private readonly IReadOnlyDictionary<string, string> testStrings =
             new Dictionary<string, string>()
             {
-                { "Unencrypted string", "SAi7B/or9QeIkX6z5fWkiF1Zah57gRa2thiWwwTsA6Mtg/NMn/azbL6ltdB228WxcXNoQVtJrU+UFYnaJf+5qnI6xXU7XMSsEi7WzJIlkC0RIwJH+REVtqIIwllt56YTLag/GheWZ8ZmiawYY8Echvw0Uw2b57MAv+p6jCyBixo=" }
+                {
+                    "sloFchfdAFXV1+j46THndWKzXr4DnvOGRh2fyuaErud92Plbx5WjbScCe4dXHluQDGsXhqZghHcJnp+8weKFXfcsX0Ko2mdw6HXHXt6duofBhGjuY2ErHVmhVJCfEKA6k34hsr3gVh7cniXIz7iTLiGedzg9EUC+m8hsRUQH2W0=",
+                    "Unencrypted string" 
+                },
+                {
+                    "bTWnpLpm0lpZZB9SDs3x/PxOtKSoGHT2LsNcISCzbicVyVuo8bxNNJFNsBYz82Ubp9j5OMpGhJrD45eMjv4gQYAPHOIQf3/g1uytBovIJ6N/6upyJE2yaXLA9fTIKvBw7IbZDrG/0p+G8wO0dRL0XFj1mPVnC1vxOD/hmVTsRpI=",
+                    "Unencrypted string"
+                }
             };
 
         [TestMethod] 
-        public void KeyStore_DeleteKeyContainer_ReturnsTrue()
+        public void Delete_ValidContainer_ReturnsTrue()
         {
             var keyStore = new RSAKeyStore(containerName: keyContainer, logger: MSTest.Logger);
 
-            //Assert.IsTrue(keyStore.DeleteKeyFromContainer(containerName: keyContainer));
+            Assert.IsTrue(keyStore.DeleteKeyFromContainer(containerName: keyContainer));
         }
 
         [TestMethod]
@@ -35,12 +42,14 @@ namespace MSTest.Cryptography
             foreach(var kv in testStrings)
             {
                 string cipherText = keyStore.Encrypt(kv.Value);
+                string plainText = keyStore.Decrypt(cipherText);
 
+                Debug.WriteLine($"Plain text: {kv.Value}");
                 Debug.WriteLine($"Cipher: {cipherText}");
-                Debug.WriteLine($"Decrypted: {keyStore.Decrypt(cipherText)}");
+                Debug.WriteLine($"Decrypted: {plainText}");
 
                 Assert.IsInstanceOfType(cipherText, typeof(string));
-                //Assert.AreEqual(expected: kv.Key, actual: plainText);
+                Assert.AreEqual(expected: kv.Value, actual: plainText);
             }
         }
 
@@ -50,32 +59,18 @@ namespace MSTest.Cryptography
             var keyStore = new RSAKeyStore(containerName: keyContainer, logger: MSTest.Logger);
             foreach(var kv in testStrings)
             {
-                string plainText = keyStore.Decrypt(testStrings[kv.Key]);
-                Debug.WriteLine($"Plain text: {kv.Key}\nCipher text: {kv.Value}");
+                string plainText = keyStore.Decrypt(kv.Key);
+                Debug.WriteLine($"Cipher text: {kv.Key}\nPlain text: {plainText}");
 
-                Assert.AreEqual(expected: kv.Key, actual: plainText);
+                Assert.AreEqual(expected: kv.Value, actual: plainText);
             }
         }
 
         [TestMethod]
-        public void Test()
+        public void Create_ValideContainer_ReturnsTrue()
         {
-            if (!OperatingSystem.IsWindows())
-                return;
-
-            var cspParams = new CspParameters()
-            {
-                KeyContainerName = "Test",
-                Flags = CspProviderFlags.NoPrompt
-            };
-
-            using var rsa = new RSACryptoServiceProvider(cspParams);
-
-            var plainText = "Unencrypted string";
-            var cipherTextObs = testStrings[plainText];
-            var cipherTextExp = SecureOptions.Encrypt(rsa, plainText);
-
-            Debug.Write($"Expected: {cipherTextExp}\nObserved: {cipherTextObs}");
+            var keyStore = new RSAKeyStore(containerName: keyContainer, logger: MSTest.Logger);
+            Assert.IsInstanceOfType(value: keyStore, expectedType: typeof(RSAKeyStore));
         }
     }
 }
