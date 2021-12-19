@@ -128,9 +128,10 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
             if (!OperatingSystem.IsWindows())
                 return false;
 
+            CspParameters cspParams = null;
             try
             {
-                var cspParams = new CspParameters()
+                cspParams = new CspParameters()
                 {
                     KeyContainerName = containerName
                 };
@@ -149,7 +150,8 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
             }
             catch (Exception e)
             {
-                Debug.WriteLine($"{e}");
+                Debug.WriteLine($"{e.Message}");
+                DEBUG_WriteCspParameters(cspParams);
                 logger.LogError(e,
                     ExceptionString.KeyStore_CreateKeyFailed
                         .ConvertToLogTemplate("KeyContainerName", "KeyProviderName"),
@@ -242,6 +244,9 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
         [Conditional("DEBUG")]
         private static void DEBUG_WriteCspParameters(CspParameters cspParams)
         {
+            if (cspParams is null)
+                return;
+
             if (OperatingSystem.IsWindows())
             {
                 #pragma warning disable CA1416 // Validate platform compatibility
@@ -261,6 +266,9 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
         [Conditional("DEBUG")]
         private static void DEBUG_WriteRsaProviderToXML(RSA rsa)
         {
+            if (rsa is null)
+                return;
+
             string xmlString = rsa.ToXmlString(includePrivateParameters: true);
             XDocument doc = XDocument.Parse(xmlString);
 

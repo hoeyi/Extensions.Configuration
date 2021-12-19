@@ -9,6 +9,10 @@ using System.Security.Cryptography;
 
 namespace MSTest.Cryptography
 {
+    /// <summary>
+    /// Past containers:
+    /// EulerFinancial{1.0}
+    /// </summary>
     [TestClass]
     public class RSAKeyStore_Test
     {
