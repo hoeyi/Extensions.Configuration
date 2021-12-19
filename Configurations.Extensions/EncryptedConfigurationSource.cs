@@ -1,9 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ichsoft.Configuration.Extensions
 {
@@ -11,7 +7,8 @@ namespace Ichsoft.Configuration.Extensions
     {
         public IConfigurationProvider Build(IConfigurationBuilder builder)
         {
-            return new EncryptedConfiguration();
+            throw new NotImplementedException();
+            //return new EncryptedConfiguration();
         }
     }
 }

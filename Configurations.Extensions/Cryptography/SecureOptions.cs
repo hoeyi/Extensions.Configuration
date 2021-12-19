@@ -6,10 +6,11 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Security;
 using System.Reflection;
+using Ichsoft.Configuration.Extensions.Resources;
 
 namespace Ichsoft.Configuration.Extensions.Cryptography
 {
-    class SecureOptions : ISecureOptions
+    class SecureOptions
     {
         private const string CertStoreName = "MY";
         private const StoreLocation CertStoreLocation = StoreLocation.CurrentUser;
@@ -22,9 +23,6 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
         {
             this.configuration = configuration;
 
-            var assembly = Assembly.GetEntryAssembly() ?? typeof(SecureOptions).Assembly;
-
-
             rsaCertificateThumbprint = configuration.GetSection("RSACertificateThumbprint")?.Value;
         }
 
@@ -36,7 +34,7 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
 
             if (rsaPrivateKey is null)
             {
-                throw new InvalidOperationException($"The value associated with {key} could not be accessed.");
+                throw new InvalidOperationException(string.Format(ExceptionString.SecureOptions_CouldNotRetrieveValue, key));
             }
             return Decrypt(rsaPrivateKey, encryptedValue);
         }
@@ -47,13 +45,13 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
 
             if (rsaPublicKey is null)
             {
-                throw new InvalidOperationException($"The value associated with {key} could not be set.");
+                throw new InvalidOperationException(string.Format(ExceptionString.SecureOptions_CouldNotRetrieveValue, key));
             }
 
             configuration[key] = Encrypt(rsaPublicKey, value);
         }
 
-        private string GetAppCommonName(Assembly assembly)
+        private static string GetAppCommonName(Assembly assembly)
         {
             string title = assembly.GetCustomAttribute<AssemblyTitleAttribute>().Title;
             string version = assembly.GetCustomAttribute<AssemblyVersionAttribute>().Version;
@@ -82,7 +80,7 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
         /// <exception cref="SecurityException">The caller does not have the required permission.</exception>
         /// <exception cref="ArgumentException">The store contains invalid values, or the KeyType is invalid.</exception>
         /// <exception cref="ArgumentOutOfRangeException">The requested certificate could not be found.</exception>
-        private RSA GetRSAKey(string thumbprint, KeyType keyType)
+        private static RSA GetRSAKey(string thumbprint, KeyType keyType)
         {
             if (string.IsNullOrEmpty(thumbprint))
             {
@@ -110,7 +108,8 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
                 {
                     KeyType.Public => certificate.GetRSAPublicKey(),
                     KeyType.Private => certificate.GetRSAPrivateKey(),
-                    _ => throw new InvalidEnumArgumentException($"Value '{keyType}' is not a valid {nameof(KeyType)}.")
+                    _ => throw new InvalidEnumArgumentException(
+                        string.Format(ExceptionString.SecureOptions_InvalidEnumArgument, keyType, nameof(KeyType)))
                 };
             }
         }
@@ -134,7 +133,7 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
             RSA rsaProvider = RSA.Create(KeySize);
 
             // Build the certificate request.
-            CertificateRequest certificateRequest = new CertificateRequest(
+            CertificateRequest certificateRequest = new(
                 $"CN={appCommonName}",
                 rsaProvider,
                 HashAlgorithmName.SHA512,
@@ -150,7 +149,7 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
             byte[] certBytes = certificate.Export(X509ContentType.Pfx);
 
             // Build new certificate while persisting public/private key set.
-            using X509Certificate2 certificateWithKeys = new X509Certificate2(
+            using X509Certificate2 certificateWithKeys = new(
                 certBytes,
                 string.Empty,
                 X509KeyStorageFlags.PersistKeySet);
@@ -159,7 +158,7 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
             certBytes = null;
 
             // Open the certificate store at current user location.
-            using X509Store certificateStore = new X509Store(CertStoreName, CertStoreLocation);
+            using X509Store certificateStore = new(CertStoreName, CertStoreLocation);
 
             try
             {
@@ -189,7 +188,7 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
         /// <param name="provider"></param>
         /// <param name="plainText"></param>
         /// <returns>The encrypted string calculated by the given plain-text and RSA provider.</returns>
-        private static string Encrypt(RSA provider, string plainText)
+        public static string Encrypt(RSA provider, string plainText)
         {
             return Convert.ToBase64String(
                 provider.Encrypt(Encoding.UTF8.GetBytes(plainText), RSAEncryptionPadding.OaepSHA512));
@@ -202,7 +201,7 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
         /// <param name="provider"></param>
         /// <param name="encryptedText"></param>
         /// <returns>The plain-text string returned by decrypting the given text.</returns>
-        private static string Decrypt(RSA provider, string encryptedText)
+        public static string Decrypt(RSA provider, string encryptedText)
         {
             return Encoding.UTF8.GetString(
                 provider.Decrypt(Convert.FromBase64String(encryptedText),
