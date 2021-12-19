@@ -11,21 +11,21 @@ namespace MSTest.Cryptography
 {
     /// <summary>
     /// Past containers:
-    /// EulerFinancial{1.0}
+    ///     EulerFinancial{1.0}
     /// </summary>
     [TestClass]
     public class RSAKeyStore_Test
     {
-        private readonly string keyContainer = "EulerFinancial{1.0}";
+        private readonly string keyContainer = "MSTest.Cryptography{1.0}";
         private readonly IReadOnlyDictionary<string, string> testStrings =
             new Dictionary<string, string>()
             {
                 {
-                    "sloFchfdAFXV1+j46THndWKzXr4DnvOGRh2fyuaErud92Plbx5WjbScCe4dXHluQDGsXhqZghHcJnp+8weKFXfcsX0Ko2mdw6HXHXt6duofBhGjuY2ErHVmhVJCfEKA6k34hsr3gVh7cniXIz7iTLiGedzg9EUC+m8hsRUQH2W0=",
+                    "f8mTvHFUNVFq4E5vBQbTOj5YM4pXUNCgt1ZLlPPcz8WhXddNG1+nxiiyE6O0xW4AffhzugtIwvZPBH90A8IGzgCQbKUhdPotooGA5GDP3JUEqT7bS6+bZyN3zEoFuPk50TIhqNysbUgEa3HXH3/iWQENzhjffjI9vYtAQLFEXuc=",
                     "Unencrypted string" 
                 },
                 {
-                    "bTWnpLpm0lpZZB9SDs3x/PxOtKSoGHT2LsNcISCzbicVyVuo8bxNNJFNsBYz82Ubp9j5OMpGhJrD45eMjv4gQYAPHOIQf3/g1uytBovIJ6N/6upyJE2yaXLA9fTIKvBw7IbZDrG/0p+G8wO0dRL0XFj1mPVnC1vxOD/hmVTsRpI=",
+                    "uL/LFZkSCBDNVhVKviQSnplTReQvHgHqQrXvBL5gbjGAd55C/vyGMvmg/pCWNDDw9vsk8JQvwGRWYNqxfgWgN3ViVSpvepvRQu7ZoSd8s2OZtMG26rPzhl0DWyKaBFCQ/gNsSwHIsQXLRCvWO/t/ybaEc40OJeBnPME2qiAxbu0=",
                     "Unencrypted string"
                 }
             };
