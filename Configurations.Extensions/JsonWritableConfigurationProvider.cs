@@ -4,7 +4,9 @@ using Microsoft.Extensions.FileProviders;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using System;
 using System.Linq;
+using Ichsoft.Configuration.Extensions.Cryptography;
 
 namespace Ichsoft.Configuration.Extensions
 {
@@ -12,10 +14,55 @@ namespace Ichsoft.Configuration.Extensions
     /// A JSON file configuration provider derived from <see cref="JsonConfigurationProvider"/>,
     /// which allows for committing in-memory changes to the source file.
     /// </summary>
-    public class JsonWritableConfigurationProvider : JsonConfigurationProvider, IConfigurationProvider, IWritableConfigurationProvider
+    class JsonWritableConfigurationProvider : JsonConfigurationProvider, IConfigurationProvider, IWritableConfigurationProvider
     {
-        public JsonWritableConfigurationProvider(JsonConfigurationSource source) : base(source)
+        private readonly RSAKeyStore rsaKeyStore;
+        private readonly bool useEncryption;
+        public JsonWritableConfigurationProvider(JsonWritableConfigurationSource source) : base(source)
         {
+        }
+
+        public JsonWritableConfigurationProvider(JsonConfigurationSource source, RSAKeyStore keyStore) : base(source)
+        {
+            if (source is null)
+                throw new ArgumentNullException(paramName: nameof(source));
+
+            if (keyStore is null)
+                throw new ArgumentNullException(paramName: nameof(keyStore));
+
+            rsaKeyStore = keyStore;
+            useEncryption = true;
+        }
+
+
+        public override void Set(string key, string value)
+        {
+            if (useEncryption)
+                base.Set(key, rsaKeyStore.Encrypt(plainText: value));
+            else
+                base.Set(key, value);
+        }
+
+        public override bool TryGet(string key, out string value)
+        {
+            value = null;
+            if(base.TryGet(key, out string _val))
+            {
+                if(useEncryption)
+                {
+                    value = rsaKeyStore.Decrypt(_val);
+                    return true;
+                }
+                else
+                {
+                    value = _val;
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public void Commit()

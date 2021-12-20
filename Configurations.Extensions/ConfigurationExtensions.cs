@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace Ichsoft.Configuration.Extensions
 {
@@ -32,30 +33,37 @@ namespace Ichsoft.Configuration.Extensions
         /// <see cref="IConfigurationBuilder.Properties"/> of <paramref name="builder"/>.</param>
         /// <param name="optional">Whether the file is optional.</param>
         /// <param name="reloadOnChange">Whether the configuration should be reloaded if the file changes.</param>
+        /// <param name="encryptionKeyContainer">The name of the key container to use for saving and accessing public/private keys.</param>
         /// <returns>The <see cref="IConfigurationBuilder"/>.</returns>
         public static IConfigurationBuilder AddJsonWritable(
-            this IConfigurationBuilder builder, string path, bool optional = true, bool reloadOnChange = true)
+            this IConfigurationBuilder builder, 
+            string path, 
+            bool optional = true, 
+            bool reloadOnChange = true,
+            string encryptionKeyContainer = null,
+            ILogger logger = null)
         {
-            return builder.AddJsonWritable(s =>
-            {
-                s.FileProvider = null;
-                s.Path = path;
-                s.Optional = optional;
-                s.ReloadOnChange = reloadOnChange;
-                s.ResolveFileProvider();
-            });
-        }
+            var jsonSource = string.IsNullOrEmpty(encryptionKeyContainer) ?
+                new JsonWritableConfigurationSource()
+                {
+                    FileProvider = null,
+                    Path = path,
+                    Optional = optional,
+                    ReloadOnChange = true
+                } :
+                new JsonWritableConfigurationSource(
+                    keyContainerName: encryptionKeyContainer,
+                    logger: logger)
+                {
+                    FileProvider = null,
+                    Path = path,
+                    Optional = optional,
+                    ReloadOnChange = true
+                };
 
-        /// <summary>
-        /// Adds a writable JSON configuration source to <paramref name="builder"/>.
-        /// </summary>
-        /// <param name="builder">The <see cref="IConfigurationBuilder"/> to add to.</param>
-        /// <param name="configureSource">Configures the source.</param>
-        /// <returns>The <see cref="IConfigurationBuilder"/>.</returns>
-        public static IConfigurationBuilder AddJsonWritable(
-            this IConfigurationBuilder builder, Action<JsonWritableConfigurationSource> configureSource)
-        {
-            return builder.Add(configureSource);
+            jsonSource.ResolveFileProvider();
+
+            return builder.Add(source: jsonSource);
         }
     }
 }

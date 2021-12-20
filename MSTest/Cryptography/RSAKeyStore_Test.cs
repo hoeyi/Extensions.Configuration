@@ -16,7 +16,7 @@ namespace MSTest.Cryptography
     [TestClass]
     public class RSAKeyStore_Test
     {
-        private readonly string keyContainer = "MSTest.Cryptography{1.0}";
+        private const string keyContainer = "MSTest.Cryptography{1.0}";
         private readonly IReadOnlyDictionary<string, string> testStrings =
             new Dictionary<string, string>()
             {
