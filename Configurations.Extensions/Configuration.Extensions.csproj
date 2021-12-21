@@ -4,9 +4,12 @@
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>Ichsoft.Configuration.Extensions</AssemblyName>
     <RootNamespace>Ichsoft.Configuration.Extensions</RootNamespace>
-    <Authors>IHoey</Authors>
+    <Authors>hoeyi</Authors>
     <Deterministic>false</Deterministic>
     <AssemblyVersion>1.0.0.*</AssemblyVersion>
+    <Description>Custom configuration providers for protecting and persisting .NET configuration values.</Description>
+    <Copyright>2021 hoeyi</Copyright>
+    <Company>hoeyi</Company>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
