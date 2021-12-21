@@ -4,6 +4,9 @@
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>Ichsoft.Configuration.Extensions</AssemblyName>
     <RootNamespace>Ichsoft.Configuration.Extensions</RootNamespace>
+    <Authors>IHoey</Authors>
+    <Deterministic>false</Deterministic>
+    <AssemblyVersion>1.0.0.*</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
