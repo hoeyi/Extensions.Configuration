@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Diagnostics;
 using System.Xml.Linq;
 using Microsoft.Extensions.Logging;
 using Ichsoft.Configuration.Extensions.Resources;
-
-[assembly: InternalsVisibleTo(assemblyName: "Configuration.Extensions.MSTest")]
 
 namespace Ichsoft.Configuration.Extensions.Cryptography
 {

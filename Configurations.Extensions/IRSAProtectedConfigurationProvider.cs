@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ichsoft.Configuration.Extensions
+﻿namespace Ichsoft.Configuration.Extensions
 {
     /// <summary>
     /// Represents a configuration provider that encrypts in-memory and persisted values.
