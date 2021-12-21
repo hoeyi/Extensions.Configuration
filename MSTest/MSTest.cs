@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
-using Ichsoft.Configuration.Extensions;
 
 namespace MSTest
 {

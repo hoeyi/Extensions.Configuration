@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
-using System.Linq;
 using System.Text;
 using System.Diagnostics;
 using System.Xml.Linq;
@@ -12,12 +11,22 @@ using Ichsoft.Configuration.Extensions.Resources;
 
 namespace Ichsoft.Configuration.Extensions.Cryptography
 {
-    partial class RSAKeyStore
+    /// <summary>
+    /// Represents a means to access an RSA public/private key pair for encrypting/decrypting values.
+    /// </summary>
+    sealed partial class RSAKeyStore
     {
         private readonly ILogger logger;
         private readonly CspParameters cspParams;
         private readonly Encoding byteConverter;
-        public RSAKeyStore(string containerName, ILogger logger)
+
+        /// <summary>
+        /// Creates a new instance of <see cref="RSAKeyStore"/> using the given 
+        /// key container name.
+        /// </summary>
+        /// <param name="keyContainerName">The RSA key container to use for asymmetric encryption.</param>
+        /// <param name="logger">A <see cref="ILogger"/>.</param>
+        public RSAKeyStore(string keyContainerName, ILogger logger)
         {
             if(!OperatingSystem.IsWindows())
                 throw new NotSupportedException($"{Environment.OSVersion}");
@@ -26,14 +35,14 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
 
             cspParams = new CspParameters()
             {
-                KeyContainerName = containerName,
+                KeyContainerName = keyContainerName,
                 Flags = CspProviderFlags.NoPrompt | CspProviderFlags.UseExistingKey
             };
 
             byteConverter = new UTF8Encoding();
 
-            if(!KeyExists(containerName))
-                CreateKeyInContainer(containerName: containerName);
+            if(!KeyExists(keyContainerName))
+                CreateKeyInContainer(keyContainerName: keyContainerName);
         }
 
         /// <summary>
@@ -104,40 +113,35 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
             }
         }
 
-        //public bool RotateKeys(string newContainerName)
-        //{
-        //    if (!OperatingSystem.IsWindows())
-        //        return false;
+        /// <summary>
+        /// Deletes the key container represented by this <see cref="RSAKeyStore"/>.
+        /// </summary>
+        /// <returns>True if the operation is successful, else false.</returns>
+        public bool DeleteKeyContainer()
+        {
+            if (!OperatingSystem.IsWindows())
+                return true;
 
-        //    if (string.IsNullOrEmpty(newContainerName))
-        //        throw new ArgumentNullException(paramName: nameof(newContainerName));
-
-        //    if (newContainerName == cspParams.KeyContainerName)
-        //        throw new ArgumentException(message: Resources.ExceptionString.KeyStore_DuplicateKeyName);
-
-
-        //}
+            return DeleteKeyFromContainer(cspParams.KeyContainerName);
+        }
 
         /// <summary>
         /// Creates a key entry with the given container name.
         /// </summary>
-        /// <param name="containerName"></param>
-        /// <returns><see cref="true"/> if the operation is successful, else <see cref="false"/>.</returns>
-        private bool CreateKeyInContainer(string containerName)
+        /// <param name="keyContainerName"></param>
+        /// <returns>True if the operation is successful, else false.</returns>
+        private bool CreateKeyInContainer(string keyContainerName)
         {
             if (!OperatingSystem.IsWindows())
                 return false;
 
-            CspParameters cspParams = null;
+            var cspParams = new CspParameters()
+            {
+                KeyContainerName = keyContainerName
+            };
             try
             {
-                cspParams = new CspParameters()
-                {
-                    KeyContainerName = containerName
-                };
-
-                // Create a new instance of RSACryptoServiceProvider that accesses
-                // the key container MyKeyContainerName.
+                // Create a new instance of RSACryptoServiceProvider to save key in container.
                 using var rsa = new RSACryptoServiceProvider(cspParams)
                 {
                     PersistKeyInCsp = true,
@@ -160,13 +164,12 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
             }
         }
 
-
         /// <summary>
         /// Deletes the key corresonding to the given container name from the RSA key store./>
         /// </summary>
         /// <param name="containerName">The name of the key container to delete.</param>
-        /// <returns><see cref="true"/> if the operation is successful, else <see cref="false"/>.</returns>
-        public bool DeleteKeyFromContainer(string containerName)
+        /// <returns>True if the operation is successful, else false.</returns>
+        private bool DeleteKeyFromContainer(string containerName)
         {
             if (!OperatingSystem.IsWindows())
                 return false;
@@ -174,15 +177,16 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
             if (string.IsNullOrEmpty(containerName))
                 throw new ArgumentNullException(paramName: nameof(containerName));
 
+            if (!KeyExists(containerName))
+                return true;
+
+            var cspParams = new CspParameters()
+            {
+                KeyContainerName = containerName
+            };
             try
             {
-                if (!KeyExists(containerName))
-                    return true;
 
-                var cspParams = new CspParameters()
-                {
-                    KeyContainerName = containerName
-                };
 
                 // Create a new instance of RSACryptoServiceProvider that accesses
                 // the key container.
@@ -192,7 +196,9 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
                     PersistKeyInCsp = false
                 };
 
-                // Call Clear to release resources and delete the key from the container.
+                // Present in example code in Microsoft docs, but not necessary. Calling 
+                // rsa.Clear() causes null reference exception due to elimination of rsa variable.
+                //// Call Clear to release resources and delete the key from the container.
 
                 Debug.WriteLine($"{cspParams.KeyContainerName} deleted.");
 
@@ -213,7 +219,7 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
         /// Checks to see if the given key container exists.
         /// </summary>
         /// <param name="containerName">The name of the key container sought.</param>
-        /// <returns><see cref="true"/> if the key container exists, else <see cref="false"/>.</returns>
+        /// <returns>True if the key container exists, else false.</returns>
         private static bool KeyExists(string containerName)
         {
             if (!OperatingSystem.IsWindows())
@@ -239,7 +245,7 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
         }
     }
 
-    partial class RSAKeyStore
+    sealed partial class RSAKeyStore
     {
         [Conditional("DEBUG")]
         private static void DEBUG_WriteCspParameters(CspParameters cspParams)
@@ -264,7 +270,9 @@ namespace Ichsoft.Configuration.Extensions.Cryptography
         }
 
         [Conditional("DEBUG")]
+#pragma warning disable IDE0051 // Remove unused private members
         private static void DEBUG_WriteRsaProviderToXML(RSA rsa)
+#pragma warning restore IDE0051 // Remove unused private members
         {
             if (rsa is null)
                 return;

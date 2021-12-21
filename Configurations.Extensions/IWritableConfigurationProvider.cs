@@ -6,7 +6,8 @@
     interface IWritableConfigurationProvider
     {
         /// <summary>
-        /// Commits all in-memory changes to a persistent store.
+        /// Saves all in-memory configuration changes to the 
+        /// <see cref="IWritableConfigurationProvider"/> data store.
         /// </summary>
         void Commit();
     }

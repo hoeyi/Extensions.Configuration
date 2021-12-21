@@ -13,11 +13,22 @@ namespace Ichsoft.Configuration.Extensions
     {
         private readonly string keyContainerName;
         private readonly ILogger logger;
+
+        /// <summary>
+        /// Creates a new instance of <see cref="JsonWritableConfigurationSource"/>.
+        /// </summary>
         public JsonWritableConfigurationSource()
             : base()
         {
         }
 
+        /// <summary>
+        /// Creates a new instance of <see cref="JsonWritableConfigurationSource"/> using 
+        /// <paramref name="keyContainerName"/> as the key container for encrypting and 
+        /// decrypting values.
+        /// </summary>
+        /// <param name="keyContainerName">The RSA key container name.</param>
+        /// <param name="logger">An <see cref="ILogger"/>.</param>
         public JsonWritableConfigurationSource(string keyContainerName, ILogger logger)
             : base()
         {
@@ -30,14 +41,19 @@ namespace Ichsoft.Configuration.Extensions
             this.keyContainerName = keyContainerName;
             this.logger = logger;
         }
+
         public override IConfigurationProvider Build(IConfigurationBuilder builder)
         {
             FileProvider ??= builder.GetFileProvider();
+
+            // If key container is not provided then use unencrypted variant.
             if (string.IsNullOrEmpty(keyContainerName))
                 return new JsonWritableConfigurationProvider(this);
             else
                 return new JsonWritableConfigurationProvider(
-                    this, new Cryptography.RSAKeyStore(keyContainerName, logger));
+                    source: this,
+                    keyContainername: keyContainerName,
+                    logger: logger);
         }
     }
 }

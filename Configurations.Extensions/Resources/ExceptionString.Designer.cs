@@ -88,38 +88,11 @@ namespace Ichsoft.Configuration.Extensions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The new container name cannot be the current key container name..
-        /// </summary>
-        internal static string KeyStore_DuplicateKeyName {
-            get {
-                return ResourceManager.GetString("KeyStore.DuplicateKeyName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Could not encrypt value..
         /// </summary>
         internal static string KeyStore_EncryptionFailed {
             get {
                 return ResourceManager.GetString("KeyStore.EncryptionFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The value for &apos;{0}&apos; could not be accessed..
-        /// </summary>
-        internal static string SecureOptions_CouldNotRetrieveValue {
-            get {
-                return ResourceManager.GetString("SecureOptions.CouldNotRetrieveValue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The value &apos;{0}&apos; is not valid for enum &apos;{1}&apos;..
-        /// </summary>
-        internal static string SecureOptions_InvalidEnumArgument {
-            get {
-                return ResourceManager.GetString("SecureOptions.InvalidEnumArgument", resourceCulture);
             }
         }
     }

@@ -129,19 +129,7 @@
     <value>The container '{0}' could not be deleted.</value>
     <comment>{0} is the name of the key container.</comment>
   </data>
-  <data name="KeyStore.DuplicateKeyName" xml:space="preserve">
-    <value>The new container name cannot be the current key container name.</value>
-  </data>
   <data name="KeyStore.EncryptionFailed" xml:space="preserve">
     <value>Could not encrypt value.</value>
-  </data>
-  <data name="SecureOptions.CouldNotRetrieveValue" xml:space="preserve">
-    <value>The value for '{0}' could not be accessed.</value>
-    <comment>{0} is the key for the value being queried</comment>
-  </data>
-  <data name="SecureOptions.InvalidEnumArgument" xml:space="preserve">
-    <value>The value '{0}' is not valid for enum '{1}'.</value>
-    <comment>{0} is the value provided
-{1} is the expected enum type</comment>
   </data>
 </root>
