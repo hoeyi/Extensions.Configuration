@@ -3,7 +3,6 @@
 
 * [Code Examples](#code-examples)
 * [Commit Message Guidelines](#commit-message-guidelines)
-* [Object Naming Conventions](#object-naming-conventions)
 
 # Code Examples ##
 Use `IConfigurationBuilder` extension methods `AddJsonWritable` and `AddSecureJsonWritable` to configure custom providers.
@@ -121,11 +120,15 @@ Must be one of the following:
 * **test**: Adding missing tests or correcting existing tests
 
 ### Scope ###
-*Describe how `scope` is defined in the context of contributing to this project.
+Scope refers to the domain of the code changed. Choose from the following:
+* **Cryptography**: Cryptographic and key management methods.
+* **Extensions**: Extension and helper methods for the .NET Configuration API.
 
 Example: 
 ```
-Examples here.
+feat(Cryptography): add support for Azure key vault
+
+fix(Extensions): fix builder for writable XML source
 ```
 
 ### Subject ###
@@ -150,6 +153,3 @@ Resolves #42 (where #42 is the GitHub issue no.)
 
 BREAKING CHANGE: Ends support for [NAME] API
 ```
-
-## Object Naming Conventions ##
-*Define object naming conventions specific to this project.*
