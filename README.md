@@ -149,7 +149,8 @@ The footer contains information on breaking changes. Start with the phrase
 
 Example:
 ```
-Resolves #42 (where #42 is the GitHub issue no.)
-
 BREAKING CHANGE: Ends support for [NAME] API
+
+Resolves #42 (where #42 is the GitHub issue no.)
 ```
+
