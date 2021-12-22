@@ -1,4 +1,4 @@
-﻿namespace Ichsoft.Configuration.Extensions
+﻿namespace Hoeyi.Configuration.Extensions
 {
     /// <summary>
     /// Provides persistable key/values for an application.

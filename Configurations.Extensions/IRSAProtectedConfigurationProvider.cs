@@ -1,4 +1,4 @@
-﻿namespace Ichsoft.Configuration.Extensions
+﻿namespace Hoeyi.Configuration.Extensions
 {
     /// <summary>
     /// Represents a configuration provider that encrypts in-memory and persisted values.

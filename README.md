@@ -1,5 +1,5 @@
-# Ichsoft.Configuration.Extensions
-`Ichsoft.Configuration.Extensions` extends the [.NET Configuration API](https://docs.microsoft.com/en-us/dotnet/core/extensions/configuration) by adding custom providers for writing configurations to disk and encrypting values in-memory and at rest.
+# Hoeyi.Configuration.Extensions
+`Hoeyi.Configuration.Extensions` extends the [.NET Configuration API](https://docs.microsoft.com/en-us/dotnet/core/extensions/configuration) by adding custom providers for writing configurations to disk and encrypting values in-memory and at rest.
 
 ## Example snippets ##
 Use `IConfigurationBuilder` extension methods `AddJsonWritable` and `AddSecureJsonWritable` to configure custom providers.

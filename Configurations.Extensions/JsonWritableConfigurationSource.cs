@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace Ichsoft.Configuration.Extensions
+namespace Hoeyi.Configuration.Extensions
 {
     /// <summary>
     /// Represents a JSON file as an <see cref="IConfigurationSource"/>, for 

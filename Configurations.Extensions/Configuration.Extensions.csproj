@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>Ichsoft.Configuration.Extensions</AssemblyName>
-    <RootNamespace>Ichsoft.Configuration.Extensions</RootNamespace>
+    <AssemblyName>Hoeyi.Configuration.Extensions</AssemblyName>
+    <RootNamespace>Hoeyi.Configuration.Extensions</RootNamespace>
     <Authors>hoeyi</Authors>
     <Deterministic>false</Deterministic>
     <AssemblyVersion>1.0.0.*</AssemblyVersion>
@@ -11,20 +11,21 @@
     <Copyright>2021 hoeyi</Copyright>
     <Company>hoeyi</Company>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <RepositoryUrl>https://github.com/hoeyi/Ichsoft.Configuration.Extensions</RepositoryUrl>
+    <RepositoryUrl>https://github.com/hoeyi/Hoeyi.Configuration.Extensions</RepositoryUrl>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>b53879da-b2cd-44d8-98af-2abe817cbb1e.pfx</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
+    <PackageId>Hoeyi.Configuration.Extensions</PackageId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\Repos\Configuration.Extensions\Configurations.Extensions\Ichsoft.Configuration.Extensions.xml</DocumentationFile>
+    <DocumentationFile>D:\Repos\Configuration.Extensions\Configurations.Extensions\Hoeyi.Configuration.Extensions.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove=".gitattributes" />
     <None Remove=".gitignore" />
-    <None Remove="Ichsoft.Configuration.Extensions.xml" />
+    <None Remove="Hoeyi.Configuration.Extensions.xml" />
     <None Include="..\LICENSE.md">
       <Pack>True</Pack>
       <PackagePath></PackagePath>

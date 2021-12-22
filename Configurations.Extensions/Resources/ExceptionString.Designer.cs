@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Ichsoft.Configuration.Extensions.Resources {
+namespace Hoeyi.Configuration.Extensions.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Ichsoft.Configuration.Extensions.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ichsoft.Configuration.Extensions.Resources.ExceptionString", typeof(ExceptionString).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Hoeyi.Configuration.Extensions.Resources.ExceptionString", typeof(ExceptionString).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
