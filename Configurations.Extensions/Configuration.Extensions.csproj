@@ -16,6 +16,7 @@
     <AssemblyOriginatorKeyFile>b53879da-b2cd-44d8-98af-2abe817cbb1e.pfx</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
     <PackageId>Hoeyi.Configuration.Extensions</PackageId>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -26,7 +27,11 @@
     <None Remove=".gitattributes" />
     <None Remove=".gitignore" />
     <None Remove="Hoeyi.Configuration.Extensions.xml" />
-    <None Include="..\LICENSE.md">
+    <None Include="LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="LICENSE.md">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
@@ -53,12 +58,14 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <Target Name="CopyBuild" AfterTargets="PostBuildEvent">
-    <Copy
-      SourceFiles="$(TargetDir)Hoeyi.$(ProjectName).dll;$(TargetDir)Hoeyi.$(ProjectName).pdb"
-      DestinationFolder="D:\Program Builds\$(ConfigurationName)" />
-    
-    <Message Text="Copied build files to D:\Program Builds\$(ConfigurationName)" Importance="High" />
-  </Target>
+  <ItemGroup>
+    <None Update="LICENSE.md">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
+  <Target Name="CopyBuild" AfterTargets="PostBuildEvent">
+    <Copy SourceFiles="$(TargetDir)Hoeyi.$(ProjectName).dll;$(TargetDir)Hoeyi.$(ProjectName).pdb" DestinationFolder="D:\Nuget Local\$(ConfigurationName)" />
+    <Message Text="Copied build files to D:\Nuget Local\$(ConfigurationName)" Importance="High" />
+  </Target>
 </Project>
