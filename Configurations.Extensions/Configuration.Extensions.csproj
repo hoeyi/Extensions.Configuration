@@ -53,4 +53,12 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <Target Name="CopyBuild" AfterTargets="PostBuildEvent">
+    <Copy
+      SourceFiles="$(TargetDir)Hoeyi.$(ProjectName).dll;$(TargetDir)Hoeyi.$(ProjectName).pdb"
+      DestinationFolder="D:\Private Libraries\$(ConfigurationName)" />
+    
+    <Message Text="Copied build files" Importance="High" />
+  </Target>
+
 </Project>
