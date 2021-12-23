@@ -56,9 +56,9 @@
   <Target Name="CopyBuild" AfterTargets="PostBuildEvent">
     <Copy
       SourceFiles="$(TargetDir)Hoeyi.$(ProjectName).dll;$(TargetDir)Hoeyi.$(ProjectName).pdb"
-      DestinationFolder="D:\Private Libraries\$(ConfigurationName)" />
+      DestinationFolder="D:\Program Builds\$(ConfigurationName)" />
     
-    <Message Text="Copied build files" Importance="High" />
+    <Message Text="Copied build files to D:\Program Builds\$(ConfigurationName)" Importance="High" />
   </Target>
 
 </Project>
