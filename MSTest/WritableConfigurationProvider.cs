@@ -1,5 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Hoeyi.Configuration.Extensions;
+using Hoeyi.Extensions.Configuration;
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
 using System.Collections.Generic;

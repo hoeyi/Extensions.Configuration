@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using System.IO;
 using System;
 using System.Linq;
-using Hoeyi.Configuration.Extensions.Cryptography;
+using Hoeyi.Extensions.Configuration.Cryptography;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
-namespace Hoeyi.Configuration.Extensions
+namespace Hoeyi.Extensions.Configuration
 {
     /// <summary>
     /// A JSON file configuration provider derived from <see cref="JsonConfigurationProvider"/>,

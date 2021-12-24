@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Hoeyi.Configuration.Extensions</name>
+        <name>Hoeyi.Extensions.Configuration</name>
     </assembly>
     <members>
-        <member name="T:Hoeyi.Configuration.Extensions.ConfigurationExtensions">
+        <member name="T:Hoeyi.Extensions.Configuration.ConfigurationExtensions">
             <summary>
             Proviates extension methods for classes in <see cref="N:Microsoft.Extensions.Configuration"/> namespace.
             </summary>
         </member>
-        <member name="M:Hoeyi.Configuration.Extensions.ConfigurationExtensions.Commit(Microsoft.Extensions.Configuration.IConfigurationRoot)">
+        <member name="M:Hoeyi.Extensions.Configuration.ConfigurationExtensions.Commit(Microsoft.Extensions.Configuration.IConfigurationRoot)">
             <summary>
-            Commits the current key-value pairs for each provider that implements <see cref="T:Hoeyi.Configuration.Extensions.IWritableConfigurationProvider"/>.
+            Commits the current key-value pairs for each provider that implements <see cref="T:Hoeyi.Extensions.Configuration.IWritableConfigurationProvider"/>.
             </summary>
             <param name="configuration"></param>
         </member>
-        <member name="M:Hoeyi.Configuration.Extensions.ConfigurationExtensions.RotateKey(Microsoft.Extensions.Configuration.IConfigurationRoot,System.String)">
+        <member name="M:Hoeyi.Extensions.Configuration.ConfigurationExtensions.RotateKey(Microsoft.Extensions.Configuration.IConfigurationRoot,System.String)">
             <summary>
             Rotates encryption for values in RSA protected configuration providers.
             </summary>
@@ -23,7 +23,7 @@
             <param name="keyContainerName">The RSA key container name.</param>
             <returns>True if the operation is successful, else false.</returns>
         </member>
-        <member name="M:Hoeyi.Configuration.Extensions.ConfigurationExtensions.AddJsonWritable(Microsoft.Extensions.Configuration.IConfigurationBuilder,System.String,System.Boolean,System.Boolean)">
+        <member name="M:Hoeyi.Extensions.Configuration.ConfigurationExtensions.AddJsonWritable(Microsoft.Extensions.Configuration.IConfigurationBuilder,System.String,System.Boolean,System.Boolean)">
             <summary>
             Adds writable JSON configuration source to <paramref name="builder"/>.
             </summary>
@@ -34,7 +34,7 @@
             <param name="reloadOnChange">Whether the configuration should be reloaded if the file changes.</param>
             <returns>The <see cref="T:Microsoft.Extensions.Configuration.IConfigurationBuilder"/>.</returns>
         </member>
-        <member name="M:Hoeyi.Configuration.Extensions.ConfigurationExtensions.AddSecureJsonWritable(Microsoft.Extensions.Configuration.IConfigurationBuilder,System.String,System.String,Microsoft.Extensions.Logging.ILogger,System.Boolean,System.Boolean)">
+        <member name="M:Hoeyi.Extensions.Configuration.ConfigurationExtensions.AddSecureJsonWritable(Microsoft.Extensions.Configuration.IConfigurationBuilder,System.String,System.String,Microsoft.Extensions.Logging.ILogger,System.Boolean,System.Boolean)">
             <summary>
             Adds writable JSON configuration source with encrypted values to <paramref name="builder"/>.
             </summary>
@@ -47,196 +47,196 @@
             <param name="reloadOnChange">Whether the configuration should be reloaded if the file changes.</param>
             <returns>The <see cref="T:Microsoft.Extensions.Configuration.IConfigurationBuilder"/>.</returns>
         </member>
-        <member name="T:Hoeyi.Configuration.Extensions.Cryptography.RSAKeyStore">
+        <member name="T:Hoeyi.Extensions.Configuration.Cryptography.RSAKeyStore">
             <summary>
             Represents a means to access an RSA public/private key pair for encrypting/decrypting values.
             </summary>
         </member>
-        <member name="M:Hoeyi.Configuration.Extensions.Cryptography.RSAKeyStore.#ctor(System.String,Microsoft.Extensions.Logging.ILogger)">
+        <member name="M:Hoeyi.Extensions.Configuration.Cryptography.RSAKeyStore.#ctor(System.String,Microsoft.Extensions.Logging.ILogger)">
             <summary>
-            Creates a new instance of <see cref="T:Hoeyi.Configuration.Extensions.Cryptography.RSAKeyStore"/> using the given 
+            Creates a new instance of <see cref="T:Hoeyi.Extensions.Configuration.Cryptography.RSAKeyStore"/> using the given 
             key container name.
             </summary>
             <param name="keyContainerName">The RSA key container to use for asymmetric encryption.</param>
             <param name="logger">A <see cref="T:Microsoft.Extensions.Logging.ILogger"/>.</param>
         </member>
-        <member name="P:Hoeyi.Configuration.Extensions.Cryptography.RSAKeyStore.KeyContainerName">
+        <member name="P:Hoeyi.Extensions.Configuration.Cryptography.RSAKeyStore.KeyContainerName">
             <summary>
             Gets the <see cref="F:System.Security.Cryptography.CspParameters.KeyContainerName"/> for the underlying 
             <see cref="T:System.Security.Cryptography.CspParameters"/>.
             </summary>
         </member>
-        <member name="M:Hoeyi.Configuration.Extensions.Cryptography.RSAKeyStore.Encrypt(System.String)">
+        <member name="M:Hoeyi.Extensions.Configuration.Cryptography.RSAKeyStore.Encrypt(System.String)">
             <summary>
             Encrypts the given text using unicode encoding.
             </summary>
             <param name="plainText">The text to encrypt.</param>
             <returns>The ciphertext from <paramref name="plainText"/>.</returns>
         </member>
-        <member name="M:Hoeyi.Configuration.Extensions.Cryptography.RSAKeyStore.Decrypt(System.String)">
+        <member name="M:Hoeyi.Extensions.Configuration.Cryptography.RSAKeyStore.Decrypt(System.String)">
             <summary>
             Decrypts the given ciphertext.
             </summary>
             <param name="ciphterText64">The ciphertext to decrypt.</param>
             <returns>The plain text from <paramref name="ciphterText64"/>.</returns>
         </member>
-        <member name="M:Hoeyi.Configuration.Extensions.Cryptography.RSAKeyStore.DeleteKeyContainer">
+        <member name="M:Hoeyi.Extensions.Configuration.Cryptography.RSAKeyStore.DeleteKeyContainer">
             <summary>
-            Deletes the key container represented by this <see cref="T:Hoeyi.Configuration.Extensions.Cryptography.RSAKeyStore"/>.
+            Deletes the key container represented by this <see cref="T:Hoeyi.Extensions.Configuration.Cryptography.RSAKeyStore"/>.
             </summary>
             <returns>True if the operation is successful, else false.</returns>
         </member>
-        <member name="M:Hoeyi.Configuration.Extensions.Cryptography.RSAKeyStore.CreateKeyInContainer(System.String)">
+        <member name="M:Hoeyi.Extensions.Configuration.Cryptography.RSAKeyStore.CreateKeyInContainer(System.String)">
             <summary>
             Creates a key entry with the given container name.
             </summary>
             <param name="keyContainerName"></param>
             <returns>True if the operation is successful, else false.</returns>
         </member>
-        <member name="M:Hoeyi.Configuration.Extensions.Cryptography.RSAKeyStore.DeleteKeyFromContainer(System.String)">
+        <member name="M:Hoeyi.Extensions.Configuration.Cryptography.RSAKeyStore.DeleteKeyFromContainer(System.String)">
             <summary>
             Deletes the key corresonding to the given container name from the RSA key store./>
             </summary>
             <param name="containerName">The name of the key container to delete.</param>
             <returns>True if the operation is successful, else false.</returns>
         </member>
-        <member name="M:Hoeyi.Configuration.Extensions.Cryptography.RSAKeyStore.KeyExists(System.String)">
+        <member name="M:Hoeyi.Extensions.Configuration.Cryptography.RSAKeyStore.KeyExists(System.String)">
             <summary>
             Checks to see if the given key container exists.
             </summary>
             <param name="containerName">The name of the key container sought.</param>
             <returns>True if the key container exists, else false.</returns>
         </member>
-        <member name="T:Hoeyi.Configuration.Extensions.IRSAProtectedConfigurationProvider">
+        <member name="T:Hoeyi.Extensions.Configuration.IRSAProtectedConfigurationProvider">
             <summary>
             Represents a configuration provider that encrypts in-memory and persisted values.
             </summary>
         </member>
-        <member name="M:Hoeyi.Configuration.Extensions.IRSAProtectedConfigurationProvider.RotateKey(System.String,System.Boolean)">
+        <member name="M:Hoeyi.Extensions.Configuration.IRSAProtectedConfigurationProvider.RotateKey(System.String,System.Boolean)">
             <summary>
-            Rotates the key used to encrypt the values in the <see cref="T:Hoeyi.Configuration.Extensions.IRSAProtectedConfigurationProvider"/> object.
+            Rotates the key used to encrypt the values in the <see cref="T:Hoeyi.Extensions.Configuration.IRSAProtectedConfigurationProvider"/> object.
             </summary>
             <param name="newKeyContainer">The name of a new RSA key container.</param>
             <param name="deleteOnSuccess">True to delete the old key container, else false.</param>
             <returns>True if the operation is successful, else false.</returns>        
         </member>
-        <member name="T:Hoeyi.Configuration.Extensions.IWritableConfigurationProvider">
+        <member name="T:Hoeyi.Extensions.Configuration.IWritableConfigurationProvider">
             <summary>
             Provides persistable key/values for an application.
             </summary>
         </member>
-        <member name="M:Hoeyi.Configuration.Extensions.IWritableConfigurationProvider.Commit">
+        <member name="M:Hoeyi.Extensions.Configuration.IWritableConfigurationProvider.Commit">
             <summary>
             Saves all in-memory configuration changes to the 
-            <see cref="T:Hoeyi.Configuration.Extensions.IWritableConfigurationProvider"/> data store.
+            <see cref="T:Hoeyi.Extensions.Configuration.IWritableConfigurationProvider"/> data store.
             </summary>
         </member>
-        <member name="T:Hoeyi.Configuration.Extensions.JsonWritableConfigurationProvider">
+        <member name="T:Hoeyi.Extensions.Configuration.JsonWritableConfigurationProvider">
             <summary>
             A JSON file configuration provider derived from <see cref="T:Microsoft.Extensions.Configuration.Json.JsonConfigurationProvider"/>,
             which allows for committing in-memory changes to the source file.
             </summary>
         </member>
-        <member name="M:Hoeyi.Configuration.Extensions.JsonWritableConfigurationProvider.#ctor(Hoeyi.Configuration.Extensions.JsonWritableConfigurationSource)">
+        <member name="M:Hoeyi.Extensions.Configuration.JsonWritableConfigurationProvider.#ctor(Hoeyi.Extensions.Configuration.JsonWritableConfigurationSource)">
             <summary>
-            Creates a new <see cref="T:Hoeyi.Configuration.Extensions.JsonWritableConfigurationProvider"/> for values 
+            Creates a new <see cref="T:Hoeyi.Extensions.Configuration.JsonWritableConfigurationProvider"/> for values 
             saved in plain-text.
             </summary>
-            <param name="source">A <see cref="T:Hoeyi.Configuration.Extensions.JsonWritableConfigurationSource"/>.</param>
+            <param name="source">A <see cref="T:Hoeyi.Extensions.Configuration.JsonWritableConfigurationSource"/>.</param>
         </member>
-        <member name="M:Hoeyi.Configuration.Extensions.JsonWritableConfigurationProvider.#ctor(Hoeyi.Configuration.Extensions.JsonWritableConfigurationSource,System.String,Microsoft.Extensions.Logging.ILogger)">
+        <member name="M:Hoeyi.Extensions.Configuration.JsonWritableConfigurationProvider.#ctor(Hoeyi.Extensions.Configuration.JsonWritableConfigurationSource,System.String,Microsoft.Extensions.Logging.ILogger)">
             <summary>
-            Creates a new <see cref="T:Hoeyi.Configuration.Extensions.JsonWritableConfigurationProvider"/> for values held 
+            Creates a new <see cref="T:Hoeyi.Extensions.Configuration.JsonWritableConfigurationProvider"/> for values held 
             as encrypted values except when accessed.
             </summary>
-            <param name="source">A <see cref="T:Hoeyi.Configuration.Extensions.JsonWritableConfigurationSource"/>.</param>
+            <param name="source">A <see cref="T:Hoeyi.Extensions.Configuration.JsonWritableConfigurationSource"/>.</param>
             <param name="keyContainername">The RSA key container name.</param>
             <param name="logger">An <see cref="T:Microsoft.Extensions.Logging.ILogger"/>.</param>
         </member>
-        <member name="M:Hoeyi.Configuration.Extensions.JsonWritableConfigurationProvider.#ctor(Hoeyi.Configuration.Extensions.JsonWritableConfigurationSource,Hoeyi.Configuration.Extensions.Cryptography.RSAKeyStore)">
+        <member name="M:Hoeyi.Extensions.Configuration.JsonWritableConfigurationProvider.#ctor(Hoeyi.Extensions.Configuration.JsonWritableConfigurationSource,Hoeyi.Extensions.Configuration.Cryptography.RSAKeyStore)">
             <summary>
-            Creates a new <see cref="T:Hoeyi.Configuration.Extensions.JsonWritableConfigurationProvider"/> for values 
+            Creates a new <see cref="T:Hoeyi.Extensions.Configuration.JsonWritableConfigurationProvider"/> for values 
             held as encrypted values except when accessed.
             </summary>
-            <param name="source">A <see cref="T:Hoeyi.Configuration.Extensions.JsonWritableConfigurationSource"/>.</param>
-            <param name="keyStore">An <see cref="T:Hoeyi.Configuration.Extensions.Cryptography.RSAKeyStore"/>.</param>
+            <param name="source">A <see cref="T:Hoeyi.Extensions.Configuration.JsonWritableConfigurationSource"/>.</param>
+            <param name="keyStore">An <see cref="T:Hoeyi.Extensions.Configuration.Cryptography.RSAKeyStore"/>.</param>
         </member>
-        <member name="M:Hoeyi.Configuration.Extensions.JsonWritableConfigurationProvider.Commit">
+        <member name="M:Hoeyi.Extensions.Configuration.JsonWritableConfigurationProvider.Commit">
             <summary>
-            Saves all in-memory configuration changes to the <see cref="T:Hoeyi.Configuration.Extensions.IWritableConfigurationProvider"/> 
+            Saves all in-memory configuration changes to the <see cref="T:Hoeyi.Extensions.Configuration.IWritableConfigurationProvider"/> 
             data store.
             </summary>
         </member>
-        <member name="M:Hoeyi.Configuration.Extensions.JsonWritableConfigurationProvider.RotateKey(System.String,System.Boolean)">
+        <member name="M:Hoeyi.Extensions.Configuration.JsonWritableConfigurationProvider.RotateKey(System.String,System.Boolean)">
             <summary>
-            Rotates the key used to encrypt the values in the <see cref="T:Hoeyi.Configuration.Extensions.IRSAProtectedConfigurationProvider"/> object.
+            Rotates the key used to encrypt the values in the <see cref="T:Hoeyi.Extensions.Configuration.IRSAProtectedConfigurationProvider"/> object.
             </summary>
             <param name="newKeyContainer">The name of a new RSA key container.</param>
             <param name="deleteOnSuccess">True to delete the old key container, else false.</param>
             <returns>True if the operation is successful, else false.</returns>        
         </member>
-        <member name="T:Hoeyi.Configuration.Extensions.JsonWritableConfigurationSource">
+        <member name="T:Hoeyi.Extensions.Configuration.JsonWritableConfigurationSource">
             <summary>
             Represents a JSON file as an <see cref="T:Microsoft.Extensions.Configuration.IConfigurationSource"/>, for 
-            use with <see cref="T:Hoeyi.Configuration.Extensions.JsonWritableConfigurationProvider"/>.
+            use with <see cref="T:Hoeyi.Extensions.Configuration.JsonWritableConfigurationProvider"/>.
             </summary>
         </member>
-        <member name="M:Hoeyi.Configuration.Extensions.JsonWritableConfigurationSource.#ctor">
+        <member name="M:Hoeyi.Extensions.Configuration.JsonWritableConfigurationSource.#ctor">
             <summary>
-            Creates a new instance of <see cref="T:Hoeyi.Configuration.Extensions.JsonWritableConfigurationSource"/>.
+            Creates a new instance of <see cref="T:Hoeyi.Extensions.Configuration.JsonWritableConfigurationSource"/>.
             </summary>
         </member>
-        <member name="M:Hoeyi.Configuration.Extensions.JsonWritableConfigurationSource.#ctor(System.String,Microsoft.Extensions.Logging.ILogger)">
+        <member name="M:Hoeyi.Extensions.Configuration.JsonWritableConfigurationSource.#ctor(System.String,Microsoft.Extensions.Logging.ILogger)">
             <summary>
-            Creates a new instance of <see cref="T:Hoeyi.Configuration.Extensions.JsonWritableConfigurationSource"/> using 
+            Creates a new instance of <see cref="T:Hoeyi.Extensions.Configuration.JsonWritableConfigurationSource"/> using 
             <paramref name="keyContainerName"/> as the key container for encrypting and 
             decrypting values.
             </summary>
             <param name="keyContainerName">The RSA key container name.</param>
             <param name="logger">An <see cref="T:Microsoft.Extensions.Logging.ILogger"/>.</param>
         </member>
-        <member name="T:Hoeyi.Configuration.Extensions.Resources.ExceptionString">
+        <member name="T:Hoeyi.Extensions.Configuration.Resources.ExceptionString">
             <summary>
               A strongly-typed resource class, for looking up localized strings, etc.
             </summary>
         </member>
-        <member name="P:Hoeyi.Configuration.Extensions.Resources.ExceptionString.ResourceManager">
+        <member name="P:Hoeyi.Extensions.Configuration.Resources.ExceptionString.ResourceManager">
             <summary>
               Returns the cached ResourceManager instance used by this class.
             </summary>
         </member>
-        <member name="P:Hoeyi.Configuration.Extensions.Resources.ExceptionString.Culture">
+        <member name="P:Hoeyi.Extensions.Configuration.Resources.ExceptionString.Culture">
             <summary>
               Overrides the current thread's CurrentUICulture property for all
               resource lookups using this strongly typed resource class.
             </summary>
         </member>
-        <member name="P:Hoeyi.Configuration.Extensions.Resources.ExceptionString.KeyStore_CreateKeyFailed">
+        <member name="P:Hoeyi.Extensions.Configuration.Resources.ExceptionString.KeyStore_CreateKeyFailed">
             <summary>
               Looks up a localized string similar to The container &apos;{0}&apos; could not be saved to provider &apos;{1}&apos;..
             </summary>
         </member>
-        <member name="P:Hoeyi.Configuration.Extensions.Resources.ExceptionString.KeyStore_DecryptionFailed">
+        <member name="P:Hoeyi.Extensions.Configuration.Resources.ExceptionString.KeyStore_DecryptionFailed">
             <summary>
               Looks up a localized string similar to Could not decrypt value..
             </summary>
         </member>
-        <member name="P:Hoeyi.Configuration.Extensions.Resources.ExceptionString.KeyStore_DeleteKeyFailed">
+        <member name="P:Hoeyi.Extensions.Configuration.Resources.ExceptionString.KeyStore_DeleteKeyFailed">
             <summary>
               Looks up a localized string similar to The container &apos;{0}&apos; could not be deleted..
             </summary>
         </member>
-        <member name="P:Hoeyi.Configuration.Extensions.Resources.ExceptionString.KeyStore_EncryptionFailed">
+        <member name="P:Hoeyi.Extensions.Configuration.Resources.ExceptionString.KeyStore_EncryptionFailed">
             <summary>
               Looks up a localized string similar to Could not encrypt value..
             </summary>
         </member>
-        <member name="T:Hoeyi.Configuration.Extensions.StringExtension">
+        <member name="T:Hoeyi.Extensions.Configuration.StringExtension">
             <summary>
             Provides static helper methods for working with strings.
             </summary>
         </member>
-        <member name="M:Hoeyi.Configuration.Extensions.StringExtension.ConvertToLogTemplate(System.String,System.String[])">
+        <member name="M:Hoeyi.Extensions.Configuration.StringExtension.ConvertToLogTemplate(System.String,System.String[])">
             <summary>
             Converts the string to a log template string by replacing braced integers.
             </summary>

@@ -1,5 +1,5 @@
-# Hoeyi.Configuration.Extensions
-`Hoeyi.Configuration.Extensions` extends the [.NET Configuration API](https://docs.microsoft.com/en-us/dotnet/core/extensions/configuration) by adding custom providers for writing configurations to disk and encrypting values in-memory and at rest.
+# Hoeyi.Extensions.Configuration
+`Hoeyi.Extensions.Configuration` extends the [.NET Configuration API](https://docs.microsoft.com/en-us/dotnet/core/extensions/configuration) by adding custom providers for writing configurations to disk and encrypting values in-memory and at rest.
 
 * [Code Examples](#code-examples)
 * [Commit Message Guidelines](#commit-message-guidelines)

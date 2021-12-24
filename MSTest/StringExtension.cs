@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Hoeyi.Configuration.Extensions;
+using Hoeyi.Extensions.Configuration;
 
 namespace MSTest
 {
@@ -7,7 +7,7 @@ namespace MSTest
     public class StringExtension
     {
         /// <summary>
-        /// Verifies the output of <see cref="Hoeyi.Configuration.Extensions.StringExtension.ConvertToLogTemplate(string, string[])"/> 
+        /// Verifies the output of <see cref="Hoeyi.Extensions.Configuration.StringExtension.ConvertToLogTemplate(string, string[])"/> 
         /// when no parameter is provided to a valid template.
         /// </summary>
         [TestMethod]
@@ -21,7 +21,7 @@ namespace MSTest
         }
 
         /// <summary>
-        /// Verifies the output of <see cref="Hoeyi.Configuration.Extensions.StringExtension.ConvertToLogTemplate(string, string[])"/> 
+        /// Verifies the output of <see cref="Hoeyi.Extensions.Configuration.StringExtension.ConvertToLogTemplate(string, string[])"/> 
         /// when a single parameter is provided to a valid template.
         /// </summary>
         [TestMethod]
@@ -34,7 +34,7 @@ namespace MSTest
         }
 
         /// <summary>
-        /// Verifies the output of <see cref="Hoeyi.Configuration.Extensions.StringExtension.ConvertToLogTemplate(string, string[])"/> 
+        /// Verifies the output of <see cref="Hoeyi.Extensions.Configuration.StringExtension.ConvertToLogTemplate(string, string[])"/> 
         /// when multiples parameters are provided to a valid template.
         /// </summary>
         [TestMethod]

@@ -4,9 +4,9 @@ using System.Text;
 using System.Diagnostics;
 using System.Xml.Linq;
 using Microsoft.Extensions.Logging;
-using Hoeyi.Configuration.Extensions.Resources;
+using Hoeyi.Extensions.Configuration.Resources;
 
-namespace Hoeyi.Configuration.Extensions.Cryptography
+namespace Hoeyi.Extensions.Configuration.Cryptography
 {
     /// <summary>
     /// Represents a means to access an RSA public/private key pair for encrypting/decrypting values.

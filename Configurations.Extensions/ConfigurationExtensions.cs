@@ -2,7 +2,7 @@
 using System.Linq;
 using Microsoft.Extensions.Logging;
 
-namespace Hoeyi.Configuration.Extensions
+namespace Hoeyi.Extensions.Configuration
 {
     /// <summary>
     /// Proviates extension methods for classes in <see cref="Microsoft.Extensions.Configuration"/> namespace.

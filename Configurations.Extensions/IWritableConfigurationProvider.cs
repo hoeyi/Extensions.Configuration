@@ -1,4 +1,4 @@
-﻿namespace Hoeyi.Configuration.Extensions
+﻿namespace Hoeyi.Extensions.Configuration
 {
     /// <summary>
     /// Provides persistable key/values for an application.

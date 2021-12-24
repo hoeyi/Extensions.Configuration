@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>Hoeyi.Configuration.Extensions</AssemblyName>
-    <RootNamespace>Hoeyi.Configuration.Extensions</RootNamespace>
+    <AssemblyName>Hoeyi.Extensions.Configuration</AssemblyName>
+    <RootNamespace>Hoeyi.Extensions.Configuration</RootNamespace>
     <Authors>hoeyi</Authors>
     <Deterministic>false</Deterministic>
     <AssemblyVersion>1.0.0.*</AssemblyVersion>
@@ -15,12 +15,13 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>b53879da-b2cd-44d8-98af-2abe817cbb1e.pfx</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
-    <PackageId>Hoeyi.Configuration.Extensions</PackageId>
+    <PackageId>Hoeyi.Extensions.Configuration</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Product>Hoeyi.Extensions.Configuration</Product>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\Repos\Configuration.Extensions\Configurations.Extensions\Hoeyi.Configuration.Extensions.xml</DocumentationFile>
+    <DocumentationFile>$(ProjectDir)Hoeyi.Configuration.Extensions.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
