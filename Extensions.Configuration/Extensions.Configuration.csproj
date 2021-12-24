@@ -1,17 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>Hoeyi.Extensions.Configuration</AssemblyName>
     <RootNamespace>Hoeyi.Extensions.Configuration</RootNamespace>
-    <Authors>hoeyi</Authors>
-    <Deterministic>false</Deterministic>
-    <AssemblyVersion>1.0.0.*</AssemblyVersion>
+    <Deterministic>true</Deterministic>
+    <Version>1.0.0</Version>
     <Description>Custom configuration providers for protecting and persisting .NET configuration values.</Description>
     <Copyright>2021 hoeyi</Copyright>
+    <Authors>hoeyi</Authors>
     <Company>hoeyi</Company>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/hoeyi/Hoeyi.Extensions.Configuration</RepositoryUrl>
+
+    <VersionSuffix>1.0.0.$([System.DateTime]::UtcNow.ToString(mmff))</VersionSuffix>
+    <AssemblyVersion Condition=" '$(VersionSuffix)' == '' ">0.0.0.1</AssemblyVersion>
+    <AssemblyVersion Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</AssemblyVersion>
+    <Version Condition=" '$(VersionSuffix)' == '' ">0.0.1.0</Version>
+    <Version Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</Version>
+
     <SignAssembly>false</SignAssembly>
     <DelaySign>false</DelaySign>
     <PackageId>Hoeyi.Extensions.Configuration</PackageId>
