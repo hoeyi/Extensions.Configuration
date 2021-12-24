@@ -33,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Configurations.Extensions\Extensions.Configuration.csproj" />
+    <ProjectReference Include="..\Extensions.Configuration\Extensions.Configuration.csproj" />
   </ItemGroup>
 
   <ItemGroup>
