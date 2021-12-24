@@ -12,12 +12,24 @@
     <Company>hoeyi</Company>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/hoeyi/Hoeyi.Extensions.Configuration</RepositoryUrl>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>b53879da-b2cd-44d8-98af-2abe817cbb1e.pfx</AssemblyOriginatorKeyFile>
+    <SignAssembly>false</SignAssembly>
     <DelaySign>false</DelaySign>
     <PackageId>Hoeyi.Extensions.Configuration</PackageId>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Product>Hoeyi.Extensions.Configuration</Product>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>https://github.com/hoeyi/Hoeyi.Extensions.Configuration</PackageProjectUrl>
+    
+    <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+
+    <!-- Optional: Embed source files that are not tracked by the source control manager in the PDB -->
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+
+    <!-- Optional: Build symbol package (.snupkg) to distribute the PDB containing Source Link -->
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -64,9 +76,4 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
-  <Target Name="CopyBuild" AfterTargets="PostBuildEvent">
-    <Copy SourceFiles="$(TargetDir)Hoeyi.$(ProjectName).dll;$(TargetDir)Hoeyi.$(ProjectName).pdb" DestinationFolder="D:\Nuget Local\$(ConfigurationName)" />
-    <Message Text="Copied build files to D:\Nuget Local\$(ConfigurationName)" Importance="High" />
-  </Target>
 </Project>
