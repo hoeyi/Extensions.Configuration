@@ -11,7 +11,7 @@
     <Copyright>2021 hoeyi</Copyright>
     <Company>hoeyi</Company>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <RepositoryUrl>https://github.com/hoeyi/Hoeyi.Configuration.Extensions</RepositoryUrl>
+    <RepositoryUrl>https://github.com/hoeyi/Hoeyi.Extensions.Configuration</RepositoryUrl>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>b53879da-b2cd-44d8-98af-2abe817cbb1e.pfx</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
