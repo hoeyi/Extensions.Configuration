@@ -21,7 +21,7 @@
     <Product>Hoeyi.Extensions.Configuration</Product>
     <ProductVersion>$(Version)</ProductVersion>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageLicenseFile>..\LICENSE.md</PackageLicenseFile>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/hoeyi/Extensions.Configuration</PackageProjectUrl>
     
     <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
@@ -40,14 +40,16 @@
     <DocumentationFile>$(ProjectDir)Hoeyi.Configuration.Extensions.xml</DocumentationFile>
   </PropertyGroup>
 
+<!-- Indicate location of license file since not present in project directory.-->
+    <ItemGroup>
+        <None Include="..\LICENSE.md" Pack="true" PackagePath="" />
+    </ItemGroup>
+
+<!-- Ignore git and documentation files.-->
   <ItemGroup>
     <None Remove=".gitattributes" />
     <None Remove=".gitignore" />
     <None Remove="Hoeyi.Configuration.Extensions.xml" />
-    <None Include="..\LICENSE.md">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
