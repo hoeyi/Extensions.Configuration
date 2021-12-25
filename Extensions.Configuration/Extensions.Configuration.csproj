@@ -23,7 +23,8 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/hoeyi/Extensions.Configuration</PackageProjectUrl>
-    
+
+      <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
 
