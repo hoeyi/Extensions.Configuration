@@ -7,8 +7,8 @@
     <RootNamespace>Hoeyi.Extensions.Configuration</RootNamespace>
 
     <PackageId>Hoeyi.Extensions.Configuration</PackageId>
-    <Version>1.0.0</Version>
-    <VersionSuffix>1.0.0.$([System.DateTime]::UtcNow.ToString(mmff))</VersionSuffix>
+    <Version>1.0.1</Version>
+    <VersionSuffix>1.0.1.$([System.DateTime]::UtcNow.ToString(mmff))</VersionSuffix>
     <AssemblyVersion Condition=" '$(VersionSuffix)' == '' ">0.0.0.1</AssemblyVersion>
     <AssemblyVersion Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</AssemblyVersion>
     <Version Condition=" '$(VersionSuffix)' == '' ">0.0.1.0</Version>
@@ -76,5 +76,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ExceptionString.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="CREDITS.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
