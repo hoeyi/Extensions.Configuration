@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Hoeyi.Extensions.Configuration;
+using Hoeyi.Extensions.Shared;
 
 namespace MSTest
 {

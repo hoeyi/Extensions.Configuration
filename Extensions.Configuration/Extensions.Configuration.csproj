@@ -7,8 +7,8 @@
     <RootNamespace>Hoeyi.Extensions.Configuration</RootNamespace>
 
     <PackageId>Hoeyi.Extensions.Configuration</PackageId>
-    <Version>1.0.2</Version>
-     <VersionSuffix>1.0.2.$([System.DateTime]::UtcNow.ToString(mmff))</VersionSuffix> 
+    <Version>1.0.3</Version>
+     <VersionSuffix>1.0.3.$([System.DateTime]::UtcNow.ToString(mmff))</VersionSuffix> 
     <AssemblyVersion Condition=" '$(VersionSuffix)' == '' ">0.0.0.1</AssemblyVersion>
     <AssemblyVersion Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</AssemblyVersion>
     <Version Condition=" '$(VersionSuffix)' == '' ">0.0.1.0</Version>
@@ -86,5 +86,9 @@
     <Content Update="CREDITS.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Shared\" />
   </ItemGroup>
 </Project>

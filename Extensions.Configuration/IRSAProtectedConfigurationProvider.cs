@@ -5,6 +5,16 @@
     /// </summary>
     interface IRSAProtectedConfigurationProvider
     {
+        /// <summary>
+        /// Gets the name of the RSA key container used by this provider. 
+        /// </summary>
+        string KeyContainerName { get; }
+
+        /// <summary>
+        /// Deletes the current key attached to this <see cref="IRSAProtectedConfigurationProvider"/>.
+        /// </summary>
+        /// <returns>True if the operation is successful, else false.</returns>
+        bool DeleteKey();
 
         /// <summary>
         /// Rotates the key used to encrypt the values in the <see cref="IRSAProtectedConfigurationProvider"/> object.

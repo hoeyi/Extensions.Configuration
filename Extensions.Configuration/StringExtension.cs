@@ -1,4 +1,4 @@
-﻿namespace Hoeyi.Extensions.Configuration
+﻿namespace Hoeyi.Extensions.Shared
 {
     /// <summary>
     /// Provides static helper methods for working with strings.

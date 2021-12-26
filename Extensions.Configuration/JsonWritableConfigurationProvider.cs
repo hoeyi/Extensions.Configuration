@@ -66,6 +66,14 @@ namespace Hoeyi.Extensions.Configuration
             useEncryption = true;
         }
 
+        /// <summary>
+        /// Gets the name of the RSA key container used by this provider. 
+        /// </summary>
+        public string KeyContainerName
+        {
+            get{ return rsaKeyStore.KeyContainerName; }
+        }
+
         public override void Set(string key, string value)
         {
             if (useEncryption)
@@ -109,6 +117,15 @@ namespace Hoeyi.Extensions.Configuration
 
             // Write all values to source file
             File.WriteAllText(fi.PhysicalPath, jsonConfig);
+        }
+
+        /// <summary>
+        /// Deletes the current key attached to this <see cref="IRSAProtectedConfigurationProvider"/>.
+        /// </summary>
+        /// <returns>True if the operation is successful, else false.</returns>
+        public bool DeleteKey()
+        {
+            return rsaKeyStore.DeleteKeyContainer();
         }
 
         /// <summary>
@@ -194,5 +211,6 @@ namespace Hoeyi.Extensions.Configuration
             // Serialize resulting object and return
             return JsonConvert.SerializeObject(json, Formatting.Indented);
         }
+
     }
 }

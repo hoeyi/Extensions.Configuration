@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Xml.Linq;
 using Microsoft.Extensions.Logging;
 using Hoeyi.Extensions.Configuration.Resources;
+using Hoeyi.Extensions.Shared;
 
 namespace Hoeyi.Extensions.Configuration.Cryptography
 {
@@ -17,18 +18,13 @@ namespace Hoeyi.Extensions.Configuration.Cryptography
         private readonly CspParameters cspParams;
         private readonly Encoding byteConverter;
 
-        /// <summary>
-        /// Creates a new instance of <see cref="RSAKeyStore"/> using the given 
-        /// key container name.
-        /// </summary>
-        /// <param name="keyContainerName">The RSA key container to use for asymmetric encryption.</param>
-        /// <param name="logger">A <see cref="ILogger"/>.</param>
-        public RSAKeyStore(string keyContainerName, ILogger logger)
+        public RSAKeyStore(string keyContainerName)
         {
-            if(!OperatingSystem.IsWindows())
+            if (!OperatingSystem.IsWindows())
                 throw new NotSupportedException($"{Environment.OSVersion}");
 
-            this.logger = @logger;
+            if (string.IsNullOrEmpty(keyContainerName))
+                throw new ArgumentNullException(paramName: keyContainerName);
 
             cspParams = new CspParameters()
             {
@@ -38,8 +34,19 @@ namespace Hoeyi.Extensions.Configuration.Cryptography
 
             byteConverter = new UTF8Encoding();
 
-            if(!KeyExists(keyContainerName))
-                CreateKeyInContainer(keyContainerName: keyContainerName);
+            if (!KeyExists(cspParams.KeyContainerName))
+                CreateKeyInContainer(cspParams.KeyContainerName);
+        }
+        /// <summary>
+        /// Creates a new instance of <see cref="RSAKeyStore"/> using the given 
+        /// key container name.
+        /// </summary>
+        /// <param name="keyContainerName">The RSA key container to use for asymmetric encryption.</param>
+        /// <param name="logger">A <see cref="ILogger"/>.</param>
+        public RSAKeyStore(string keyContainerName, ILogger logger)
+            : this(keyContainerName: keyContainerName)
+        {
+            this.logger = logger;
         }
 
         /// <summary>
@@ -78,7 +85,7 @@ namespace Hoeyi.Extensions.Configuration.Cryptography
             }
             catch (Exception e)
             {
-                logger.LogError(e, ExceptionString.KeyStore_EncryptionFailed);
+                logger?.LogError(e, ExceptionString.KeyStore_EncryptionFailed);
                 throw;
             }
 
@@ -105,7 +112,7 @@ namespace Hoeyi.Extensions.Configuration.Cryptography
             }
             catch (Exception e)
             {
-                logger.LogError(e, ExceptionString.KeyStore_DecryptionFailed);
+                logger?.LogError(e, ExceptionString.KeyStore_DecryptionFailed);
                 throw;
             }
         }
@@ -153,7 +160,8 @@ namespace Hoeyi.Extensions.Configuration.Cryptography
             {
                 Debug.WriteLine($"{e.Message}");
                 DEBUG_WriteCspParameters(cspParams);
-                logger.LogError(e,
+                
+                logger?.LogError(e,
                     ExceptionString.KeyStore_CreateKeyFailed
                         .ConvertToLogTemplate("KeyContainerName", "KeyProviderName"),
                     cspParams.KeyContainerName, cspParams.ProviderName);

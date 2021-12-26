@@ -27,18 +27,29 @@ namespace Hoeyi.Extensions.Configuration
         /// <paramref name="keyContainerName"/> as the key container for encrypting and 
         /// decrypting values.
         /// </summary>
-        /// <param name="keyContainerName">The RSA key container name.</param>
-        /// <param name="logger">An <see cref="ILogger"/>.</param>
-        public JsonWritableConfigurationSource(string keyContainerName, ILogger logger)
-            : base()
+        /// <param name="keyContainerName"></param>
+        public JsonWritableConfigurationSource(string keyContainerName)
+            : this()
         {
             if (string.IsNullOrEmpty(keyContainerName))
                 throw new ArgumentNullException(paramName: nameof(keyContainerName));
 
+            this.keyContainerName = keyContainerName;
+        }
+
+        /// <summary>
+        /// Creates a new instance of <see cref="JsonWritableConfigurationSource"/> using 
+        /// <paramref name="keyContainerName"/> as the key container for encrypting and 
+        /// decrypting values.
+        /// </summary>
+        /// <param name="keyContainerName">The RSA key container name.</param>
+        /// <param name="logger">An <see cref="ILogger"/>.</param>
+        public JsonWritableConfigurationSource(string keyContainerName, ILogger logger)
+            : this(keyContainerName: keyContainerName)
+        {
             if (logger is null)
                 throw new ArgumentNullException(paramName: nameof(logger));
-
-            this.keyContainerName = keyContainerName;
+            
             this.logger = logger;
         }
 
