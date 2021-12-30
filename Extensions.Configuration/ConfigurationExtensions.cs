@@ -1,6 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.Linq;
 using Microsoft.Extensions.Logging;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("Configuration.Extensions.MSTest")]
 
 namespace Hoeyi.Extensions.Configuration
 {

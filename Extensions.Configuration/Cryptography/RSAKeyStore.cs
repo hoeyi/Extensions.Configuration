@@ -21,7 +21,8 @@ namespace Hoeyi.Extensions.Configuration.Cryptography
         public RSAKeyStore(string keyContainerName)
         {
             if (!OperatingSystem.IsWindows())
-                throw new NotSupportedException($"{Environment.OSVersion}");
+                throw new NotSupportedException(string.Format(
+                    ExceptionString.KeyStore_PlatformNotSupport, Environment.OSVersion));
 
             if (string.IsNullOrEmpty(keyContainerName))
                 throw new ArgumentNullException(paramName: keyContainerName);

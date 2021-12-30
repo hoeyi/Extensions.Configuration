@@ -61,6 +61,15 @@ namespace Hoeyi.Extensions.Configuration.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0}-bit key size is invalid for this provider. .
+        /// </summary>
+        internal static string Aes_InvalidSize {
+            get {
+                return ResourceManager.GetString("Aes.InvalidSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The container &apos;{0}&apos; could not be saved to provider &apos;{1}&apos;..
         /// </summary>
         internal static string KeyStore_CreateKeyFailed {
@@ -93,6 +102,15 @@ namespace Hoeyi.Extensions.Configuration.Resources {
         internal static string KeyStore_EncryptionFailed {
             get {
                 return ResourceManager.GetString("KeyStore.EncryptionFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is not supported for this operation..
+        /// </summary>
+        internal static string KeyStore_PlatformNotSupport {
+            get {
+                return ResourceManager.GetString("KeyStore.PlatformNotSupport", resourceCulture);
             }
         }
     }

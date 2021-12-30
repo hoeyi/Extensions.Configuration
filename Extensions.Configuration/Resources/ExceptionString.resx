@@ -117,9 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Aes.InvalidSize" xml:space="preserve">
+    <value>{0}-bit key size is invalid for this provider. </value>
+    <comment>{0} is the key size in bits.</comment>
+  </data>
   <data name="KeyStore.CreateKeyFailed" xml:space="preserve">
     <value>The container '{0}' could not be saved to provider '{1}'.</value>
-    <comment>{0} is the name of the key container
+    <comment>{0} is the name of the key container.
 {1} is the name of the service provider.</comment>
   </data>
   <data name="KeyStore.DecryptionFailed" xml:space="preserve">
@@ -131,5 +135,9 @@
   </data>
   <data name="KeyStore.EncryptionFailed" xml:space="preserve">
     <value>Could not encrypt value.</value>
+  </data>
+  <data name="KeyStore.PlatformNotSupport" xml:space="preserve">
+    <value>{0} is not supported for this operation.</value>
+    <comment>{0} is the plaform description.</comment>
   </data>
 </root>
