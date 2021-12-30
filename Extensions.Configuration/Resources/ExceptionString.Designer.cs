@@ -70,6 +70,15 @@ namespace Hoeyi.Extensions.Configuration.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The configuration provider has no encryption key..
+        /// </summary>
+        internal static string EncryptionProvider_KeyNotSet {
+            get {
+                return ResourceManager.GetString("EncryptionProvider.KeyNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The container &apos;{0}&apos; could not be saved to provider &apos;{1}&apos;..
         /// </summary>
         internal static string KeyStore_CreateKeyFailed {
