@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hoeyi.Extensions.Configuration.Cryptography
 {
@@ -67,7 +64,10 @@ namespace Hoeyi.Extensions.Configuration.Cryptography
         /// <returns>The decrypted text.</returns>
         public static string Decrypt(string cipherText, string aesKey, string aesIV)
         {
-            return Decrypt($"{aesIV}{cipherText}", aesKey);
+            return Decrypt(
+                cipher: Convert.FromBase64String(cipherText),
+                aesKey: Convert.FromBase64String(aesKey),
+                aesIV: Convert.FromBase64String(aesIV));
         }
 
         /// <summary>
@@ -78,11 +78,10 @@ namespace Hoeyi.Extensions.Configuration.Cryptography
         /// <returns>The decrypted text.</returns>
         public static string Decrypt(string cipherTextWithIV, string aesKey)
         {
-            byte[] cipher = Convert.FromBase64String(cipherTextWithIV[24..]);
-            byte[] iv = Convert.FromBase64String(cipherTextWithIV.Substring(0, 24));
-            byte[] key = Convert.FromBase64String(aesKey);
-
-            return Decrypt(cipher, key, iv);
+            return Decrypt(
+                cipher: Convert.FromBase64String(cipherTextWithIV[24..]),
+                aesKey: Convert.FromBase64String(aesKey),
+                aesIV: Convert.FromBase64String(cipherTextWithIV.Substring(0, 24)));
         }
 
         /// <summary>

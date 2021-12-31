@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
+﻿using System;
 using Microsoft.Extensions.Logging;
-using System;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 
 namespace Hoeyi.Extensions.Configuration
 {
@@ -61,7 +61,7 @@ namespace Hoeyi.Extensions.Configuration
             if (string.IsNullOrEmpty(keyContainerName))
                 return new JsonWritableConfigurationProvider(this);
             else
-                return new JsonWritableConfigurationProvider(
+                return new JsonSecureWritableConfigurationProvider(
                     source: this,
                     keyContainername: keyContainerName,
                     logger: logger);

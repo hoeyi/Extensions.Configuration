@@ -1,14 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.IO;
+using System.Linq;
+using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.FileProviders;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.IO;
-using System;
-using System.Linq;
-using Hoeyi.Extensions.Configuration.Cryptography;
-using Microsoft.Extensions.Logging;
-using System.Diagnostics;
 
 namespace Hoeyi.Extensions.Configuration
 {
@@ -17,91 +13,16 @@ namespace Hoeyi.Extensions.Configuration
     /// which allows for committing in-memory changes to the source file.
     /// </summary>
     class JsonWritableConfigurationProvider : 
-        JsonConfigurationProvider, IConfigurationProvider, IWritableConfigurationProvider, IRSAProtectedConfigurationProvider
+        JsonConfigurationProvider, IConfigurationProvider, IWritableConfigurationProvider
     {
-        private RSAKeyStore rsaKeyStore;
-        private readonly bool useEncryption;
-        private readonly ILogger logger;
-
         /// <summary>
         /// Creates a new <see cref="JsonWritableConfigurationProvider"/> for values 
         /// saved in plain-text.
         /// </summary>
         /// <param name="source">A <see cref="JsonWritableConfigurationSource"/>.</param>
-        public JsonWritableConfigurationProvider(JsonWritableConfigurationSource source) : base(source)
+        public JsonWritableConfigurationProvider(JsonWritableConfigurationSource source) 
+            : base(source)
         {
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="JsonWritableConfigurationProvider"/> for values held 
-        /// as encrypted values except when accessed.
-        /// </summary>
-        /// <param name="source">A <see cref="JsonWritableConfigurationSource"/>.</param>
-        /// <param name="keyContainername">The RSA key container name.</param>
-        /// <param name="logger">An <see cref="ILogger"/>.</param>
-        public JsonWritableConfigurationProvider(
-            JsonWritableConfigurationSource source, string keyContainername, ILogger logger)
-            : this(source: source, new RSAKeyStore(keyContainerName: keyContainername, logger: logger))
-        {
-            this.logger = logger;
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="JsonWritableConfigurationProvider"/> for values 
-        /// held as encrypted values except when accessed.
-        /// </summary>
-        /// <param name="source">A <see cref="JsonWritableConfigurationSource"/>.</param>
-        /// <param name="keyStore">An <see cref="RSAKeyStore"/>.</param>
-        private JsonWritableConfigurationProvider(
-            JsonWritableConfigurationSource source, RSAKeyStore keyStore) 
-            : this(source)
-        {
-            if (source is null)
-                throw new ArgumentNullException(paramName: nameof(source));
-
-            if (keyStore is null)
-                throw new ArgumentNullException(paramName: nameof(keyStore));
-
-            rsaKeyStore = keyStore;
-            useEncryption = true;
-        }
-
-        /// <summary>
-        /// Gets the name of the RSA key container used by this provider. 
-        /// </summary>
-        public string KeyContainerName
-        {
-            get{ return rsaKeyStore.KeyContainerName; }
-        }
-
-        public override void Set(string key, string value)
-        {
-            if (useEncryption)
-                base.Set(key, rsaKeyStore.Encrypt(plainText: value));
-            else
-                base.Set(key, value);
-        }
-
-        public override bool TryGet(string key, out string value)
-        {
-            value = null;
-            if(base.TryGet(key, out string _val))
-            {
-                if(useEncryption)
-                {
-                    value = rsaKeyStore.Decrypt(_val);
-                    return true;
-                }
-                else
-                {
-                    value = _val;
-                    return true;
-                }
-            }
-            else
-            {
-                return false;
-            }
         }
 
         /// <summary>
@@ -117,59 +38,6 @@ namespace Hoeyi.Extensions.Configuration
 
             // Write all values to source file
             File.WriteAllText(fi.PhysicalPath, jsonConfig);
-        }
-
-        /// <summary>
-        /// Deletes the current key attached to this <see cref="IRSAProtectedConfigurationProvider"/>.
-        /// </summary>
-        /// <returns>True if the operation is successful, else false.</returns>
-        public bool DeleteKey()
-        {
-            return rsaKeyStore.DeleteKeyContainer();
-        }
-
-        /// <summary>
-        /// Rotates the key used to encrypt the values in the <see cref="IRSAProtectedConfigurationProvider"/> object.
-        /// </summary>
-        /// <param name="newKeyContainer">The name of a new RSA key container.</param>
-        /// <param name="deleteOnSuccess">True to delete the old key container, else false.</param>
-        /// <returns>True if the operation is successful, else false.</returns>        
-        public bool RotateKey(string newKeyContainer, bool deleteOnSuccess = true)
-        {
-            var newKeyStore = new RSAKeyStore(keyContainerName: newKeyContainer, logger: logger);
-
-            var backupData = Data.ToDictionary(kv => kv.Key, kv => kv.Value);
-            try
-            {
-                foreach(var keypair in Data)
-                {
-                    string text = rsaKeyStore.Decrypt(keypair.Value);
-                    string newCipher = newKeyStore.Encrypt(text);
-
-                    Debug.WriteLine($"Key: {keypair.Key}\nValue: {text}\nCipher: {keypair.Value}");
-                    Data[keypair.Key] = newKeyStore.Encrypt(plainText: rsaKeyStore.Decrypt(keypair.Value));
-                }
-
-                Commit();
-
-                if (!rsaKeyStore.DeleteKeyContainer())
-                    throw new InvalidOperationException(message:
-                        string.Format(Resources.ExceptionString.KeyStore_DeleteKeyFailed, rsaKeyStore.KeyContainerName));
-
-                rsaKeyStore = newKeyStore;
-
-                return true;
-            }
-            catch(Exception)
-            {
-                foreach(var keypair in backupData)
-                {
-                    Data[keypair.Key] = keypair.Value;
-                }
-                Commit();
-
-                return false;
-            }
         }
 
         private static string ToJson(IDictionary<string, string> props)
