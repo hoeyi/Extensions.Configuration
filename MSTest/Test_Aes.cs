@@ -19,12 +19,11 @@ namespace MSTest
             var plainText = "Encrypt this string";
 
 
-            using var aes = Aes.Create();
-            aes.GenerateKey();
+            string aesKey = AesWorker.GenerateKey(keySize: 256);
 
             var cipherText = AesWorker.Encrypt(
                 plainText: plainText,
-                aesKey: Convert.ToBase64String(aes.Key),
+                aesKey: aesKey,
                 out string aesIV);
 
             Debug.WriteLine($"Plain: {plainText}");
@@ -39,18 +38,16 @@ namespace MSTest
         {
             var plainText = "Encrypt this string";
 
-
-            using var aes = Aes.Create();
-            aes.GenerateKey();
+            string aesKey = AesWorker.GenerateKey(keySize: 256);
 
             var cipherText = AesWorker.Encrypt(
                 plainText: plainText,
-                aesKey: Convert.ToBase64String(aes.Key),
+                aesKey: aesKey,
                 out string aesIV);
 
             var decryptedText = AesWorker.Decrypt(
                 cipherText: cipherText,
-                aesKey: Convert.ToBase64String(aes.Key),
+                aesKey: aesKey,
                 aesIV: aesIV);
 
             Debug.WriteLine($"Plain: {plainText}");
@@ -59,6 +56,26 @@ namespace MSTest
             Debug.WriteLine($"Decrypted: {decryptedText}");
 
             Assert.AreEqual(plainText, decryptedText);
+        }
+
+        [TestMethod]
+        public void AesWork_Encrypt_YieldsDifferentCipherText()
+        {
+            var plainText = "Encrypt this string";
+
+            string aesKey = AesWorker.GenerateKey(keySize: 256);
+
+            var cipher1 = AesWorker.Encrypt(
+                plainText: plainText,
+                aesKey: aesKey,
+                out string iv1);
+
+            var cipher2 = AesWorker.Encrypt(
+                plainText: plainText,
+                aesKey: aesKey,
+                out string iv2);
+
+            Assert.AreNotEqual(cipher1, cipher2);
         }
     }
 }
