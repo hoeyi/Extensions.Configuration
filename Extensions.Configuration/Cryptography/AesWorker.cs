@@ -78,7 +78,7 @@ namespace Hoeyi.Extensions.Configuration.Cryptography
         /// <returns>The decrypted text.</returns>
         public static string Decrypt(string cipherTextWithIV, string aesKey)
         {
-            byte[] cipher = Convert.FromBase64String(cipherTextWithIV.Substring(24));
+            byte[] cipher = Convert.FromBase64String(cipherTextWithIV[24..]);
             byte[] iv = Convert.FromBase64String(cipherTextWithIV.Substring(0, 24));
             byte[] key = Convert.FromBase64String(aesKey);
 
