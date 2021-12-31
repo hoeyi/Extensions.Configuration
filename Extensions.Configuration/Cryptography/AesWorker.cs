@@ -14,23 +14,22 @@ namespace Hoeyi.Extensions.Configuration.Cryptography
     static class AesWorker
     {
         /// <summary>
-        /// Generates a new AES secret key of the given size. 
+        /// Generates a new symmetric key for encryption and decryption.
         /// </summary>
         /// <param name="keySize">The size in bits for the generated key. Valid 
         /// AES values are 128, 192, 256. The default is 256.</param>
-        /// <returns></returns>
-        public static string GenerateKey(int? keySize)
+        /// <returns>The secret key with length of <paramref name="keySize"/> bits.</returns>
+        public static string GenerateKey(int keySize = 256)
         {
             // Check given size is valid.
-            int kSize = keySize ?? 256;
             var validSizes = new int[] { 128, 192, 256 };
-            if (!validSizes.Contains(kSize))
+            if (!validSizes.Contains(keySize))
                 throw new InvalidOperationException(
-                    string.Format(Resources.ExceptionString.Aes_InvalidSize, kSize));
+                    string.Format(Resources.ExceptionString.Aes_InvalidSize, keySize));
 
             // Generate the secret key.
             using Aes aes = Aes.Create();
-            aes.KeySize = kSize;
+            aes.KeySize = keySize;
             aes.GenerateKey();
 
             // Return as base-64 string.
@@ -38,18 +37,67 @@ namespace Hoeyi.Extensions.Configuration.Cryptography
         }
 
         /// <summary>
-        /// Encrypts text using a given AES secret key.
+        /// Encrypts the input string using the provided key.
         /// </summary>
         /// <param name="plainText">The text to encrypt.</param>
-        /// <param name="aesKey">The key to use..</param>
-        /// <param name="aesIV">The randomly generated IV used during encryption.</param>
-        /// <returns>The given plain text string as cipher text.</returns>
-        public static string Encrypt(string plainText, string aesKey, out string aesIV)
+        /// <param name="aesKey">The symmetric key that is used for encryption and decryption.</param>
+        /// <param name="aesIV">The IV generated when the data was encrypted.</param>
+        /// <returns>The encrypted text.</returns>
+        public static string Encrypt(
+            string plainText, 
+            string aesKey, 
+            out string aesIV)
+        {
+            byte[] cipher = Encrypt(
+                plainText: plainText,
+                aesKey: Convert.FromBase64String(aesKey),
+                out byte[] iv);
+
+            aesIV = Convert.ToBase64String(iv);
+
+            return Convert.ToBase64String(cipher);
+        }
+
+        /// <summary>
+        /// Decrypts the input string using the provided key and IV.
+        /// </summary>
+        /// <param name="cipherText">The encrypted text.</param>
+        /// <param name="aesKey">The symmetric key that is used for encryption and decryption.</param>
+        /// <param name="aesIV">The IV generated when the data was encrypted.</param>
+        /// <returns>The decrypted text.</returns>
+        public static string Decrypt(string cipherText, string aesKey, string aesIV)
+        {
+            return Decrypt($"{aesIV}{cipherText}", aesKey);
+        }
+
+        /// <summary>
+        /// Decrypts the input string with prepended IV using the given key.
+        /// </summary>
+        /// <param name="cipherTextWithIV">The cipher text with the IV prepended.</param>
+        /// <param name="aesKey">The symmetric key that is used for encryption and decryption.</param>
+        /// <returns>The decrypted text.</returns>
+        public static string Decrypt(string cipherTextWithIV, string aesKey)
+        {
+            byte[] cipher = Convert.FromBase64String(cipherTextWithIV.Substring(24));
+            byte[] iv = Convert.FromBase64String(cipherTextWithIV.Substring(0, 24));
+            byte[] key = Convert.FromBase64String(aesKey);
+
+            return Decrypt(cipher, key, iv);
+        }
+
+        /// <summary>
+        /// Encrypts the input data using the provided key.
+        /// </summary>
+        /// <param name="plainText">The text to encrypt.</param>
+        /// <param name="aesKey">The symmetric key that is used for encryption and decryption.</param>
+        /// <param name="aesIV">The IV generated when the data was encrypted.</param>
+        /// <returns>The encrypted text as a byte array.</returns>
+        private static byte[] Encrypt(string plainText, byte[] aesKey, out byte[] aesIV)
         {
             using Aes aes = Aes.Create();
-            aes.Key = Convert.FromBase64String(aesKey);
+            aes.Key = aesKey;
             aes.GenerateIV();
-            aesIV = Convert.ToBase64String(aes.IV);
+            aesIV = aes.IV;
             aes.Mode = CipherMode.CBC;
             aes.Padding = PaddingMode.PKCS7;
 
@@ -66,35 +114,32 @@ namespace Hoeyi.Extensions.Configuration.Cryptography
             // Read the encrypted bytes from the stream and place in array.
             byte[] encrypted = memoryStream.ToArray();
 
-            // Retun the byte array as a base-64 string.
-            return Convert.ToBase64String(encrypted);
+            return encrypted;          
         }
 
         /// <summary>
-        /// Decrypts textusing a given AES secret key.
+        /// Decrypts the input data using the provided key and IV.
         /// </summary>
-        /// <param name="cipherText">The encrypted text.</param>
-        /// <param name="aesKey">The key used to encrypt the text.</param>
-        /// <param name="aesIV">The IV used when encrypting the text.</param>
-        /// <returns>The given cipher text as plain text.</returns>
-        public static string Decrypt(string cipherText, string aesKey, string aesIV)
+        /// <param name="cipher">The data to decrypt.</param>
+        /// <param name="aesKey">The symmetric key that is used for encryption and decryption.</param>
+        /// <param name="aesIV">The IV generated when the data was encrypted.</param>
+        /// <returns>The decrypted data as a string.</returns>
+        private static string Decrypt(byte[] cipher, byte[] aesKey, byte[] aesIV)
         {
             using AesCryptoServiceProvider aes = new();
-            aes.Key = Convert.FromBase64String(aesKey);
-            aes.IV = Convert.FromBase64String(aesIV);
+            aes.Key = aesKey;
+            aes.IV = aesIV;
             aes.Mode = CipherMode.CBC;
             aes.Padding = PaddingMode.PKCS7;
 
             using ICryptoTransform decryptor = aes.CreateDecryptor();
 
             // Create the streams used for decryption.
-            using MemoryStream msDecrypt = new(Convert.FromBase64String(cipherText));
+            using MemoryStream msDecrypt = new(cipher);
             using CryptoStream csDecrypt = new(msDecrypt, decryptor, CryptoStreamMode.Read);
-            using StreamReader srDecrypt = new(csDecrypt);
 
-            // Read the decrypted bytes from the decrypting stream
-            // and place them in a string.
-            return srDecrypt.ReadToEnd();
+            using StreamReader stringDecrypt = new(csDecrypt);
+            return stringDecrypt.ReadToEnd();
         }
     }
 }
