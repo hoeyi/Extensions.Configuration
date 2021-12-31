@@ -1,20 +1,14 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Security.Cryptography;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Hoeyi.Extensions.Configuration.Cryptography;
-using System.Diagnostics;
 
-namespace MSTest
+namespace Extensions.Configuration.Test
 {
     [TestClass]
-    public class Test_Aes
+    public class SymmetricEncryption
     {
         [TestMethod]
-        public void EncryptString_DefaultAes_YieldsString()
+        public void AesEncrypt_String_YieldsString()
         {
             var plainText = "Encrypt this string";
 
@@ -26,15 +20,16 @@ namespace MSTest
                 aesKey: aesKey,
                 out string aesIV);
 
-            Debug.WriteLine($"Plain: {plainText}");
-            Debug.WriteLine($"Encrypted: {cipherText}");
-            Debug.WriteLine($"IV: {aesIV}");
+            Reference.Logger.LogDebug(
+                $"Plain: {plainText}" +
+                $"\nEncrypted: {cipherText}" +
+                $"\nIV: {aesIV}");
 
             Assert.IsInstanceOfType(cipherText, typeof(string));
         }
 
         [TestMethod]
-        public void EncryptDecrypt_DefaultAes_YieldMatchingString()
+        public void AesEncryptDecrypt_String_YieldsOriginalString()
         {
             var plainText = "Encrypt this string";
 
@@ -50,16 +45,17 @@ namespace MSTest
                 aesKey: aesKey,
                 aesIV: aesIV);
 
-            Debug.WriteLine($"Plain: {plainText}");
-            Debug.WriteLine($"Encrypted: {cipherText}");
-            Debug.WriteLine($"IV: {aesIV}");
-            Debug.WriteLine($"Decrypted: {decryptedText}");
+            Reference.Logger.LogDebug(
+                $"Plain: {plainText}" +
+                $"\nEncrypted: {cipherText}" +
+                $"\nIV: {aesIV}" +
+                $"\nDecrypted: {decryptedText}");
 
             Assert.AreEqual(plainText, decryptedText);
         }
 
         [TestMethod]
-        public void AesWork_Encrypt_YieldsDifferentCipherText()
+        public void AesEncrypt_String_MultipleCalls_YieldsDifferentCipherAndIV()
         {
             var plainText = "Encrypt this string";
 
@@ -76,6 +72,7 @@ namespace MSTest
                 out string iv2);
 
             Assert.AreNotEqual(cipher1, cipher2);
+            Assert.AreNotEqual(iv1, iv2);
         }
     }
 }
