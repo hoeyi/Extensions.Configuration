@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Hoeyi.Extensions.Configuration.Resources {
+namespace Hoeyi.Extensions.Configuration.UnitTest.Resources {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Hoeyi.Extensions.Configuration.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ExceptionString {
+    internal class InformationString {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ExceptionString() {
+        internal InformationString() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Hoeyi.Extensions.Configuration.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Hoeyi.Extensions.Configuration.Resources.ExceptionString", typeof(ExceptionString).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Hoeyi.Extensions.Configuration.UnitTest.Resources.InformationString", typeof(InformationString).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,74 +61,68 @@ namespace Hoeyi.Extensions.Configuration.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}-bit key size is invalid for this provider. .
+        ///   Looks up a localized string similar to [{EntryType}] {Description}.
         /// </summary>
-        internal static string Aes_InvalidSize {
+        internal static string Entry_General {
             get {
-                return ResourceManager.GetString("Aes.InvalidSize", resourceCulture);
+                return ResourceManager.GetString("Entry.General", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The configuration provider has no encryption key..
+        ///   Looks up a localized string similar to [{EntryType}] {Test} [{Result}].
         /// </summary>
-        internal static string EncryptionProvider_KeyNotSet {
+        internal static string Result_General {
             get {
-                return ResourceManager.GetString("EncryptionProvider.KeyNotSet", resourceCulture);
+                return ResourceManager.GetString("Result.General", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to rotate asymmetric and symmetric keys..
+        ///   Looks up a localized string similar to [{EntryType}] {Test}
+        ///        Expected: {Expected}
+        ///        Observed: {Observed}.
         /// </summary>
-        internal static string EncryptionProvider_RotateKeyFailed {
+        internal static string ResultInfo_Comparison_SingleVariable {
             get {
-                return ResourceManager.GetString("EncryptionProvider.RotateKeyFailed", resourceCulture);
+                return ResourceManager.GetString("ResultInfo.Comparison.SingleVariable", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The container &apos;{0}&apos; could not be saved to provider &apos;{1}&apos;..
+        ///   Looks up a localized string similar to [{EntryType}] {Test}
+        ///        Plaint-text: {PlainString}
+        ///        Cipher-text: {CipherString}
+        ///        IV: {IV}.
         /// </summary>
-        internal static string KeyStore_CreateKeyFailed {
+        internal static string ResultInfo_Encrypt {
             get {
-                return ResourceManager.GetString("KeyStore.CreateKeyFailed", resourceCulture);
+                return ResourceManager.GetString("ResultInfo.Encrypt", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Could not decrypt value..
+        ///   Looks up a localized string similar to [{EntryType}] {Test}
+        ///        Plaint-text: {PlainString}
+        ///        Cipher-text: {CipherString}
+        ///        IV: {IV}
+        ///        Decyphered-text: {DecipherString}.
         /// </summary>
-        internal static string KeyStore_DecryptionFailed {
+        internal static string ResultInfo_EncryptDecrypt {
             get {
-                return ResourceManager.GetString("KeyStore.DecryptionFailed", resourceCulture);
+                return ResourceManager.GetString("ResultInfo.EncryptDecrypt", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The container &apos;{0}&apos; could not be deleted..
+        ///   Looks up a localized string similar to [{EntryType}] {Test}
+        ///        Key: {Key}
+        ///        Expected: {Expected}
+        ///        Observed: {Observed}.
         /// </summary>
-        internal static string KeyStore_DeleteKeyFailed {
+        internal static string ResultInfo_KeyPair {
             get {
-                return ResourceManager.GetString("KeyStore.DeleteKeyFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Could not encrypt value..
-        /// </summary>
-        internal static string KeyStore_EncryptionFailed {
-            get {
-                return ResourceManager.GetString("KeyStore.EncryptionFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} is not supported for this operation..
-        /// </summary>
-        internal static string KeyStore_PlatformNotSupported {
-            get {
-                return ResourceManager.GetString("KeyStore.PlatformNotSupported", resourceCulture);
+                return ResourceManager.GetString("ResultInfo.KeyPair", resourceCulture);
             }
         }
     }

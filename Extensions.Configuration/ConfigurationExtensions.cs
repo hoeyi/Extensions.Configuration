@@ -1,6 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
-using System.Linq;
+﻿using System.Linq;
+using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+
+[assembly: InternalsVisibleTo("Hoeyi.Extensions.Configuration.UnitTest")]
 
 namespace Hoeyi.Extensions.Configuration
 {
@@ -135,7 +138,7 @@ namespace Hoeyi.Extensions.Configuration
         /// <param name="path">Path relative to the base path stored in
         /// <see cref="IConfigurationBuilder.Properties"/> of <paramref name="builder"/>.</param>
         /// <param name="encryptionKeyContainer">The name of an RSA key container to use for asymmetric encryption.</param>
-        /// <param name="logger">An <see cref="ILogger"/> that represents an application logging implementation.</param>
+        /// <param name="logger">An <see cref="ILogger"/>..</param>
         /// <param name="optional">Whether the file is optional.</param>
         /// <param name="reloadOnChange">Whether the configuration should be reloaded if the file changes.</param>
         /// <returns>The <see cref="IConfigurationBuilder"/>.</returns>

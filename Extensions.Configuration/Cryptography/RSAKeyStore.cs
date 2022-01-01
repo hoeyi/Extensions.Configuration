@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Security.Cryptography;
 using System.Text;
-using System.Diagnostics;
-using System.Xml.Linq;
+using System.Security.Cryptography;
 using Microsoft.Extensions.Logging;
 using Hoeyi.Extensions.Configuration.Resources;
 using Hoeyi.Extensions.Shared;
@@ -21,7 +19,8 @@ namespace Hoeyi.Extensions.Configuration.Cryptography
         public RSAKeyStore(string keyContainerName)
         {
             if (!OperatingSystem.IsWindows())
-                throw new NotSupportedException($"{Environment.OSVersion}");
+                throw new NotSupportedException(string.Format(
+                    ExceptionString.KeyStore_PlatformNotSupported, Environment.OSVersion));
 
             if (string.IsNullOrEmpty(keyContainerName))
                 throw new ArgumentNullException(paramName: keyContainerName);
@@ -37,6 +36,7 @@ namespace Hoeyi.Extensions.Configuration.Cryptography
             if (!KeyExists(cspParams.KeyContainerName))
                 CreateKeyInContainer(cspParams.KeyContainerName);
         }
+
         /// <summary>
         /// Creates a new instance of <see cref="RSAKeyStore"/> using the given 
         /// key container name.
@@ -152,19 +152,14 @@ namespace Hoeyi.Extensions.Configuration.Cryptography
                     KeySize = 4096
                 };
 
-                Debug.WriteLine($"{cspParams.KeyContainerName} created.");
-
                 return true;
             }
             catch (Exception e)
             {
-                Debug.WriteLine($"{e.Message}");
-                DEBUG_WriteCspParameters(cspParams);
-                
                 logger?.LogError(e,
                     ExceptionString.KeyStore_CreateKeyFailed
-                        .ConvertToLogTemplate("KeyContainerName", "KeyProviderName"),
-                    cspParams.KeyContainerName, cspParams.ProviderName);
+                        .ConvertToLogTemplate(nameof(KeyContainerName)),
+                    cspParams.KeyContainerName);
                 throw;
             }
         }
@@ -203,19 +198,18 @@ namespace Hoeyi.Extensions.Configuration.Cryptography
 
                 // Present in example code in Microsoft docs, but not necessary. Calling 
                 // rsa.Clear() causes null reference exception due to elimination of rsa variable.
-                //// Call Clear to release resources and delete the key from the container.
-
-                Debug.WriteLine($"{cspParams.KeyContainerName} deleted.");
+                // Call Clear to release resources and delete the key from the container.
+                // rsa.Clear()
 
                 return true;
             }
             catch(Exception e)
             {
-                Debug.Write($"{e}");
-                logger.LogError(e,
+                logger?.LogError(e,
                     ExceptionString.KeyStore_DeleteKeyFailed
-                        .ConvertToLogTemplate("KeyContainerName", "KeyProviderName"),
-                    cspParams.KeyContainerName, cspParams.ProviderName);
+                        .ConvertToLogTemplate(nameof(KeyContainerName)),
+                    cspParams.KeyContainerName);
+                
                 return false;
             }
         }
@@ -242,50 +236,10 @@ namespace Hoeyi.Extensions.Configuration.Cryptography
 
                 return true;
             }
-            catch(Exception e)
+            catch(Exception)
             {
-                Debug.WriteLine($"{e.Message}");
                 return false;
             }
-        }
-    }
-
-    sealed partial class RSAKeyStore
-    {
-        [Conditional("DEBUG")]
-        private static void DEBUG_WriteCspParameters(CspParameters cspParams)
-        {
-            if (cspParams is null)
-                return;
-
-            if (OperatingSystem.IsWindows())
-            {
-                #pragma warning disable CA1416 // Validate platform compatibility
-
-                Debug.Write($"Params:\n[\n" +
-                    $"\n\t{nameof(CspParameters.ProviderType)}: {cspParams.ProviderType}" +
-                    $"\n\t{nameof(CspParameters.KeyContainerName)}: {cspParams.KeyContainerName}" +
-                    $"\n\t{nameof(CspParameters.Flags)}: {cspParams.Flags}" +
-                    $"\n]\n");
-
-                #pragma warning restore CA1416 // Validate platform compatibility
-            }
-            else
-                return;
-        }
-
-        [Conditional("DEBUG")]
-#pragma warning disable IDE0051 // Remove unused private members
-        private static void DEBUG_WriteRsaProviderToXML(RSA rsa)
-#pragma warning restore IDE0051 // Remove unused private members
-        {
-            if (rsa is null)
-                return;
-
-            string xmlString = rsa.ToXmlString(includePrivateParameters: true);
-            XDocument doc = XDocument.Parse(xmlString);
-
-            Debug.Write($"\n{doc}\n");
         }
     }
 }

@@ -1,10 +1,16 @@
-# Hoeyi.Extensions.Configuration
+# Hoeyi.Extensions.Configuration #
 `Hoeyi.Extensions.Configuration` extends the [.NET Configuration API](https://docs.microsoft.com/en-us/dotnet/core/extensions/configuration) by adding custom providers for writing configurations to disk and encrypting values in-memory and at rest.
 
+* [Building Project](#building-project)
 * [Code Examples](#code-examples)
 * [Commit Message Guidelines](#commit-message-guidelines)
 
-# Code Examples ##
+## Building Project ##
+By default, the project `$(BuildNumber)` property is set to zero. Uncomment the line `Extensions.Configuration.csproj` to allow auto-assignment of the build number. Once the build is complete, revert the change to the `$(BuilderNumber)` property assignment.
+
+<br/>
+
+## Code Examples ##
 Use `IConfigurationBuilder` extension methods `AddJsonWritable` and `AddSecureJsonWritable` to configure custom providers.
 
 #### Configure a JSON-writable source without encryption.
@@ -91,6 +97,8 @@ protectedConfig["ConnectionStrings:Production"] = "DataSource=...";
 protectedConfig.Commit();
 ```
 ####
+
+<br/>
 
 ## Commit Message Guidelines ##
 
