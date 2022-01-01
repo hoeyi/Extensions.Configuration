@@ -1,8 +1,11 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Reflection;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Hoeyi.Extensions.Configuration.UnitTest.Setup;
+using Hoeyi.Extensions.Configuration.UnitTest.Resources;
 using Hoeyi.Extensions.Shared;
 
-namespace Extensions.Configuration.Test
+namespace Hoeyi.Extensions.Configuration.UnitTest
 {
     [TestClass]
     public class StringExtension
@@ -10,36 +13,91 @@ namespace Extensions.Configuration.Test
         [TestMethod]
         public void ConvertToLogTemplate_ParameterlessTemplate_YieldsOriginalString()
         {
-            string originalTemplate = "This is a parameterless template.";
-            var convertedTemplate = originalTemplate.ConvertToLogTemplate();
+            string expected = "This is a parameterless template.";
+            string observed = expected.ConvertToLogTemplate();
 
-            Reference.Logger.LogDebug("Original template: {OriginalTemplate}", originalTemplate);
+            ResultCode resultCode;
+            try
+            {
+                Global.Logger.LogInformation(InformationString.ResultInfo_Comparison_SingleVariable,
+                    EntryType.RESULTINFO,
+                    MethodBase.GetCurrentMethod().Name,
+                    expected,
+                    observed);
 
-            Assert.AreEqual(expected: originalTemplate, actual: convertedTemplate);
+                Assert.AreEqual(expected: expected, actual: observed);
+
+                resultCode = ResultCode.PASSED;
+                Global.Logger.LogInformation(InformationString.Result_General,
+                    EntryType.RESULT, MethodBase.GetCurrentMethod().Name, resultCode);
+            }
+            catch (UnitTestAssertException)
+            {
+                resultCode = ResultCode.FAILED;
+                Global.Logger.LogInformation(InformationString.Result_General,
+                    EntryType.RESULT, MethodBase.GetCurrentMethod().Name, resultCode);
+                throw;
+            }
         }
 
         [TestMethod]
         public void ConvertToLogTemplate_SingleParameterTemplate_YieldsConvertedString()
         {
-            string originalTemplate = "This template has {0} parameter(s).";
-            string convertedTemplate = originalTemplate.ConvertToLogTemplate("count");
+            string expected = "This template has {count} parameter(s).";
+            string observed = "This template has {0} parameter(s).".ConvertToLogTemplate("count");
 
-            Reference.Logger.LogDebug("Original template: {OriginalTemplate}", originalTemplate);
-            Reference.Logger.LogDebug("Converted template: {ConvertedTemplate}", convertedTemplate);
+            ResultCode resultCode;
+            try
+            {
+                Global.Logger.LogInformation(InformationString.ResultInfo_Comparison_SingleVariable,
+                    EntryType.RESULTINFO,
+                    MethodBase.GetCurrentMethod().Name,
+                    expected,
+                    observed);
 
-            Assert.AreEqual(expected: "This template has {count} parameter(s).", actual: convertedTemplate);
+                Assert.AreEqual(expected: expected, actual: observed);
+
+                resultCode = ResultCode.PASSED;
+                Global.Logger.LogInformation(InformationString.Result_General,
+                    EntryType.RESULT, MethodBase.GetCurrentMethod().Name, resultCode);
+            }
+            catch (UnitTestAssertException)
+            {
+                resultCode = ResultCode.FAILED;
+                Global.Logger.LogInformation(InformationString.Result_General,
+                    EntryType.RESULT, MethodBase.GetCurrentMethod().Name, resultCode);
+                throw;
+            }
         }
 
         [TestMethod]
         public void ConvertToLogTemplate_MultiParameterTemplate_YieldsConvertedString()
         {
-            string originalTemplate = "This {0} has {1} parameter(s).";
-            string convertedTemplate = originalTemplate.ConvertToLogTemplate("template", "count");
+            string expected = "This {template} has {count} parameter(s).";
+            string observed = "This {0} has {1} parameter(s).".ConvertToLogTemplate("template", "count");
+            
+            ResultCode resultCode;
+            try
+            {
+                Global.Logger.LogInformation(InformationString.ResultInfo_Comparison_SingleVariable,
+                    EntryType.RESULTINFO,
+                    MethodBase.GetCurrentMethod().Name,
+                    expected,
+                    observed);
 
-            Reference.Logger.LogDebug("Original template: {OriginalTemplate}", originalTemplate);
-            Reference.Logger.LogDebug("Converted template: {ConvertedTemplate}", convertedTemplate);
+                Assert.AreEqual(expected: expected, actual: observed);
 
-            Assert.AreEqual(expected: "This {template} has {count} parameter(s).", actual: convertedTemplate);
+                resultCode = ResultCode.PASSED;
+                Global.Logger.LogInformation(InformationString.Result_General,
+                    EntryType.RESULT, MethodBase.GetCurrentMethod().Name, resultCode);
+            }
+            catch (UnitTestAssertException)
+            {
+                resultCode = ResultCode.FAILED;
+                Global.Logger.LogInformation(InformationString.Result_General,
+                    EntryType.RESULT, MethodBase.GetCurrentMethod().Name, resultCode);
+                throw;
+            }
         }
     }
 }

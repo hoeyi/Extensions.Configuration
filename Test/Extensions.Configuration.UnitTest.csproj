@@ -5,9 +5,9 @@
 
     <IsPackable>false</IsPackable>
 
-    <AssemblyName>Extensions.Configuration.Test</AssemblyName>
+    <AssemblyName>Hoeyi.Extensions.Configuration.UnitTest</AssemblyName>
 
-    <RootNamespace>Extensions.Configuration.Test</RootNamespace>
+    <RootNamespace>Hoeyi.Extensions.Configuration.UnitTest</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,6 +36,21 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Extensions.Configuration\Extensions.Configuration.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\InformationString.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>InformationString.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\InformationString.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>InformationString.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

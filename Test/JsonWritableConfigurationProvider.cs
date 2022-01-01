@@ -1,47 +1,88 @@
+using System.Reflection;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Hoeyi.Extensions.Configuration;
+using Hoeyi.Extensions.Configuration.UnitTest.Setup;
+using Hoeyi.Extensions.Configuration.UnitTest.Resources;
 
-namespace Extensions.Configuration.Test
+namespace Hoeyi.Extensions.Configuration.UnitTest
 {
     [TestClass]
     public class JsonWritableConfigurationProvider
     {
+        private readonly IReadOnlyDictionary<string, string> testPairs =
+            new Dictionary<string, string>()
+            {
+                { "PROPERTY", "This is a plain-text property." },
+                { "NESTED_PROPERTY:LEVEL1", "This a nested plain-text property." },
+                { "NESTED_PROPERTY:LEVEL2:LEVEL1", "This is a twice-nested plain text property." }
+            };
+
         [TestMethod]
         public void IntializeProvider_ValidFileSource_YieldsInstance()
         {
             var config = BuildConfiguration();
 
-            Assert.IsInstanceOfType(config, typeof(IConfigurationRoot));
+            ResultCode resultCode;
+            try
+            {
+                Assert.IsInstanceOfType(config, typeof(IConfigurationRoot));
+
+                resultCode = ResultCode.PASSED;
+                Global.Logger.LogInformation(InformationString.Result_General,
+                    EntryType.RESULT, MethodBase.GetCurrentMethod().Name, resultCode);
+            }
+            catch (UnitTestAssertException)
+            {
+                resultCode = ResultCode.FAILED;
+                Global.Logger.LogInformation(InformationString.Result_General,
+                    EntryType.RESULT, MethodBase.GetCurrentMethod().Name, resultCode);
+                throw;
+            }
         }
 
         [TestMethod]
-        public void SetValue_SubsequentLoad_YieldsMatchingString()
+        public void SetValues_WithSubsequentLoad_YieldsMatchingString()
         {
-            var testPairs = new Dictionary<string, string>()
-            {
-                { "PROPERTY", "This is a plain-text property." },
-                { "NESTED_PROPERTY:LEVEL1", "This a nested plain-text property." },
-                { "NESTED_PROPERTY:LEVEL2:LEVEL2", "This is a twice-nested plain text property." }
-            };
-
+            // Build the configuration and load with test values.
             var config = BuildConfiguration();
-
             foreach (var keypair in testPairs)
             {
                 config[keypair.Key] = keypair.Value;
             }
+
+            // Save the values to disk.
             config.Commit();
 
+            // Reload the configuration.
             var updatedConfig = BuildConfiguration();
 
-            foreach (var keypair in testPairs)
+            ResultCode resultCode;
+            try
             {
-                Reference.Logger.LogDebug(
-                    $"Key: {keypair.Key}\nExpected: {keypair.Value}\nObserved: {updatedConfig[keypair.Key]}");
-                Assert.AreEqual(expected: keypair.Value, actual: updatedConfig[keypair.Key]);
+                foreach (var keypair in testPairs)
+                {
+                    Global.Logger.LogInformation(InformationString.ResultInfo_KeyPair,
+                        EntryType.RESULTINFO,
+                        MethodBase.GetCurrentMethod().Name,
+                        keypair.Key,
+                        keypair.Value,
+                        updatedConfig[keypair.Key]);
+
+                    Assert.AreEqual(expected: keypair.Value, actual: updatedConfig[keypair.Key]);
+                }
+
+                resultCode = ResultCode.PASSED;
+                Global.Logger.LogInformation(InformationString.Result_General,
+                    EntryType.RESULT, MethodBase.GetCurrentMethod().Name, resultCode);
+            }
+            catch (UnitTestAssertException)
+            {
+                resultCode = ResultCode.FAILED;
+                Global.Logger.LogInformation(InformationString.Result_General,
+                    EntryType.RESULT, MethodBase.GetCurrentMethod().Name, resultCode);
+                throw;
             }
         }
 

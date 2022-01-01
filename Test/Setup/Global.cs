@@ -1,12 +1,12 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.Logging;
 
-namespace Extensions.Configuration.Test
+namespace Hoeyi.Extensions.Configuration.UnitTest.Setup
 {
     /// <summary>
-    /// Contains variables scoped to the Extensions.Configuration.Test assembly. 
+    /// Contains variables scoped to the Hoeyi.Extensions.Configuration.UnitTest assembly. 
     /// </summary>
-    class Reference
+    class Global
     {
         /// <summary>
         /// Gets the unit-test project <see cref="ILogger"/> instance.
@@ -14,10 +14,8 @@ namespace Extensions.Configuration.Test
         public static readonly ILogger Logger = LoggerFactory
             .Create(builder => builder
                 .AddConsole()
-                .SetMinimumLevel(LogLevel.Debug)
-                .AddDebug()
-                .SetMinimumLevel(LogLevel.Debug))
-            .CreateLogger<Reference>();
+                .AddDebug())
+            .CreateLogger<Global>();
 
         /// <summary>
         /// Gets the name of the unit-test assembly.
