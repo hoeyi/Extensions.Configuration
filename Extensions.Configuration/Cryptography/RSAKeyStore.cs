@@ -152,9 +152,6 @@ namespace Hoeyi.Extensions.Configuration.Cryptography
                     KeySize = 4096
                 };
 
-                logger?.LogDebug(
-                    LogMessage.KeyStore_CreateKeySucceeded.ConvertToLogTemplate(nameof(CspParameters)), 
-                    cspParams);
                 return true;
             }
             catch (Exception e)
@@ -204,9 +201,6 @@ namespace Hoeyi.Extensions.Configuration.Cryptography
                 // Call Clear to release resources and delete the key from the container.
                 // rsa.Clear()
 
-                logger?.LogDebug(
-                    LogMessage.KeyStore_DeleteKeySucceeded.ConvertToLogTemplate(nameof(CspParameters)), 
-                    cspParams);
                 return true;
             }
             catch(Exception e)

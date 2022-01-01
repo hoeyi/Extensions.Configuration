@@ -73,21 +73,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ExceptionString.resx</DependentUpon>
     </Compile>
-    <Compile Update="Resources\LogMessage.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>LogMessage.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="Resources\ExceptionString.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ExceptionString.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\LogMessage.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>LogMessage.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

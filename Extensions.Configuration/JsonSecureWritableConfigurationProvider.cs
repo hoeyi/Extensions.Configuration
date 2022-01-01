@@ -102,7 +102,6 @@ namespace Hoeyi.Extensions.Configuration
 
                     rsaKeyStore = newKeyStore;
 
-                    logger?.LogDebug(LogMessage.EncryptionProvider_RotateKeySucceeded);
                     return true;
                 }
                 else
@@ -141,7 +140,8 @@ namespace Hoeyi.Extensions.Configuration
         public override bool TryGet(string key, out string value)
         {
             value = null;
-            if (TryGetSecure(key, out string _value))
+            
+            if (key != SecretKeyParameter && TryGetSecure(key, out string _value))
             {
                 value = _value;
                 return true;
