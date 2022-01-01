@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-[assembly: InternalsVisibleTo("Hoeyi.Extensions.Configuration.Test")]
+[assembly: InternalsVisibleTo("Hoeyi.Extensions.Configuration.UnitTest")]
 
 namespace Hoeyi.Extensions.Configuration
 {
