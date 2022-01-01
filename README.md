@@ -99,6 +99,7 @@ protectedConfig.Commit();
 ####
 
 <br/>
+
 ## Commit Message Guidelines ##
 
 The structure of these guidelines are based on the [Angular convetion](
