@@ -1,90 +1,88 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
+    <PropertyGroup>
 
-    <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>Hoeyi.Extensions.Configuration</AssemblyName>
-    <RootNamespace>Hoeyi.Extensions.Configuration</RootNamespace>
+        <TargetFramework>net5.0</TargetFramework>
+        <AssemblyName>Hoeyi.Extensions.Configuration</AssemblyName>
+        <RootNamespace>Hoeyi.Extensions.Configuration</RootNamespace>
+        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
 
-    <PackageId>Hoeyi.Extensions.Configuration</PackageId>
-    <Version>1.0.3</Version>
-     <!--<VersionSuffix>1.0.3.$([System.DateTime]::UtcNow.ToString(mmff))</VersionSuffix>--> 
-    <AssemblyVersion Condition=" '$(VersionSuffix)' == '' ">0.0.0.1</AssemblyVersion>
-    <AssemblyVersion Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</AssemblyVersion>
-    <Version Condition=" '$(VersionSuffix)' == '' ">0.0.1.0</Version>
-    <Version Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</Version>
-    <Description>Custom configuration providers for protecting and persisting .NET configuration values.</Description>
-    <Copyright>2021 hoeyi</Copyright>
-    <Authors>hoeyi</Authors>
-    <Company>hoeyi</Company>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Product>Hoeyi.Extensions.Configuration</Product>
-    <ProductVersion>$(Version)</ProductVersion>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/hoeyi/Extensions.Configuration</PackageProjectUrl>
+        <PackageId>Hoeyi.Extensions.Configuration</PackageId>
+        <VersionPrefix>1.1.0</VersionPrefix>
+        <VersionSuffix>$([System.DateTime]::UtcNow.ToString(mmff))</VersionSuffix>
+        <Description>Custom configuration providers for protecting and persisting .NET configuration values.</Description>
+        <Copyright>2021 hoeyi</Copyright>
+        <Authors>hoeyi</Authors>
+        <Company>hoeyi</Company>
 
-      <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-    <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <Product>Hoeyi.Extensions.Configuration</Product>
+        <!--<ProductVersion>$(Version)</ProductVersion>-->
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+        <PackageProjectUrl>https://github.com/hoeyi/Extensions.Configuration</PackageProjectUrl>
 
-    <!-- Optional: Embed source files that are not tracked by the source control manager in the PDB -->
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
 
-    <!-- Optional: Build symbol package (.snupkg) to distribute the PDB containing Source Link -->
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <!-- Optional: Embed source files that are not tracked by the source control manager in the PDB -->
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
 
-  </PropertyGroup>
+        <!-- Optional: Build symbol package (.snupkg) to distribute the PDB containing Source Link -->
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>$(ProjectDir)Hoeyi.Configuration.Extensions.xml</DocumentationFile>
-  </PropertyGroup>
+    </PropertyGroup>
 
-<!-- Indicate location of license file since not present in project directory.-->
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <DocumentationFile>$(ProjectDir)Hoeyi.Configuration.Extensions.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <!-- Indicate location of license file since not present in project directory.-->
     <ItemGroup>
         <None Include="..\LICENSE.md" Pack="true" PackagePath="" />
     </ItemGroup>
 
-<!-- Ignore git and documentation files.-->
-  <ItemGroup>
-    <None Remove=".gitattributes" />
-    <None Remove=".gitignore" />
-    <None Remove="CREDITS.md" />
-    <None Remove="Hoeyi.Configuration.Extensions.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="CREDITS.md" />
-  </ItemGroup>
+    <!-- Ignore git and documentation files.-->
+    <ItemGroup>
+        <None Remove=".gitattributes" />
+        <None Remove=".gitignore" />
+        <None Remove="CREDITS.md" />
+        <None Remove="Hoeyi.Configuration.Extensions.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="CREDITS.md" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Resources\ExceptionString.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ExceptionString.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Update="Resources\ExceptionString.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>ExceptionString.resx</DependentUpon>
+        </Compile>
+    </ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Resources\ExceptionString.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ExceptionString.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Update="Resources\ExceptionString.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>ExceptionString.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+    </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="CREDITS.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+    <ItemGroup>
+        <Content Update="CREDITS.md">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
 </Project>
