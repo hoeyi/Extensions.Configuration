@@ -63,7 +63,7 @@ namespace Hoeyi.Extensions.Configuration
             else
                 return new JsonSecureWritableConfigurationProvider(
                     source: this,
-                    keyContainername: keyContainerName,
+                    keyContainerName: keyContainerName,
                     logger: logger);
         }
     }

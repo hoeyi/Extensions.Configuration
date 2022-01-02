@@ -106,7 +106,8 @@ namespace Hoeyi.Extensions.Configuration.UnitTest.Resources {
         ///        Plaint-text: {PlainString}
         ///        Cipher-text: {CipherString}
         ///        IV: {IV}
-        ///        Decyphered-text: {DecipherString}.
+        ///        Decyphered-text: {DecipherString}
+        ///        Byte-length: {ByteLength}.
         /// </summary>
         internal static string ResultInfo_EncryptDecrypt {
             get {

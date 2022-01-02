@@ -4,6 +4,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Hoeyi.Extensions.Configuration.Cryptography;
 using Hoeyi.Extensions.Configuration.UnitTest.Setup;
 using Hoeyi.Extensions.Configuration.UnitTest.Resources;
+using System;
+using System.Text;
 
 namespace Hoeyi.Extensions.Configuration.UnitTest
 {
@@ -60,11 +62,13 @@ namespace Hoeyi.Extensions.Configuration.UnitTest
                 aesKey: aesKey,
                 out string aesIV);
 
-            var decryptedText = AesWorker.Decrypt(
+            var decipherText = AesWorker.Decrypt(
                 cipherText: cipherText,
                 aesKey: aesKey,
                 aesIV: aesIV);
-            
+
+            int byteCount = Encoding.Unicode.GetByteCount(plainText);
+
             ResultCode resultCode;
             try
             {
@@ -74,9 +78,10 @@ namespace Hoeyi.Extensions.Configuration.UnitTest
                     plainText,
                     cipherText,
                     aesIV,
-                    decryptedText);
+                    decipherText,
+                    byteCount);
 
-                Assert.AreEqual(plainText, decryptedText);
+                Assert.AreEqual(plainText, decipherText);
 
                 resultCode = ResultCode.PASSED;
                 Global.Logger.LogInformation(InformationString.Result_General,
@@ -113,6 +118,49 @@ namespace Hoeyi.Extensions.Configuration.UnitTest
             {
                 Assert.AreNotEqual(cipher1, cipher2);
                 Assert.AreNotEqual(iv1, iv2);
+
+                resultCode = ResultCode.PASSED;
+                Global.Logger.LogInformation(InformationString.Result_General,
+                    EntryType.RESULT, MethodBase.GetCurrentMethod().Name, resultCode);
+            }
+            catch (UnitTestAssertException)
+            {
+                resultCode = ResultCode.FAILED;
+                Global.Logger.LogInformation(InformationString.Result_General,
+                    EntryType.RESULT, MethodBase.GetCurrentMethod().Name, resultCode);
+                throw;
+            }
+        }
+
+        [TestMethod]
+        public void AesEncrypt_InputStringLoremIpsum_YieldsOriginalString()
+        {
+            string aesKey = AesWorker.GenerateKey(keySize: 256);
+
+            string plainText = Global.LoremIpsum(
+                minimumWords: default,
+                maximumWords: 100,
+                minimumSentences: 1,
+                maximumSentences: 10,
+                paragraphCount: 2);
+
+            string cipherText = AesWorker.Encrypt(plainText, aesKey, out string aesIV);
+            string decipherText = AesWorker.Decrypt($"{aesIV}{cipherText}", aesKey);
+            int byteCount = Encoding.Unicode.GetByteCount(plainText);
+
+            ResultCode resultCode;
+            try
+            {
+                Global.Logger.LogInformation(InformationString.ResultInfo_EncryptDecrypt,
+                    EntryType.RESULTINFO,
+                    MethodBase.GetCurrentMethod().Name,
+                    plainText,
+                    cipherText,
+                    aesIV,
+                    decipherText,
+                    byteCount);
+
+                Assert.AreEqual(plainText, decipherText);
 
                 resultCode = ResultCode.PASSED;
                 Global.Logger.LogInformation(InformationString.Result_General,

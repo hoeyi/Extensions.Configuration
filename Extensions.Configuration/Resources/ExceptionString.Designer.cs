@@ -70,6 +70,15 @@ namespace Hoeyi.Extensions.Configuration.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The key container has not been set..
+        /// </summary>
+        internal static string EncryptionProvider_KeyContainerNotSet {
+            get {
+                return ResourceManager.GetString("EncryptionProvider.KeyContainerNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The configuration provider has no encryption key..
         /// </summary>
         internal static string EncryptionProvider_KeyNotSet {
