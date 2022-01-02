@@ -139,7 +139,8 @@
         Plaint-text: {PlainString}
         Cipher-text: {CipherString}
         IV: {IV}
-        Decyphered-text: {DecipherString}</value>
+        Decyphered-text: {DecipherString}
+        Byte-length: {ByteLength}</value>
   </data>
   <data name="ResultInfo.KeyPair" xml:space="preserve">
     <value>[{EntryType}] {Test}

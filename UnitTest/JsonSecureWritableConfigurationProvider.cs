@@ -52,7 +52,7 @@ namespace Hoeyi.Extensions.Configuration.UnitTest
         {
             var config = BuildConfiguration();
             string testValue = "Test secured value.";
-            string testPropertyKey = nameof(RotateKey_SubsequentLoad_YieldsMatchingString);
+            string testPropertyKey = "PROPERTY";
             config[testPropertyKey] = testValue;
             config.Commit();
 
