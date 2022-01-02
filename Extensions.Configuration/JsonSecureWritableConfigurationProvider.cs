@@ -1,23 +1,68 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.Logging;
 using Hoeyi.Extensions.Configuration.Cryptography;
 using Hoeyi.Extensions.Configuration.Resources;
+using Microsoft.Extensions.Logging;
 
 namespace Hoeyi.Extensions.Configuration
 {
-    class JsonSecureWritableConfigurationProvider : 
+    class JsonSecureWritableConfigurationProvider :
         JsonWritableConfigurationProvider, IWritableConfigurationProvider, IRSAProtectedConfigurationProvider
     {
         private RSAKeyStore rsaKeyStore;
         private readonly ILogger logger;
-        private const string SecretKeyParameter = "_file:AesKeyCipher";
-        private const string KeyContainerParameter = "_file:RsaKeyContainer";
-        private readonly string[] reservedKeys = new string[]
+        private const string _AesKeyCipherAddress = "_file:AesKeyCipher";
+        public const string _RsaKeyContainerAddress = "_file:RsaKeyContainer";
+
+        private readonly IReadOnlyCollection<string> plainTextSettings = new string[]
         {
-            SecretKeyParameter,
-            KeyContainerParameter
+            _RsaKeyContainerAddress
         };
+
+        /// <summary>
+        /// Configuration setting keys that are kept private.
+        /// Calls for the values of these keys should be ignored.
+        /// </summary>
+        private readonly IReadOnlyCollection<string> privateSettings = new string[]
+        {
+            _AesKeyCipherAddress
+        };
+
+        /// <summary>
+        /// Settings whose values are protected by the RSA public/private key pair 
+        /// represented by the setting at 
+        /// </summary>
+        private readonly IReadOnlyCollection<string> rsaProtectedSettings = new string[]
+        {
+            _AesKeyCipherAddress,
+        };
+
+        /// <summary>
+        /// Configuration setting keys that are assignable only if null.
+        /// </summary>
+        private readonly IReadOnlyCollection<string> readonlyKeys = new string[]
+        {
+            _RsaKeyContainerAddress
+        };
+
+        /// <summary>
+        /// Gets the keys for settings not protected by symmetric encryption.
+        /// </summary>
+        private IReadOnlyCollection<string> NonAesProtectedSettings
+        {
+            get
+            {
+                return rsaProtectedSettings.Concat(plainTextSettings).ToList();
+            }
+        }
+
+        public JsonSecureWritableConfigurationProvider(
+            JsonWritableConfigurationSource source, ILogger logger)
+            : base(source)
+        {
+            this.logger = logger;
+        }
 
         /// <summary>
         /// Creates a new <see cref="JsonSecureWritableConfigurationProvider"/> for values held 
@@ -53,11 +98,20 @@ namespace Hoeyi.Extensions.Configuration
         }
 
         /// <summary>
-        /// Gets the name of the RSA key container used by this provider. 
+        /// Gets the current <see cref="RSAKeyStore"/> for this provider. A new 
+        /// instance is created if the value is null.
         /// </summary>
-        public string KeyContainerName
+        private RSAKeyStore RSAKeyStore
         {
-            get { return rsaKeyStore.KeyContainerName; }
+            get
+            {
+                if(!Data.ContainsKey(_RsaKeyContainerAddress))
+                    throw new InvalidOperationException(
+                        ExceptionString.EncryptionProvider_KeyContainerNotSet);
+
+                rsaKeyStore ??= new RSAKeyStore(Data[_RsaKeyContainerAddress]);
+                return rsaKeyStore;
+            }   
         }
 
         /// <summary>
@@ -66,7 +120,7 @@ namespace Hoeyi.Extensions.Configuration
         /// <returns>True if the operation is successful, else false.</returns>
         public bool DeleteKey()
         {
-            return rsaKeyStore.DeleteKeyContainer();
+            return RSAKeyStore.DeleteKeyContainer();
         }
 
         /// <summary>
@@ -84,13 +138,13 @@ namespace Hoeyi.Extensions.Configuration
 
             try
             {
-                if (base.TryGet(SecretKeyParameter, out string encryptedCurrentKey))
+                if (base.TryGet(_AesKeyCipherAddress, out string encryptedCurrentKey))
                 {
                     string encryptedNewKey = newKeyStore.Encrypt(AesWorker.GenerateKey());
 
-                    foreach (var keypair in Data.Where(kp => !reservedKeys.Contains(kp.Key)))
+                    foreach (var keypair in Data.Where(kp => !NonAesProtectedSettings.Contains(kp.Key)))
                     {
-                        string text = AesWorker.Decrypt(keypair.Value, rsaKeyStore.Decrypt(encryptedCurrentKey));
+                        string text = AesWorker.Decrypt(keypair.Value, RSAKeyStore.Decrypt(encryptedCurrentKey));
                         string newCipherText = AesWorker.Encrypt(
                             plainText: text,
                             aesKey: newKeyStore.Decrypt(encryptedNewKey),
@@ -99,13 +153,13 @@ namespace Hoeyi.Extensions.Configuration
                         Data[keypair.Key] = $"{aesIV}{newCipherText}";
                     }
 
-                    Data[SecretKeyParameter] = encryptedNewKey;
-                    Data[KeyContainerParameter] = newKeyStore.KeyContainerName;
+                    Data[_AesKeyCipherAddress] = encryptedNewKey;
+                    Data[_RsaKeyContainerAddress] = newKeyStore.KeyContainerName;
                     Commit();
 
-                    if (!rsaKeyStore.DeleteKeyContainer())
+                    if (!RSAKeyStore.DeleteKeyContainer())
                         throw new InvalidOperationException(message:
-                            string.Format(ExceptionString.KeyStore_DeleteKeyFailed, rsaKeyStore.KeyContainerName));
+                            string.Format(ExceptionString.KeyStore_DeleteKeyFailed, RSAKeyStore.KeyContainerName));
 
                     rsaKeyStore = newKeyStore;
 
@@ -130,35 +184,61 @@ namespace Hoeyi.Extensions.Configuration
 
         public override void Set(string key, string value)
         {
-            if (reservedKeys.Contains(key))
+
+            if(readonlyKeys.Contains(key) && base.TryGet(key, out string _))
+            {
+                throw new InvalidOperationException(
+                    string.Format(ExceptionString.EncryptionProvider_SettingIsReadOnly, key));
+            }
+
+            if(plainTextSettings.Contains(key))
+            {
+                base.Set(key, value);
                 return;
+            }
+
+            if (!SecretKeyInitialized())
+                throw new InvalidOperationException();
             
-            // If SecretKey has not been set, generate and save to disk.
-            if(!Data.ContainsKey(SecretKeyParameter))
+            if (rsaProtectedSettings.Contains(key))
             {
-                base.Set(
-                    key: SecretKeyParameter,
-                    value: rsaKeyStore.Encrypt(AesWorker.GenerateKey()));
-                Commit();
+                SetRsaProtectedValue(key, value);
+                return;
             }
-            if(!Data.ContainsKey(KeyContainerParameter))
-            {
-                base.Set(
-                    key: KeyContainerParameter,
-                    value: rsaKeyStore.KeyContainerName);
-                Commit();
-            }
-            SecureSet(key, value);
+
+            SetAesProtectedValue(key, value);
         }
 
         public override bool TryGet(string key, out string value)
         {
             value = null;
 
-            if (reservedKeys.Contains(key))
+            if (privateSettings.Contains(key))
                 return false;
 
-            if (TryGetSecure(key, out string _value))
+            if(plainTextSettings.Contains(key))
+            {
+                if (base.TryGet(key, out string plainTextValue))
+                {
+                    value = plainTextValue;
+                    return true;
+                }
+                else
+                    return false;
+            }
+
+            if(rsaProtectedSettings.Contains(key))
+            {
+                if (TryGetRsaProtectedValue(key, out string plainTextValue))
+                {
+                    value = plainTextValue;
+                    return true;
+                }
+                else
+                    return false;
+            }
+              
+            if (TryGetAesProtectedValue(key, out string _value))
             {
                 value = _value;
                 return true;
@@ -167,13 +247,13 @@ namespace Hoeyi.Extensions.Configuration
                 return false;
         }
 
-        private void SecureSet(string key, string value)
+        private void SetAesProtectedValue(string key, string value)
         {
-            if (base.TryGet(SecretKeyParameter, out string encryptedAesKey))
+            if (base.TryGet(_AesKeyCipherAddress, out string encryptedAesKey))
             {
                 string cipherText = AesWorker.Encrypt(
                     plainText: value,
-                    aesKey: rsaKeyStore.Decrypt(encryptedAesKey),
+                    aesKey: RSAKeyStore.Decrypt(encryptedAesKey),
                     out string aesIV);
 
                 base.Set(key, $"{aesIV}{cipherText}");
@@ -183,16 +263,21 @@ namespace Hoeyi.Extensions.Configuration
                     message: ExceptionString.EncryptionProvider_KeyNotSet);
         }
 
-        private bool TryGetSecure(string key, out string value)
+        private void SetRsaProtectedValue(string key, string value)
+        {
+            base.Set(key, RSAKeyStore.Encrypt(value));
+        }
+
+        private bool TryGetAesProtectedValue(string key, out string value)
         {
             value = null;
-            if (base.TryGet(SecretKeyParameter, out string encryptedAesKey))
+            if (base.TryGet(_AesKeyCipherAddress, out string encryptedAesKey))
             {
                 if (base.TryGet(key, out string encryptedValue))
                 {
                     value = AesWorker.Decrypt(
                         cipherTextWithIV: encryptedValue,
-                        aesKey: rsaKeyStore.Decrypt(encryptedAesKey));
+                        aesKey: RSAKeyStore.Decrypt(encryptedAesKey));
                     return true;
                 }
                 else
@@ -201,6 +286,45 @@ namespace Hoeyi.Extensions.Configuration
             else
                 throw new InvalidOperationException(
                     message: ExceptionString.EncryptionProvider_KeyNotSet);
+        }
+
+        private bool TryGetRsaProtectedValue(string key, out string value)
+        {
+            value = null;
+            if (base.TryGet(key, out string rsaProtectedValue))
+            {
+                value = RSAKeyStore.Decrypt(rsaProtectedValue);
+                return true;
+            }
+            else
+                return false;
+        }
+
+        private bool KeyContainerInitialized()
+        {
+            if (!base.TryGet(_RsaKeyContainerAddress, out string keyContainerName) ||
+                string.IsNullOrEmpty(keyContainerName))
+            {
+                return false;
+            }
+            else
+                return true;
+        }
+
+        private bool SecretKeyInitialized()
+        {
+
+            if(!base.TryGet(_AesKeyCipherAddress, out string encryptedAesKey) ||
+                string.IsNullOrEmpty(encryptedAesKey))
+            {
+                base.Set(
+                    key: _AesKeyCipherAddress, 
+                    value: RSAKeyStore.Encrypt(AesWorker.GenerateKey()));
+                Commit();
+                return true;
+            }
+
+            return true;
         }
     }
 }

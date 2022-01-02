@@ -11,45 +11,30 @@ namespace Hoeyi.Extensions.Configuration
     /// </summary>
     class JsonWritableConfigurationSource : JsonConfigurationSource
     {
-        private readonly string keyContainerName;
+        private readonly bool protectedSource;
         private readonly ILogger logger;
 
         /// <summary>
         /// Creates a new instance of <see cref="JsonWritableConfigurationSource"/>.
         /// </summary>
-        public JsonWritableConfigurationSource()
+        private JsonWritableConfigurationSource()
             : base()
         {
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="JsonWritableConfigurationSource"/> using 
-        /// <paramref name="keyContainerName"/> as the key container for encrypting and 
-        /// decrypting values.
+        /// Creates a new instance of <see cref="JsonWritableConfigurationSource"/>.
         /// </summary>
-        /// <param name="keyContainerName"></param>
-        public JsonWritableConfigurationSource(string keyContainerName)
+        /// <param name="useProtectedSource"></param>
+        public JsonWritableConfigurationSource(bool useProtectedSource)
             : this()
         {
-            if (string.IsNullOrEmpty(keyContainerName))
-                throw new ArgumentNullException(paramName: nameof(keyContainerName));
-
-            this.keyContainerName = keyContainerName;
+            protectedSource = useProtectedSource;
         }
 
-        /// <summary>
-        /// Creates a new instance of <see cref="JsonWritableConfigurationSource"/> using 
-        /// <paramref name="keyContainerName"/> as the key container for encrypting and 
-        /// decrypting values.
-        /// </summary>
-        /// <param name="keyContainerName">The RSA key container name.</param>
-        /// <param name="logger">An <see cref="ILogger"/>.</param>
-        public JsonWritableConfigurationSource(string keyContainerName, ILogger logger)
-            : this(keyContainerName: keyContainerName)
+        public JsonWritableConfigurationSource(bool useProtectedSource, ILogger logger)
+            : this(useProtectedSource)
         {
-            if (logger is null)
-                throw new ArgumentNullException(paramName: nameof(logger));
-            
             this.logger = logger;
         }
 
@@ -57,14 +42,11 @@ namespace Hoeyi.Extensions.Configuration
         {
             FileProvider ??= builder.GetFileProvider();
 
-            // If key container is not provided then use unencrypted variant.
-            if (string.IsNullOrEmpty(keyContainerName))
-                return new JsonWritableConfigurationProvider(this);
+            // If a protected source use secure/writable provider.
+            if (protectedSource)
+                return new JsonSecureWritableConfigurationProvider(this, logger);
             else
-                return new JsonSecureWritableConfigurationProvider(
-                    source: this,
-                    keyContainerName: keyContainerName,
-                    logger: logger);
+                return new JsonWritableConfigurationProvider(this);
         }
     }
 }

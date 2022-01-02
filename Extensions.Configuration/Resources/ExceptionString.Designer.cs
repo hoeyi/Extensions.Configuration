@@ -97,6 +97,15 @@ namespace Hoeyi.Extensions.Configuration.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Configuration setting &apos;{0}&apos; cannot be assigned to; it is read-only..
+        /// </summary>
+        internal static string EncryptionProvider_SettingIsReadOnly {
+            get {
+                return ResourceManager.GetString("EncryptionProvider.SettingIsReadOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The container &apos;{0}&apos; could not be saved to provider &apos;{1}&apos;..
         /// </summary>
         internal static string KeyStore_CreateKeyFailed {

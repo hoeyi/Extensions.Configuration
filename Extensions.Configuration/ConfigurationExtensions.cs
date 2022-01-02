@@ -61,8 +61,18 @@ namespace Hoeyi.Extensions.Configuration
                 typeof(IRSAProtectedConfigurationProvider)
                     .IsAssignableFrom(
                         p.GetType()))
+                    .Where(p =>
+                    {
+                        if (p.TryGet(
+                            key: JsonSecureWritableConfigurationProvider._RsaKeyContainerAddress, 
+                            value: out string keyContainer) &&
+                            keyContainer == keyContainerName)
+                            return true;
+                        else
+                            return false;
+                    })
                     .Cast<IRSAProtectedConfigurationProvider>()
-                    .Where(p => p.KeyContainerName == keyContainerName)
+                    //.Where(p => p.KeyContainerName == keyContainerName)
                     .ToList();
 
             if (rsaProviders.Count == 0)
@@ -88,7 +98,7 @@ namespace Hoeyi.Extensions.Configuration
             bool optional = true,
             bool reloadOnChange = true)
         {
-            var jsonSource = new JsonWritableConfigurationSource()
+            var jsonSource = new JsonWritableConfigurationSource(useProtectedSource: false)
             {
                 FileProvider = null,
                 Path = path,
@@ -107,58 +117,32 @@ namespace Hoeyi.Extensions.Configuration
         /// <param name="builder">The <see cref="IConfigurationBuilder"/> to add to.</param>
         /// <param name="path">Path relative to the base path stored in
         /// <see cref="IConfigurationBuilder.Properties"/> of <paramref name="builder"/>.</param>
-        /// <param name="encryptionKeyContainer">The name of an RSA key container to use for asymmetric encryption.</param>
+        /// <param name="logger">An <see cref="ILogger"/>.</param>
         /// <param name="optional">Whether the file is optional.</param>
         /// <param name="reloadOnChange">Whether the configuration should be reloaded if the file changes.</param>
         /// <returns>The <see cref="IConfigurationBuilder"/>.</returns>
         public static IConfigurationBuilder AddSecureJsonWritable(
             this IConfigurationBuilder builder,
             string path,
-            string encryptionKeyContainer,
+            ILogger logger = null,
             bool optional = false,
             bool reloadOnChange = true)
         {
-            var jsonSource = new JsonWritableConfigurationSource(keyContainerName: encryptionKeyContainer)
-            {
-                FileProvider = null,
-                Path = path,
-                Optional = optional,
-                ReloadOnChange = reloadOnChange
-            };
-
-            jsonSource.ResolveFileProvider();
-
-            return builder.Add(source: jsonSource);
-        }
-
-        /// <summary>
-        /// Adds writable JSON configuration source with encrypted values to <paramref name="builder"/>.
-        /// </summary>
-        /// <param name="builder">The <see cref="IConfigurationBuilder"/> to add to.</param>
-        /// <param name="path">Path relative to the base path stored in
-        /// <see cref="IConfigurationBuilder.Properties"/> of <paramref name="builder"/>.</param>
-        /// <param name="encryptionKeyContainer">The name of an RSA key container to use for asymmetric encryption.</param>
-        /// <param name="logger">An <see cref="ILogger"/>..</param>
-        /// <param name="optional">Whether the file is optional.</param>
-        /// <param name="reloadOnChange">Whether the configuration should be reloaded if the file changes.</param>
-        /// <returns>The <see cref="IConfigurationBuilder"/>.</returns>
-        public static IConfigurationBuilder AddSecureJsonWritable(
-            this IConfigurationBuilder builder,
-            string path,
-            string encryptionKeyContainer,
-            ILogger logger,
-            bool optional = false,
-            bool reloadOnChange = true)
-        {
-            var jsonSource = new JsonWritableConfigurationSource(
-                    keyContainerName: encryptionKeyContainer,
-                    logger: logger)
-            {
-                FileProvider = null,
-                Path = path,
-                Optional = optional,
-                ReloadOnChange = reloadOnChange
-            };
+            var jsonSource = logger is null ?
+                new JsonWritableConfigurationSource(useProtectedSource: true, logger)
+                {
+                    FileProvider = null,
+                    Path = path,
+                    Optional = optional,
+                    ReloadOnChange = reloadOnChange
+                } :
+                new JsonWritableConfigurationSource(useProtectedSource: true)
+                {
+                    FileProvider = null,
+                    Path = path,
+                    Optional = optional,
+                    ReloadOnChange = reloadOnChange
+                };
 
             jsonSource.ResolveFileProvider();
 

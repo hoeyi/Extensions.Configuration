@@ -130,6 +130,10 @@
   <data name="EncryptionProvider.RotateKeyFailed" xml:space="preserve">
     <value>Failed to rotate asymmetric and symmetric keys.</value>
   </data>
+  <data name="EncryptionProvider.SettingIsReadOnly" xml:space="preserve">
+    <value>Configuration setting '{0}' cannot be assigned to; it is read-only.</value>
+    <comment>{0} is the setting key</comment>
+  </data>
   <data name="KeyStore.CreateKeyFailed" xml:space="preserve">
     <value>The container '{0}' could not be saved to provider '{1}'.</value>
     <comment>{0} is the name of the key container.

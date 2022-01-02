@@ -55,7 +55,7 @@
 
   <ItemGroup>
     <None Update="appsettings.ciphertext.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

@@ -13,7 +13,7 @@ namespace Hoeyi.Extensions.Configuration.UnitTest
     [TestClass]
     public class JsonSecureWritableConfigurationProvider
     {
-        private const string encryptionKeyParameter = "Encryption:SecretKey";
+        private const string encryptionKeyParameter = "_file:AesKeyCipher";
         private readonly IReadOnlyDictionary<string, string> testPairs =
             new Dictionary<string, string>()
             {
@@ -139,19 +139,25 @@ namespace Hoeyi.Extensions.Configuration.UnitTest
         {
             string name = Global.AssemblyName;
             string version = defaultKey ? "v1" : "v2";
+            string keyContainerName = $"{name}.{version}";
 
-            return new ConfigurationBuilder()
+            var config = new ConfigurationBuilder()
                     .AddSecureJsonWritable(
-                        path: "appsettings.ciphertext.json",
+                        path: $"appsettings.ciphertext.json",
                         optional: false,
                         reloadOnChange: true,
-                        encryptionKeyContainer:$"{name}.{version}" ,
                         logger: Global.Logger)
                     .Build();
+
+            if (config["_file:RsaKeyContainer"] is null)
+                config["_file:RsaKeyContainer"] = $"{name}.{version}";
+
+            return config;
         }
 
         private static void ResetConfiguration()
         {
+            //return;
             File.WriteAllText("appsettings.ciphertext.json", "{\n}");
             Global.Logger.LogInformation(InformationString.Entry_General, 
                 EntryType.ACTION,
