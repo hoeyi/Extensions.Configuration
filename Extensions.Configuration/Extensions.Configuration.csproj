@@ -12,7 +12,7 @@
         <BuildNumber Condition="$(BuildNumber) == ''">0</BuildNumber>
         <!--Comment out build number to avoid auto-updating project build properties. Uncomment for release builds only.-->
         <!--<BuildNumber>$([System.DateTime]::UtcNow.ToString(mmff))</BuildNumber>-->
-        <VersionPrefix>1.1.0</VersionPrefix>
+        <VersionPrefix>1.1.1</VersionPrefix>
         <Version>$(VersionPrefix).$(BuildNumber)</Version>
         <Description>Custom configuration providers for protecting and persisting .NET configuration values.</Description>
         <Copyright>2021 hoeyi</Copyright>
