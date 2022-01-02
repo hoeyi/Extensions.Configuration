@@ -68,6 +68,14 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Compile Update="Resources\ExceptionString.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>ExceptionString.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
         <Content Update="CREDITS.md">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>

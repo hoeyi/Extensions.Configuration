@@ -121,6 +121,9 @@
     <value>{0}-bit key size is invalid for this provider. </value>
     <comment>{0} is the key size in bits.</comment>
   </data>
+  <data name="EncryptionProvider.KeyContainerNotSet" xml:space="preserve">
+    <value>The key container has not been set.</value>
+  </data>
   <data name="EncryptionProvider.KeyNotSet" xml:space="preserve">
     <value>The configuration provider has no encryption key.</value>
   </data>

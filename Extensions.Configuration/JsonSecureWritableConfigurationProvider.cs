@@ -11,18 +11,24 @@ namespace Hoeyi.Extensions.Configuration
     {
         private RSAKeyStore rsaKeyStore;
         private readonly ILogger logger;
-        private const string SecretKeyParameter = "Encryption:SecretKey";
+        private const string SecretKeyParameter = "_file:AesKeyCipher";
+        private const string KeyContainerParameter = "_file:RsaKeyContainer";
+        private readonly string[] reservedKeys = new string[]
+        {
+            SecretKeyParameter,
+            KeyContainerParameter
+        };
 
         /// <summary>
         /// Creates a new <see cref="JsonSecureWritableConfigurationProvider"/> for values held 
         /// as encrypted values except when accessed.
         /// </summary>
         /// <param name="source">A <see cref="JsonWritableConfigurationSource"/>.</param>
-        /// <param name="keyContainername">The RSA key container name.</param>
+        /// <param name="keyContainerName">The RSA key container name.</param>
         /// <param name="logger">An <see cref="ILogger"/>.</param>
         public JsonSecureWritableConfigurationProvider(
-            JsonWritableConfigurationSource source, string keyContainername, ILogger logger)
-            : this(source: source, new RSAKeyStore(keyContainerName: keyContainername, logger: logger))
+            JsonWritableConfigurationSource source, string keyContainerName, ILogger logger)
+            : this(source, new RSAKeyStore(keyContainerName, logger))
         {
             this.logger = logger;
         }
@@ -54,7 +60,6 @@ namespace Hoeyi.Extensions.Configuration
             get { return rsaKeyStore.KeyContainerName; }
         }
 
-
         /// <summary>
         /// Deletes the current key attached to this <see cref="IRSAProtectedConfigurationProvider"/>.
         /// </summary>
@@ -82,7 +87,8 @@ namespace Hoeyi.Extensions.Configuration
                 if (base.TryGet(SecretKeyParameter, out string encryptedCurrentKey))
                 {
                     string encryptedNewKey = newKeyStore.Encrypt(AesWorker.GenerateKey());
-                    foreach (var keypair in Data.Where(kp => kp.Key != SecretKeyParameter))
+
+                    foreach (var keypair in Data.Where(kp => !reservedKeys.Contains(kp.Key)))
                     {
                         string text = AesWorker.Decrypt(keypair.Value, rsaKeyStore.Decrypt(encryptedCurrentKey));
                         string newCipherText = AesWorker.Encrypt(
@@ -94,6 +100,7 @@ namespace Hoeyi.Extensions.Configuration
                     }
 
                     Data[SecretKeyParameter] = encryptedNewKey;
+                    Data[KeyContainerParameter] = newKeyStore.KeyContainerName;
                     Commit();
 
                     if (!rsaKeyStore.DeleteKeyContainer())
@@ -123,15 +130,22 @@ namespace Hoeyi.Extensions.Configuration
 
         public override void Set(string key, string value)
         {
-            if (key == SecretKeyParameter)
+            if (reservedKeys.Contains(key))
                 return;
             
-            // If SecretKey has been set, generate and saved to disk.
+            // If SecretKey has not been set, generate and save to disk.
             if(!Data.ContainsKey(SecretKeyParameter))
             {
                 base.Set(
                     key: SecretKeyParameter,
                     value: rsaKeyStore.Encrypt(AesWorker.GenerateKey()));
+                Commit();
+            }
+            if(!Data.ContainsKey(KeyContainerParameter))
+            {
+                base.Set(
+                    key: KeyContainerParameter,
+                    value: rsaKeyStore.KeyContainerName);
                 Commit();
             }
             SecureSet(key, value);
@@ -140,8 +154,11 @@ namespace Hoeyi.Extensions.Configuration
         public override bool TryGet(string key, out string value)
         {
             value = null;
-            
-            if (key != SecretKeyParameter && TryGetSecure(key, out string _value))
+
+            if (reservedKeys.Contains(key))
+                return false;
+
+            if (TryGetSecure(key, out string _value))
             {
                 value = _value;
                 return true;
