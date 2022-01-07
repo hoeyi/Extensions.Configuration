@@ -2,11 +2,19 @@
 `Hoeyi.Extensions.Configuration` extends the [.NET Configuration API](https://docs.microsoft.com/en-us/dotnet/core/extensions/configuration) by adding custom providers for writing configurations to disk and encrypting values in-memory and at rest. The cryptography implementation uses symmetric data encryption with keys protected by RSA public/private keypairs private to the user. See [Encrypting Data | Microsoft Docs](https://docs.microsoft.com/en-us/dotnet/standard/security/encrypting-data) and [Key Storage and Retrieval | Microsoft Docs](https://docs.microsoft.com/en-us/windows/win32/seccng/key-storage-and-retrieval#key-directories-and-files) for details. Non-Windows platforms are not supported at this time.
 
 * [Building Project](#building-project)
+* [Reserved Keys](#reserved-keys)
 * [Code Examples](#code-examples)
 * [Commit Message Guidelines](#commit-message-guidelines)
 
+<br/>
+
 ## Building Project ##
 By default, the project `$(BuildNumber)` property is set to zero. Uncomment the line `Extensions.Configuration.csproj` to allow auto-assignment of the build number. Once the build is complete, revert the change to the `$(BuilderNumber)` property assignment.
+
+<br/>
+
+## Reserved Keys ##
+Elements in the root `_file` are reserved by `JsonSecureWritableConfigurationProvider` for internal use.
 
 <br/>
 
