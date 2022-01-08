@@ -1,11 +1,11 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Hoeyi.Extensions.Configuration.UnitTest.Setup;
-using Hoeyi.Extensions.Configuration.UnitTest.Resources;
+using Ichosoft.Extensions.Configuration.UnitTest.Setup;
+using Ichosoft.Extensions.Configuration.UnitTest.Resources;
 using Hoeyi.Extensions.Shared;
 
-namespace Hoeyi.Extensions.Configuration.UnitTest
+namespace Ichosoft.Extensions.Configuration.UnitTest
 {
     [TestClass]
     public class StringExtension

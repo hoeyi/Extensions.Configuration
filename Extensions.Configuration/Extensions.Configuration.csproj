@@ -3,12 +3,12 @@
     <PropertyGroup>
 
         <TargetFramework>net5.0</TargetFramework>
-        <AssemblyName>Hoeyi.Extensions.Configuration</AssemblyName>
-        <RootNamespace>Hoeyi.Extensions.Configuration</RootNamespace>
+        <AssemblyName>Ichosoft.Extensions.Configuration</AssemblyName>
+        <RootNamespace>Ichosoft.Extensions.Configuration</RootNamespace>
         <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
         <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
 
-        <PackageId>Hoeyi.Extensions.Configuration</PackageId>
+        <PackageId>Ichosoft.Extensions.Configuration</PackageId>
         <BuildNumber Condition="$(BuildNumber) == ''">0</BuildNumber>
         <!--Comment out build number to avoid auto-updating project build properties. Uncomment for release builds only.-->
         <!--<BuildNumber>$([System.DateTime]::UtcNow.ToString(mmff))</BuildNumber>-->
@@ -20,7 +20,7 @@
         <Company>hoeyi</Company>
 
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-        <Product>Hoeyi.Extensions.Configuration</Product>
+        <Product>Ichosoft.Extensions.Configuration</Product>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <PackageProjectUrl>https://github.com/hoeyi/Extensions.Configuration</PackageProjectUrl>

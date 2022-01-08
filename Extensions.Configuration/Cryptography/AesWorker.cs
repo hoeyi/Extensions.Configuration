@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 
-namespace Hoeyi.Extensions.Configuration.Cryptography
+namespace Ichosoft.Extensions.Configuration.Cryptography
 {
     /// <summary>
     /// Contains methods for working with AES encryption.

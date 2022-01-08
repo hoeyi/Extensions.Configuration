@@ -3,10 +3,10 @@ using System.Reflection;
 using System.Text;
 using Microsoft.Extensions.Logging;
 
-namespace Hoeyi.Extensions.Configuration.UnitTest.Setup
+namespace Ichosoft.Extensions.Configuration.UnitTest.Setup
 {
     /// <summary>
-    /// Contains variables scoped to the Hoeyi.Extensions.Configuration.UnitTest assembly. 
+    /// Contains variables scoped to the Ichosoft.Extensions.Configuration.UnitTest assembly. 
     /// </summary>
     class Global
     {

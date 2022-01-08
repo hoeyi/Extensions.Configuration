@@ -5,9 +5,9 @@
 
     <IsPackable>false</IsPackable>
 
-    <AssemblyName>Hoeyi.Extensions.Configuration.UnitTest</AssemblyName>
+    <AssemblyName>Ichosoft.Extensions.Configuration.UnitTest</AssemblyName>
 
-    <RootNamespace>Hoeyi.Extensions.Configuration.UnitTest</RootNamespace>
+    <RootNamespace>Ichosoft.Extensions.Configuration.UnitTest</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

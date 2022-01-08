@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Hoeyi.Extensions.Configuration.UnitTest.Setup;
-using Hoeyi.Extensions.Configuration.UnitTest.Resources;
+using Ichosoft.Extensions.Configuration.UnitTest.Setup;
+using Ichosoft.Extensions.Configuration.UnitTest.Resources;
 
-namespace Hoeyi.Extensions.Configuration.UnitTest
+namespace Ichosoft.Extensions.Configuration.UnitTest
 {
     [TestClass]
     public class JsonSecureWritableConfigurationProvider

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Hoeyi.Extensions.Configuration.Cryptography;
-using Hoeyi.Extensions.Configuration.Resources;
+using Ichosoft.Extensions.Configuration.Cryptography;
+using Ichosoft.Extensions.Configuration.Resources;
 using Microsoft.Extensions.Logging;
 
-namespace Hoeyi.Extensions.Configuration
+namespace Ichosoft.Extensions.Configuration
 {
     /// <summary>
     /// A JSON file configuration provider derived from <see cref="JsonWritableConfigurationProvider"/>,

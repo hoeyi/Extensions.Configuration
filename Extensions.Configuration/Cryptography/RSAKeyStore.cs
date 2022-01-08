@@ -2,10 +2,10 @@
 using System.Text;
 using System.Security.Cryptography;
 using Microsoft.Extensions.Logging;
-using Hoeyi.Extensions.Configuration.Resources;
+using Ichosoft.Extensions.Configuration.Resources;
 using Hoeyi.Extensions.Shared;
 
-namespace Hoeyi.Extensions.Configuration.Cryptography
+namespace Ichosoft.Extensions.Configuration.Cryptography
 {
     /// <summary>
     /// Represents a means to access an RSA public/private key pair for encrypting/decrypting values.
