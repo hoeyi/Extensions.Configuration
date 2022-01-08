@@ -13,7 +13,7 @@ namespace Hoeyi.Extensions.Configuration
         private RSAKeyStore rsaKeyStore;
         private readonly ILogger logger;
         private const string _AesKeyCipherAddress = "_file:AesKeyCipher";
-        public const string _RsaKeyContainerAddress = "_file:RsaKeyContainer";
+        private const string _RsaKeyContainerAddress = "_file:RsaKeyContainer";
 
         private readonly IReadOnlyCollection<string> plainTextSettings = new string[]
         {
@@ -105,13 +105,21 @@ namespace Hoeyi.Extensions.Configuration
         {
             get
             {
-                if(!Data.ContainsKey(_RsaKeyContainerAddress))
+                if(!base.TryGet(_RsaKeyContainerAddress, out string keyContainer))
                     throw new InvalidOperationException(
                         ExceptionString.EncryptionProvider_KeyContainerNotSet);
 
-                rsaKeyStore ??= new RSAKeyStore(Data[_RsaKeyContainerAddress]);
+                rsaKeyStore ??= new RSAKeyStore(keyContainer);
                 return rsaKeyStore;
             }   
+        }
+
+        /// <summary>
+        /// Gets the name of RSA key container for this provider.
+        /// </summary>
+        public string KeyContainerName
+        {
+            get{ return base.TryGet(_RsaKeyContainerAddress, out string @value) ? @value : null; }
         }
 
         /// <summary>
@@ -298,17 +306,6 @@ namespace Hoeyi.Extensions.Configuration
             }
             else
                 return false;
-        }
-
-        private bool KeyContainerInitialized()
-        {
-            if (!base.TryGet(_RsaKeyContainerAddress, out string keyContainerName) ||
-                string.IsNullOrEmpty(keyContainerName))
-            {
-                return false;
-            }
-            else
-                return true;
         }
 
         private bool SecretKeyInitialized()

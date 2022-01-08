@@ -6,6 +6,11 @@
     interface IRSAProtectedConfigurationProvider
     {
         /// <summary>
+        /// Gets the name of RSA key contianer for this provider.
+        /// </summary>
+        public string KeyContainerName { get; }
+
+        /// <summary>
         /// Deletes the current key attached to this <see cref="IRSAProtectedConfigurationProvider"/>.
         /// </summary>
         /// <returns>True if the operation is successful, else false.</returns>

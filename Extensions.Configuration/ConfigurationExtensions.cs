@@ -19,7 +19,9 @@ namespace Hoeyi.Extensions.Configuration
         public static void Commit(this IConfigurationRoot configuration)
         {
             var writableProviders = configuration.Providers.Where(p =>
-                typeof(IWritableConfigurationProvider).IsAssignableFrom(p.GetType())).Cast<IWritableConfigurationProvider>().ToArray();
+                    typeof(IWritableConfigurationProvider)
+                    .IsAssignableFrom(p.GetType()))
+                .Cast<IWritableConfigurationProvider>().ToArray();
 
             foreach (var provider in writableProviders)
             {
@@ -36,10 +38,10 @@ namespace Hoeyi.Extensions.Configuration
         public static bool RotateKey(this IConfigurationRoot configuration, string keyContainerName)
         {
             var rsaProviders = configuration.Providers.Where(p =>
-                typeof(IRSAProtectedConfigurationProvider)
-                    .IsAssignableFrom(
-                        p.GetType()))
-                    .Cast<IRSAProtectedConfigurationProvider>().ToList();
+                    typeof(IRSAProtectedConfigurationProvider)
+                    .IsAssignableFrom(p.GetType()))
+                .Cast<IRSAProtectedConfigurationProvider>()
+                .ToList();
 
             if (rsaProviders.Count == 0)
                 return false;
@@ -58,22 +60,11 @@ namespace Hoeyi.Extensions.Configuration
         public static bool DeleteKey(this IConfigurationRoot configuration, string keyContainerName)
         {
             var rsaProviders = configuration.Providers.Where(p =>
-                typeof(IRSAProtectedConfigurationProvider)
-                    .IsAssignableFrom(
-                        p.GetType()))
-                    .Where(p =>
-                    {
-                        if (p.TryGet(
-                            key: JsonSecureWritableConfigurationProvider._RsaKeyContainerAddress, 
-                            value: out string keyContainer) &&
-                            keyContainer == keyContainerName)
-                            return true;
-                        else
-                            return false;
-                    })
-                    .Cast<IRSAProtectedConfigurationProvider>()
-                    //.Where(p => p.KeyContainerName == keyContainerName)
-                    .ToList();
+                    typeof(IRSAProtectedConfigurationProvider)
+                    .IsAssignableFrom(p.GetType()))
+                .Cast<IRSAProtectedConfigurationProvider>()
+                .Where(p => p.KeyContainerName == keyContainerName)
+                .ToList();
 
             if (rsaProviders.Count == 0)
                 return false;
