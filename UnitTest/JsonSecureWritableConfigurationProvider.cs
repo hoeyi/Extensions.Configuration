@@ -139,7 +139,6 @@ namespace Hoeyi.Extensions.Configuration.UnitTest
         {
             string name = Global.AssemblyName;
             string version = defaultKey ? "v1" : "v2";
-            string keyContainerName = $"{name}.{version}";
 
             var config = new ConfigurationBuilder()
                     .AddSecureJsonWritable(
