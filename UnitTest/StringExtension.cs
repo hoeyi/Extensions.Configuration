@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ichosoft.Extensions.Configuration.UnitTest.Setup;
 using Ichosoft.Extensions.Configuration.UnitTest.Resources;
-using Hoeyi.Extensions.Shared;
+using Ichosoft.Extensions.Common;
 
 namespace Ichosoft.Extensions.Configuration.UnitTest
 {

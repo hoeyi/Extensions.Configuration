@@ -3,7 +3,7 @@ using System.Text;
 using System.Security.Cryptography;
 using Microsoft.Extensions.Logging;
 using Ichosoft.Extensions.Configuration.Resources;
-using Hoeyi.Extensions.Shared;
+using Ichosoft.Extensions.Common;
 
 namespace Ichosoft.Extensions.Configuration.Cryptography
 {
