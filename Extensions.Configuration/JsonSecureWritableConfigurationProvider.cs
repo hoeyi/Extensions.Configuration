@@ -7,6 +7,10 @@ using Microsoft.Extensions.Logging;
 
 namespace Hoeyi.Extensions.Configuration
 {
+    /// <summary>
+    /// A JSON file configuration provider derived from <see cref="JsonWritableConfigurationProvider"/>,
+    /// which encrypts configuration values in membory and at-rest.
+    /// </summary>
     class JsonSecureWritableConfigurationProvider :
         JsonWritableConfigurationProvider, IWritableConfigurationProvider, IRSAProtectedConfigurationProvider
     {
@@ -192,7 +196,7 @@ namespace Hoeyi.Extensions.Configuration
 
         public override void Set(string key, string value)
         {
-
+            
             if(readonlyKeys.Contains(key) && base.TryGet(key, out string _))
             {
                 throw new InvalidOperationException(
@@ -205,14 +209,14 @@ namespace Hoeyi.Extensions.Configuration
                 return;
             }
 
-            if (!SecretKeyInitialized())
-                throw new InvalidOperationException();
-            
             if (rsaProtectedSettings.Contains(key))
             {
                 SetRsaProtectedValue(key, value);
                 return;
             }
+            
+            if (!SecretKeyInitialized())
+                throw new InvalidOperationException();
 
             SetAesProtectedValue(key, value);
         }
