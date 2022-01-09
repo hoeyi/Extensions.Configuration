@@ -297,7 +297,7 @@ namespace Ichosoft.Extensions.Configuration
             }
             else
                 throw new InvalidOperationException(
-                    message: ExceptionString.EncryptionProvider_SymmetricProviderNotSet);
+                    string.Format(ExceptionString.EncryptionProvider_ProviderNotSet, nameof(AESProvider)));
         }
 
         private bool TryGetRsaProtectedValue(string key, out string value)

@@ -54,12 +54,12 @@
             <param name="reloadOnChange">Whether the configuration should be reloaded if the file changes.</param>
             <returns>The <see cref="T:Microsoft.Extensions.Configuration.IConfigurationBuilder"/>.</returns>
         </member>
-        <member name="T:Ichosoft.Extensions.Configuration.Cryptography.AesWorker">
+        <member name="T:Ichosoft.Extensions.Configuration.Cryptography.AESProvider">
             <summary>
             Contains methods for working with AES encryption.
             </summary>
         </member>
-        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.AesWorker.GenerateKey(System.Int32)">
+        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.AESProvider.GenerateKey(System.Int32)">
             <summary>
             Generates a new symmetric key for encryption and decryption.
             </summary>
@@ -67,7 +67,7 @@
             AES values are 128, 192, 256. The default is 256.</param>
             <returns>The secret key with length of <paramref name="keySize"/> bits.</returns>
         </member>
-        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.AesWorker.Encrypt(System.String,System.String,System.String@)">
+        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.AESProvider.Encrypt(System.String,System.String,System.String@)">
             <summary>
             Encrypts the input string using the provided key.
             </summary>
@@ -76,7 +76,7 @@
             <param name="aesIV">The IV generated when the data was encrypted.</param>
             <returns>The encrypted text.</returns>
         </member>
-        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.AesWorker.Decrypt(System.String,System.String,System.String)">
+        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.AESProvider.Decrypt(System.String,System.String,System.String)">
             <summary>
             Decrypts the input string using the provided key and IV.
             </summary>
@@ -85,7 +85,7 @@
             <param name="aesIV">The IV generated when the data was encrypted.</param>
             <returns>The decrypted text.</returns>
         </member>
-        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.AesWorker.Decrypt(System.String,System.String)">
+        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.AESProvider.Decrypt(System.String,System.String)">
             <summary>
             Decrypts the input string with prepended IV using the given key.
             </summary>
@@ -93,7 +93,7 @@
             <param name="aesKey">The symmetric key that is used for encryption and decryption.</param>
             <returns>The decrypted text.</returns>
         </member>
-        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.AesWorker.Encrypt(System.String,System.Byte[],System.Byte[]@)">
+        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.AESProvider.Encrypt(System.String,System.Byte[],System.Byte[]@)">
             <summary>
             Encrypts the input data using the provided key.
             </summary>
@@ -102,7 +102,7 @@
             <param name="aesIV">The IV generated when the data was encrypted.</param>
             <returns>The encrypted text as a byte array.</returns>
         </member>
-        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.AesWorker.Decrypt(System.Byte[],System.Byte[],System.Byte[])">
+        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.AESProvider.Decrypt(System.Byte[],System.Byte[],System.Byte[])">
             <summary>
             Decrypts the input data using the provided key and IV.
             </summary>
@@ -111,60 +111,68 @@
             <param name="aesIV">The IV generated when the data was encrypted.</param>
             <returns>The decrypted data as a string.</returns>
         </member>
-        <member name="T:Ichosoft.Extensions.Configuration.Cryptography.RSAKeyStore">
+        <member name="T:Ichosoft.Extensions.Configuration.Cryptography.RSAProvider">
             <summary>
             Represents a means to access an RSA public/private key pair for encrypting/decrypting values.
             </summary>
         </member>
-        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.RSAKeyStore.#ctor(System.String,Microsoft.Extensions.Logging.ILogger)">
+        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.RSAProvider.#ctor(System.String)">
             <summary>
-            Creates a new instance of <see cref="T:Ichosoft.Extensions.Configuration.Cryptography.RSAKeyStore"/> using the given 
+            
+            </summary>
+            <param name="keyContainerName">The name of the key container to use and/or create.</param>
+            <exception cref="T:System.NotSupportedException">The running platform does not support this class.</exception>
+            <exception cref="T:System.ArgumentNullException">A parameter provider is null or empty.</exception>
+        </member>
+        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.RSAProvider.#ctor(System.String,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Creates a new instance of <see cref="T:Ichosoft.Extensions.Configuration.Cryptography.RSAProvider"/> using the given 
             key container name.
             </summary>
             <param name="keyContainerName">The RSA key container to use for asymmetric encryption.</param>
             <param name="logger">A <see cref="T:Microsoft.Extensions.Logging.ILogger"/>.</param>
         </member>
-        <member name="P:Ichosoft.Extensions.Configuration.Cryptography.RSAKeyStore.KeyContainerName">
+        <member name="P:Ichosoft.Extensions.Configuration.Cryptography.RSAProvider.KeyContainerName">
             <summary>
             Gets the <see cref="F:System.Security.Cryptography.CspParameters.KeyContainerName"/> for the underlying 
             <see cref="T:System.Security.Cryptography.CspParameters"/>.
             </summary>
         </member>
-        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.RSAKeyStore.Encrypt(System.String)">
+        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.RSAProvider.Encrypt(System.String)">
             <summary>
             Encrypts the given text using unicode encoding.
             </summary>
             <param name="plainText">The text to encrypt.</param>
             <returns>The ciphertext from <paramref name="plainText"/>.</returns>
         </member>
-        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.RSAKeyStore.Decrypt(System.String)">
+        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.RSAProvider.Decrypt(System.String)">
             <summary>
             Decrypts the given ciphertext.
             </summary>
             <param name="ciphterText64">The ciphertext to decrypt.</param>
             <returns>The plain text from <paramref name="ciphterText64"/>.</returns>
         </member>
-        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.RSAKeyStore.DeleteKeyContainer">
+        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.RSAProvider.DeleteKeyContainer">
             <summary>
-            Deletes the key container represented by this <see cref="T:Ichosoft.Extensions.Configuration.Cryptography.RSAKeyStore"/>.
+            Deletes the key container represented by this <see cref="T:Ichosoft.Extensions.Configuration.Cryptography.RSAProvider"/>.
             </summary>
             <returns>True if the operation is successful, else false.</returns>
         </member>
-        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.RSAKeyStore.CreateKeyInContainer(System.String)">
+        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.RSAProvider.CreateKeyInContainer(System.String)">
             <summary>
             Creates a key entry with the given container name.
             </summary>
             <param name="keyContainerName"></param>
             <returns>True if the operation is successful, else false.</returns>
         </member>
-        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.RSAKeyStore.DeleteKeyFromContainer(System.String)">
+        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.RSAProvider.DeleteKeyFromContainer(System.String)">
             <summary>
             Deletes the key corresonding to the given container name from the RSA key store./>
             </summary>
             <param name="containerName">The name of the key container to delete.</param>
             <returns>True if the operation is successful, else false.</returns>
         </member>
-        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.RSAKeyStore.KeyExists(System.String)">
+        <member name="M:Ichosoft.Extensions.Configuration.Cryptography.RSAProvider.KeyExists(System.String)">
             <summary>
             Checks to see if the given key container exists.
             </summary>
@@ -243,7 +251,7 @@
             <param name="keyContainerName">The RSA key container name.</param>
             <param name="logger">An <see cref="T:Microsoft.Extensions.Logging.ILogger"/>.</param>
         </member>
-        <member name="M:Ichosoft.Extensions.Configuration.JsonSecureWritableConfigurationProvider.#ctor(Ichosoft.Extensions.Configuration.JsonWritableConfigurationSource,Ichosoft.Extensions.Configuration.Cryptography.RSAKeyStore)">
+        <member name="M:Ichosoft.Extensions.Configuration.JsonSecureWritableConfigurationProvider.#ctor(Ichosoft.Extensions.Configuration.JsonWritableConfigurationSource,Ichosoft.Extensions.Configuration.Cryptography.RSAProvider)">
             <summary>
             Creates a new <see cref="T:Ichosoft.Extensions.Configuration.JsonSecureWritableConfigurationProvider"/> for values 
             held as encrypted values except when accessed.
@@ -331,50 +339,45 @@
         </member>
         <member name="P:Ichosoft.Extensions.Configuration.Resources.ExceptionString.Aes_InvalidSize">
             <summary>
-              Looks up a localized string similar to {0}-bit key size is invalid for this provider. .
+              Looks up a localized string similar to {0} is invalid for this provider. .
             </summary>
         </member>
-        <member name="P:Ichosoft.Extensions.Configuration.Resources.ExceptionString.EncryptionProvider_KeyContainerNotSet">
-            <summary>
-              Looks up a localized string similar to The key container has not been set..
-            </summary>
-        </member>
-        <member name="P:Ichosoft.Extensions.Configuration.Resources.ExceptionString.EncryptionProvider_KeyNotSet">
-            <summary>
-              Looks up a localized string similar to The configuration provider has no encryption key..
-            </summary>
-        </member>
-        <member name="P:Ichosoft.Extensions.Configuration.Resources.ExceptionString.EncryptionProvider_RotateKeyFailed">
-            <summary>
-              Looks up a localized string similar to Failed to rotate asymmetric and symmetric keys..
-            </summary>
-        </member>
-        <member name="P:Ichosoft.Extensions.Configuration.Resources.ExceptionString.EncryptionProvider_SettingIsReadOnly">
-            <summary>
-              Looks up a localized string similar to Configuration setting &apos;{0}&apos; cannot be assigned to; it is read-only..
-            </summary>
-        </member>
-        <member name="P:Ichosoft.Extensions.Configuration.Resources.ExceptionString.KeyStore_CreateKeyFailed">
-            <summary>
-              Looks up a localized string similar to The container &apos;{0}&apos; could not be saved to provider &apos;{1}&apos;..
-            </summary>
-        </member>
-        <member name="P:Ichosoft.Extensions.Configuration.Resources.ExceptionString.KeyStore_DecryptionFailed">
+        <member name="P:Ichosoft.Extensions.Configuration.Resources.ExceptionString.EncryptionProvider_DecryptionFailed">
             <summary>
               Looks up a localized string similar to Could not decrypt value..
             </summary>
         </member>
-        <member name="P:Ichosoft.Extensions.Configuration.Resources.ExceptionString.KeyStore_DeleteKeyFailed">
-            <summary>
-              Looks up a localized string similar to The container &apos;{0}&apos; could not be deleted..
-            </summary>
-        </member>
-        <member name="P:Ichosoft.Extensions.Configuration.Resources.ExceptionString.KeyStore_EncryptionFailed">
+        <member name="P:Ichosoft.Extensions.Configuration.Resources.ExceptionString.EncryptionProvider_EncryptionFailed">
             <summary>
               Looks up a localized string similar to Could not encrypt value..
             </summary>
         </member>
-        <member name="P:Ichosoft.Extensions.Configuration.Resources.ExceptionString.KeyStore_PlatformNotSupported">
+        <member name="P:Ichosoft.Extensions.Configuration.Resources.ExceptionString.EncryptionProvider_ProviderNotSet">
+            <summary>
+              Looks up a localized string similar to The {0} has not been set..
+            </summary>
+        </member>
+        <member name="P:Ichosoft.Extensions.Configuration.Resources.ExceptionString.EncryptionProvider_RotateKeyFailed">
+            <summary>
+              Looks up a localized string similar to Failed to complete key rotation..
+            </summary>
+        </member>
+        <member name="P:Ichosoft.Extensions.Configuration.Resources.ExceptionString.EncryptionProvider_SettingIsReadOnly">
+            <summary>
+              Looks up a localized string similar to {0} cannot be assigned to; it is read-only..
+            </summary>
+        </member>
+        <member name="P:Ichosoft.Extensions.Configuration.Resources.ExceptionString.RSAKeyStore_CreateKeyContainerFailed">
+            <summary>
+              Looks up a localized string similar to {0} could not be created..
+            </summary>
+        </member>
+        <member name="P:Ichosoft.Extensions.Configuration.Resources.ExceptionString.RSAKeyStore_DeleteKeyContainerFailed">
+            <summary>
+              Looks up a localized string similar to Could not delete {0}..
+            </summary>
+        </member>
+        <member name="P:Ichosoft.Extensions.Configuration.Resources.ExceptionString.RSAKeyStore_PlatformNotSupported">
             <summary>
               Looks up a localized string similar to {0} is not supported for this operation..
             </summary>
