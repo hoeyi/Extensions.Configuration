@@ -120,14 +120,14 @@ namespace Ichosoft.Extensions.Configuration
             bool reloadOnChange = true)
         {
             var jsonSource = logger is null ?
-                new JsonWritableConfigurationSource(useProtectedSource: true, logger)
+                new JsonWritableConfigurationSource(useProtectedSource: true)
                 {
                     FileProvider = null,
                     Path = path,
                     Optional = optional,
                     ReloadOnChange = reloadOnChange
                 } :
-                new JsonWritableConfigurationSource(useProtectedSource: true)
+                new JsonWritableConfigurationSource(useProtectedSource: true, logger)
                 {
                     FileProvider = null,
                     Path = path,
