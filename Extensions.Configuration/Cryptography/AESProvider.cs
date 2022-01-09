@@ -8,7 +8,7 @@ namespace Ichosoft.Extensions.Configuration.Cryptography
     /// <summary>
     /// Contains methods for working with AES encryption.
     /// </summary>
-    static class AesWorker
+    static class AESProvider
     {
         /// <summary>
         /// Generates a new symmetric key for encryption and decryption.

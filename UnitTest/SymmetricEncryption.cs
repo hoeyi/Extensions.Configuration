@@ -17,9 +17,9 @@ namespace Ichosoft.Extensions.Configuration.UnitTest
         {
             var plainText = "Encrypt this string";
 
-            string aesKey = AesWorker.GenerateKey(keySize: 256);
+            string aesKey = AESProvider.GenerateKey(keySize: 256);
 
-            var cipherText = AesWorker.Encrypt(
+            var cipherText = AESProvider.Encrypt(
                 plainText: plainText,
                 aesKey: aesKey,
                 out string aesIV);
@@ -55,14 +55,14 @@ namespace Ichosoft.Extensions.Configuration.UnitTest
         {
             var plainText = "Encrypt this string";
 
-            string aesKey = AesWorker.GenerateKey(keySize: 256);
+            string aesKey = AESProvider.GenerateKey(keySize: 256);
 
-            var cipherText = AesWorker.Encrypt(
+            var cipherText = AESProvider.Encrypt(
                 plainText: plainText,
                 aesKey: aesKey,
                 out string aesIV);
 
-            var decipherText = AesWorker.Decrypt(
+            var decipherText = AESProvider.Decrypt(
                 cipherText: cipherText,
                 aesKey: aesKey,
                 aesIV: aesIV);
@@ -101,14 +101,14 @@ namespace Ichosoft.Extensions.Configuration.UnitTest
         {
             var plainText = "Encrypt this string";
 
-            string aesKey = AesWorker.GenerateKey(keySize: 256);
+            string aesKey = AESProvider.GenerateKey(keySize: 256);
 
-            var cipher1 = AesWorker.Encrypt(
+            var cipher1 = AESProvider.Encrypt(
                 plainText: plainText,
                 aesKey: aesKey,
                 out string iv1);
 
-            var cipher2 = AesWorker.Encrypt(
+            var cipher2 = AESProvider.Encrypt(
                 plainText: plainText,
                 aesKey: aesKey,
                 out string iv2);
@@ -135,7 +135,7 @@ namespace Ichosoft.Extensions.Configuration.UnitTest
         [TestMethod]
         public void AesEncrypt_InputStringLoremIpsum_YieldsOriginalString()
         {
-            string aesKey = AesWorker.GenerateKey(keySize: 256);
+            string aesKey = AESProvider.GenerateKey(keySize: 256);
 
             string plainText = Global.LoremIpsum(
                 minimumWords: default,
@@ -144,8 +144,8 @@ namespace Ichosoft.Extensions.Configuration.UnitTest
                 maximumSentences: 10,
                 paragraphCount: 2);
 
-            string cipherText = AesWorker.Encrypt(plainText, aesKey, out string aesIV);
-            string decipherText = AesWorker.Decrypt($"{aesIV}{cipherText}", aesKey);
+            string cipherText = AESProvider.Encrypt(plainText, aesKey, out string aesIV);
+            string decipherText = AESProvider.Decrypt($"{aesIV}{cipherText}", aesKey);
             int byteCount = Encoding.Unicode.GetByteCount(plainText);
 
             ResultCode resultCode;

@@ -61,7 +61,7 @@ namespace Ichosoft.Extensions.Configuration.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}-bit key size is invalid for this provider. .
+        ///   Looks up a localized string similar to {0} is invalid for this provider. .
         /// </summary>
         internal static string Aes_InvalidSize {
             get {
@@ -70,25 +70,34 @@ namespace Ichosoft.Extensions.Configuration.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The key container has not been set..
+        ///   Looks up a localized string similar to Could not decrypt value..
         /// </summary>
-        internal static string EncryptionProvider_KeyContainerNotSet {
+        internal static string EncryptionProvider_DecryptionFailed {
             get {
-                return ResourceManager.GetString("EncryptionProvider.KeyContainerNotSet", resourceCulture);
+                return ResourceManager.GetString("EncryptionProvider.DecryptionFailed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The configuration provider has no encryption key..
+        ///   Looks up a localized string similar to Could not encrypt value..
         /// </summary>
-        internal static string EncryptionProvider_KeyNotSet {
+        internal static string EncryptionProvider_EncryptionFailed {
             get {
-                return ResourceManager.GetString("EncryptionProvider.KeyNotSet", resourceCulture);
+                return ResourceManager.GetString("EncryptionProvider.EncryptionFailed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to rotate asymmetric and symmetric keys..
+        ///   Looks up a localized string similar to The {0} has not been set..
+        /// </summary>
+        internal static string EncryptionProvider_ProviderNotSet {
+            get {
+                return ResourceManager.GetString("EncryptionProvider.ProviderNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to complete key rotation..
         /// </summary>
         internal static string EncryptionProvider_RotateKeyFailed {
             get {
@@ -97,7 +106,7 @@ namespace Ichosoft.Extensions.Configuration.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configuration setting &apos;{0}&apos; cannot be assigned to; it is read-only..
+        ///   Looks up a localized string similar to {0} cannot be assigned to; it is read-only..
         /// </summary>
         internal static string EncryptionProvider_SettingIsReadOnly {
             get {
@@ -106,47 +115,29 @@ namespace Ichosoft.Extensions.Configuration.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The container &apos;{0}&apos; could not be saved to provider &apos;{1}&apos;..
+        ///   Looks up a localized string similar to {0} could not be created..
         /// </summary>
-        internal static string KeyStore_CreateKeyFailed {
+        internal static string RSAKeyStore_CreateKeyContainerFailed {
             get {
-                return ResourceManager.GetString("KeyStore.CreateKeyFailed", resourceCulture);
+                return ResourceManager.GetString("RSAKeyStore.CreateKeyContainerFailed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Could not decrypt value..
+        ///   Looks up a localized string similar to Could not delete {0}..
         /// </summary>
-        internal static string KeyStore_DecryptionFailed {
+        internal static string RSAKeyStore_DeleteKeyContainerFailed {
             get {
-                return ResourceManager.GetString("KeyStore.DecryptionFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The container &apos;{0}&apos; could not be deleted..
-        /// </summary>
-        internal static string KeyStore_DeleteKeyFailed {
-            get {
-                return ResourceManager.GetString("KeyStore.DeleteKeyFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Could not encrypt value..
-        /// </summary>
-        internal static string KeyStore_EncryptionFailed {
-            get {
-                return ResourceManager.GetString("KeyStore.EncryptionFailed", resourceCulture);
+                return ResourceManager.GetString("RSAKeyStore.DeleteKeyContainerFailed", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to {0} is not supported for this operation..
         /// </summary>
-        internal static string KeyStore_PlatformNotSupported {
+        internal static string RSAKeyStore_PlatformNotSupported {
             get {
-                return ResourceManager.GetString("KeyStore.PlatformNotSupported", resourceCulture);
+                return ResourceManager.GetString("RSAKeyStore.PlatformNotSupported", resourceCulture);
             }
         }
     }

@@ -118,39 +118,36 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Aes.InvalidSize" xml:space="preserve">
-    <value>{0}-bit key size is invalid for this provider. </value>
-    <comment>{0} is the key size in bits.</comment>
+    <value>{0} is invalid for this provider. </value>
+    <comment>{0} is the key-size</comment>
   </data>
-  <data name="EncryptionProvider.KeyContainerNotSet" xml:space="preserve">
-    <value>The key container has not been set.</value>
-  </data>
-  <data name="EncryptionProvider.KeyNotSet" xml:space="preserve">
-    <value>The configuration provider has no encryption key.</value>
-  </data>
-  <data name="EncryptionProvider.RotateKeyFailed" xml:space="preserve">
-    <value>Failed to rotate asymmetric and symmetric keys.</value>
-  </data>
-  <data name="EncryptionProvider.SettingIsReadOnly" xml:space="preserve">
-    <value>Configuration setting '{0}' cannot be assigned to; it is read-only.</value>
-    <comment>{0} is the setting key</comment>
-  </data>
-  <data name="KeyStore.CreateKeyFailed" xml:space="preserve">
-    <value>The container '{0}' could not be saved to provider '{1}'.</value>
-    <comment>{0} is the name of the key container.
-{1} is the name of the service provider.</comment>
-  </data>
-  <data name="KeyStore.DecryptionFailed" xml:space="preserve">
+  <data name="EncryptionProvider.DecryptionFailed" xml:space="preserve">
     <value>Could not decrypt value.</value>
   </data>
-  <data name="KeyStore.DeleteKeyFailed" xml:space="preserve">
-    <value>The container '{0}' could not be deleted.</value>
-    <comment>{0} is the name of the key container.</comment>
-  </data>
-  <data name="KeyStore.EncryptionFailed" xml:space="preserve">
+  <data name="EncryptionProvider.EncryptionFailed" xml:space="preserve">
     <value>Could not encrypt value.</value>
   </data>
-  <data name="KeyStore.PlatformNotSupported" xml:space="preserve">
+  <data name="EncryptionProvider.ProviderNotSet" xml:space="preserve">
+    <value>The {0} has not been set.</value>
+    <comment>{0} is the provider</comment>
+  </data>
+  <data name="EncryptionProvider.RotateKeyFailed" xml:space="preserve">
+    <value>Failed to complete key rotation.</value>
+  </data>
+  <data name="EncryptionProvider.SettingIsReadOnly" xml:space="preserve">
+    <value>{0} cannot be assigned to; it is read-only.</value>
+    <comment>{0} is the setting key</comment>
+  </data>
+  <data name="RSAKeyStore.CreateKeyContainerFailed" xml:space="preserve">
+    <value>{0} could not be created.</value>
+    <comment>{0} is the key container</comment>
+  </data>
+  <data name="RSAKeyStore.DeleteKeyContainerFailed" xml:space="preserve">
+    <value>Could not delete {0}.</value>
+    <comment>{0} is the key container</comment>
+  </data>
+  <data name="RSAKeyStore.PlatformNotSupported" xml:space="preserve">
     <value>{0} is not supported for this operation.</value>
-    <comment>{0} is the plaform description.</comment>
+    <comment>{0} is the platform</comment>
   </data>
 </root>

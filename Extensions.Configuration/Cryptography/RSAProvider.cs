@@ -10,17 +10,23 @@ namespace Ichosoft.Extensions.Configuration.Cryptography
     /// <summary>
     /// Represents a means to access an RSA public/private key pair for encrypting/decrypting values.
     /// </summary>
-    sealed partial class RSAKeyStore
+    sealed partial class RSAProvider
     {
         private readonly ILogger logger;
         private readonly CspParameters cspParams;
         private readonly Encoding byteConverter;
 
-        public RSAKeyStore(string keyContainerName)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="keyContainerName">The name of the key container to use and/or create.</param>
+        /// <exception cref="NotSupportedException">The running platform does not support this class.</exception>
+        /// <exception cref="ArgumentNullException">A parameter provider is null or empty.</exception>
+        public RSAProvider(string keyContainerName)
         {
             if (!OperatingSystem.IsWindows())
                 throw new NotSupportedException(string.Format(
-                    ExceptionString.KeyStore_PlatformNotSupported, Environment.OSVersion));
+                    ExceptionString.RSAKeyStore_PlatformNotSupported, Environment.OSVersion));
 
             if (string.IsNullOrEmpty(keyContainerName))
                 throw new ArgumentNullException(paramName: keyContainerName);
@@ -38,12 +44,12 @@ namespace Ichosoft.Extensions.Configuration.Cryptography
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="RSAKeyStore"/> using the given 
+        /// Creates a new instance of <see cref="RSAProvider"/> using the given 
         /// key container name.
         /// </summary>
         /// <param name="keyContainerName">The RSA key container to use for asymmetric encryption.</param>
         /// <param name="logger">A <see cref="ILogger"/>.</param>
-        public RSAKeyStore(string keyContainerName, ILogger logger)
+        public RSAProvider(string keyContainerName, ILogger logger)
             : this(keyContainerName: keyContainerName)
         {
             this.logger = logger;
@@ -85,7 +91,7 @@ namespace Ichosoft.Extensions.Configuration.Cryptography
             }
             catch (Exception e)
             {
-                logger?.LogError(e, ExceptionString.KeyStore_EncryptionFailed);
+                logger?.LogError(e, ExceptionString.EncryptionProvider_EncryptionFailed);
                 throw;
             }
 
@@ -112,13 +118,13 @@ namespace Ichosoft.Extensions.Configuration.Cryptography
             }
             catch (Exception e)
             {
-                logger?.LogError(e, ExceptionString.KeyStore_DecryptionFailed);
+                logger?.LogError(e, ExceptionString.EncryptionProvider_DecryptionFailed);
                 throw;
             }
         }
 
         /// <summary>
-        /// Deletes the key container represented by this <see cref="RSAKeyStore"/>.
+        /// Deletes the key container represented by this <see cref="RSAProvider"/>.
         /// </summary>
         /// <returns>True if the operation is successful, else false.</returns>
         public bool DeleteKeyContainer()
@@ -157,7 +163,7 @@ namespace Ichosoft.Extensions.Configuration.Cryptography
             catch (Exception e)
             {
                 logger?.LogError(e,
-                    ExceptionString.KeyStore_CreateKeyFailed
+                    ExceptionString.RSAKeyStore_CreateKeyContainerFailed
                         .ConvertToLogTemplate(nameof(KeyContainerName)),
                     cspParams.KeyContainerName);
                 throw;
@@ -206,7 +212,7 @@ namespace Ichosoft.Extensions.Configuration.Cryptography
             catch(Exception e)
             {
                 logger?.LogError(e,
-                    ExceptionString.KeyStore_DeleteKeyFailed
+                    ExceptionString.RSAKeyStore_DeleteKeyContainerFailed
                         .ConvertToLogTemplate(nameof(KeyContainerName)),
                     cspParams.KeyContainerName);
                 

@@ -14,7 +14,7 @@ namespace Ichosoft.Extensions.Configuration
     class JsonSecureWritableConfigurationProvider :
         JsonWritableConfigurationProvider, IWritableConfigurationProvider, IRSAProtectedConfigurationProvider
     {
-        private RSAKeyStore rsaKeyStore;
+        private RSAProvider rsaKeyStore;
         private readonly ILogger logger;
         private const string _AesKeyCipherAddress = "_file:AesKeyCipher";
         private const string _RsaKeyContainerAddress = "_file:RsaKeyContainer";
@@ -77,7 +77,7 @@ namespace Ichosoft.Extensions.Configuration
         /// <param name="logger">An <see cref="ILogger"/>.</param>
         public JsonSecureWritableConfigurationProvider(
             JsonWritableConfigurationSource source, string keyContainerName, ILogger logger)
-            : this(source, new RSAKeyStore(keyContainerName, logger))
+            : this(source, new RSAProvider(keyContainerName, logger))
         {
             this.logger = logger;
         }
@@ -89,7 +89,7 @@ namespace Ichosoft.Extensions.Configuration
         /// <param name="source">A <see cref="JsonWritableConfigurationSource"/>.</param>
         /// <param name="keyStore">An <see cref="RSAKeyStore"/>.</param>
         private JsonSecureWritableConfigurationProvider(
-            JsonWritableConfigurationSource source, RSAKeyStore keyStore)
+            JsonWritableConfigurationSource source, RSAProvider keyStore)
             : base(source)
         {
             if (source is null)
@@ -105,15 +105,15 @@ namespace Ichosoft.Extensions.Configuration
         /// Gets the current <see cref="RSAKeyStore"/> for this provider. A new 
         /// instance is created if the value is null.
         /// </summary>
-        private RSAKeyStore RSAKeyStore
+        private RSAProvider RSAKeyStore
         {
             get
             {
                 if(!base.TryGet(_RsaKeyContainerAddress, out string keyContainer))
                     throw new InvalidOperationException(
-                        ExceptionString.EncryptionProvider_KeyContainerNotSet);
+                        string.Format(ExceptionString.EncryptionProvider_ProviderNotSet, nameof(RSAProvider)));
 
-                rsaKeyStore ??= new RSAKeyStore(keyContainer);
+                rsaKeyStore ??= new RSAProvider(keyContainer, logger);
                 return rsaKeyStore;
             }   
         }
@@ -144,7 +144,7 @@ namespace Ichosoft.Extensions.Configuration
         /// <exception cref="InvalidOperationException">The secret key for the provider is not set.</exception>
         public bool RotateKey(string newKeyContainer, bool deleteOnSuccess = true)
         {
-            var newKeyStore = new RSAKeyStore(keyContainerName: newKeyContainer, logger: logger);
+            var newKeyStore = new RSAProvider(keyContainerName: newKeyContainer, logger: logger);
 
             var backupData = Data.ToDictionary(kv => kv.Key, kv => kv.Value);
 
@@ -152,12 +152,12 @@ namespace Ichosoft.Extensions.Configuration
             {
                 if (base.TryGet(_AesKeyCipherAddress, out string encryptedCurrentKey))
                 {
-                    string encryptedNewKey = newKeyStore.Encrypt(AesWorker.GenerateKey());
+                    string encryptedNewKey = newKeyStore.Encrypt(AESProvider.GenerateKey());
 
                     foreach (var keypair in Data.Where(kp => !NonAesProtectedSettings.Contains(kp.Key)))
                     {
-                        string text = AesWorker.Decrypt(keypair.Value, RSAKeyStore.Decrypt(encryptedCurrentKey));
-                        string newCipherText = AesWorker.Encrypt(
+                        string text = AESProvider.Decrypt(keypair.Value, RSAKeyStore.Decrypt(encryptedCurrentKey));
+                        string newCipherText = AESProvider.Encrypt(
                             plainText: text,
                             aesKey: newKeyStore.Decrypt(encryptedNewKey),
                             out string aesIV);
@@ -171,7 +171,7 @@ namespace Ichosoft.Extensions.Configuration
 
                     if (!RSAKeyStore.DeleteKeyContainer())
                         throw new InvalidOperationException(message:
-                            string.Format(ExceptionString.KeyStore_DeleteKeyFailed, RSAKeyStore.KeyContainerName));
+                            string.Format(ExceptionString.RSAKeyStore_DeleteKeyContainerFailed, RSAKeyStore.KeyContainerName));
 
                     rsaKeyStore = newKeyStore;
 
@@ -179,7 +179,7 @@ namespace Ichosoft.Extensions.Configuration
                 }
                 else
                     throw new InvalidOperationException(
-                        message: ExceptionString.EncryptionProvider_KeyNotSet);
+                        string.Format(ExceptionString.EncryptionProvider_ProviderNotSet, nameof(AESProvider)));
             }
             catch (Exception e)
             {
@@ -263,7 +263,7 @@ namespace Ichosoft.Extensions.Configuration
         {
             if (base.TryGet(_AesKeyCipherAddress, out string encryptedAesKey))
             {
-                string cipherText = AesWorker.Encrypt(
+                string cipherText = AESProvider.Encrypt(
                     plainText: value,
                     aesKey: RSAKeyStore.Decrypt(encryptedAesKey),
                     out string aesIV);
@@ -272,7 +272,7 @@ namespace Ichosoft.Extensions.Configuration
             }
             else
                 throw new InvalidOperationException(
-                    message: ExceptionString.EncryptionProvider_KeyNotSet);
+                    string.Format(ExceptionString.EncryptionProvider_ProviderNotSet, nameof(AESProvider)));
         }
 
         private void SetRsaProtectedValue(string key, string value)
@@ -287,7 +287,7 @@ namespace Ichosoft.Extensions.Configuration
             {
                 if (base.TryGet(key, out string encryptedValue))
                 {
-                    value = AesWorker.Decrypt(
+                    value = AESProvider.Decrypt(
                         cipherTextWithIV: encryptedValue,
                         aesKey: RSAKeyStore.Decrypt(encryptedAesKey));
                     return true;
@@ -297,7 +297,7 @@ namespace Ichosoft.Extensions.Configuration
             }
             else
                 throw new InvalidOperationException(
-                    message: ExceptionString.EncryptionProvider_KeyNotSet);
+                    message: ExceptionString.EncryptionProvider_SymmetricProviderNotSet);
         }
 
         private bool TryGetRsaProtectedValue(string key, out string value)
@@ -320,7 +320,7 @@ namespace Ichosoft.Extensions.Configuration
             {
                 base.Set(
                     key: _AesKeyCipherAddress, 
-                    value: RSAKeyStore.Encrypt(AesWorker.GenerateKey()));
+                    value: RSAKeyStore.Encrypt(AESProvider.GenerateKey()));
                 Commit();
                 return true;
             }
