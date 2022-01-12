@@ -21,7 +21,7 @@
         <Product>Ichosoft.Extensions.Configuration</Product>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-        <PackageProjectUrl>https://github.com/hoeyi/Extensions.Configuration</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/Ichosoft/Extensions.Configuration</PackageProjectUrl>
 
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 
