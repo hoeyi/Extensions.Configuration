@@ -69,39 +69,6 @@ namespace Ichosoft.Extensions.Configuration
         }
 
         /// <summary>
-        /// Creates a new <see cref="JsonSecureWritableConfigurationProvider"/> for values held 
-        /// as encrypted values except when accessed.
-        /// </summary>
-        /// <param name="source">A <see cref="JsonWritableConfigurationSource"/>.</param>
-        /// <param name="keyContainerName">The RSA key container name.</param>
-        /// <param name="logger">An <see cref="ILogger"/>.</param>
-        public JsonSecureWritableConfigurationProvider(
-            JsonWritableConfigurationSource source, string keyContainerName, ILogger logger)
-            : this(source, new RSAProvider(keyContainerName, logger))
-        {
-            this.logger = logger;
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="JsonSecureWritableConfigurationProvider"/> for values 
-        /// held as encrypted values except when accessed.
-        /// </summary>
-        /// <param name="source">A <see cref="JsonWritableConfigurationSource"/>.</param>
-        /// <param name="keyStore">An <see cref="RSAKeyStore"/>.</param>
-        private JsonSecureWritableConfigurationProvider(
-            JsonWritableConfigurationSource source, RSAProvider keyStore)
-            : base(source)
-        {
-            if (source is null)
-                throw new ArgumentNullException(paramName: nameof(source));
-
-            if (keyStore is null)
-                throw new ArgumentNullException(paramName: nameof(keyStore));
-
-            rsaKeyStore = keyStore;
-        }
-
-        /// <summary>
         /// Gets the current <see cref="RSAKeyStore"/> for this provider. A new 
         /// instance is created if the value is null.
         /// </summary>

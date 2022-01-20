@@ -242,23 +242,6 @@
             Gets the keys for settings not protected by symmetric encryption.
             </summary>
         </member>
-        <member name="M:Ichosoft.Extensions.Configuration.JsonSecureWritableConfigurationProvider.#ctor(Ichosoft.Extensions.Configuration.JsonWritableConfigurationSource,System.String,Microsoft.Extensions.Logging.ILogger)">
-            <summary>
-            Creates a new <see cref="T:Ichosoft.Extensions.Configuration.JsonSecureWritableConfigurationProvider"/> for values held 
-            as encrypted values except when accessed.
-            </summary>
-            <param name="source">A <see cref="T:Ichosoft.Extensions.Configuration.JsonWritableConfigurationSource"/>.</param>
-            <param name="keyContainerName">The RSA key container name.</param>
-            <param name="logger">An <see cref="T:Microsoft.Extensions.Logging.ILogger"/>.</param>
-        </member>
-        <member name="M:Ichosoft.Extensions.Configuration.JsonSecureWritableConfigurationProvider.#ctor(Ichosoft.Extensions.Configuration.JsonWritableConfigurationSource,Ichosoft.Extensions.Configuration.Cryptography.RSAProvider)">
-            <summary>
-            Creates a new <see cref="T:Ichosoft.Extensions.Configuration.JsonSecureWritableConfigurationProvider"/> for values 
-            held as encrypted values except when accessed.
-            </summary>
-            <param name="source">A <see cref="T:Ichosoft.Extensions.Configuration.JsonWritableConfigurationSource"/>.</param>
-            <param name="keyStore">An <see cref="P:Ichosoft.Extensions.Configuration.JsonSecureWritableConfigurationProvider.RSAKeyStore"/>.</param>
-        </member>
         <member name="P:Ichosoft.Extensions.Configuration.JsonSecureWritableConfigurationProvider.RSAKeyStore">
             <summary>
             Gets the current <see cref="P:Ichosoft.Extensions.Configuration.JsonSecureWritableConfigurationProvider.RSAKeyStore"/> for this provider. A new 
