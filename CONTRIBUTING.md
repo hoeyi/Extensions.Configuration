@@ -1,4 +1,4 @@
-# Contributing to `Extensions.Configuration` #
+# Contributing to Extensions.Configuration #
 
 * [Commit Message Guidelines](#commit-message-guidelines)
 * [Object Naming Conventions](#object-naming-conventions)
