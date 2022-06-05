@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.FileProviders;
 using Newtonsoft.Json;
 
-namespace Ichosoft.Extensions.Configuration
+namespace Ichosys.Extensions.Configuration
 {
     /// <summary>
     /// A JSON file configuration provider derived from <see cref="JsonConfigurationProvider"/>,

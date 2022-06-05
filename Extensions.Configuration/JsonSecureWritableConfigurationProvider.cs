@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ichosoft.Extensions.Configuration.Cryptography;
-using Ichosoft.Extensions.Configuration.Resources;
+using Ichosys.Extensions.Configuration.Cryptography;
+using Ichosys.Extensions.Configuration.Resources;
 using Microsoft.Extensions.Logging;
 
-namespace Ichosoft.Extensions.Configuration
+namespace Ichosys.Extensions.Configuration
 {
     /// <summary>
     /// A JSON file configuration provider derived from <see cref="JsonWritableConfigurationProvider"/>,

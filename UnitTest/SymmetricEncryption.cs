@@ -1,13 +1,13 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Ichosoft.Extensions.Configuration.Cryptography;
-using Ichosoft.Extensions.Configuration.UnitTest.Setup;
-using Ichosoft.Extensions.Configuration.UnitTest.Resources;
+using Ichosys.Extensions.Configuration.Cryptography;
+using Ichosys.Extensions.Configuration.UnitTest.Setup;
+using Ichosys.Extensions.Configuration.UnitTest.Resources;
 using System;
 using System.Text;
 
-namespace Ichosoft.Extensions.Configuration.UnitTest
+namespace Ichosys.Extensions.Configuration.UnitTest
 {
     [TestClass]
     public class SymmetricEncryption

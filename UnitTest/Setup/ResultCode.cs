@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ichosoft.Extensions.Configuration.UnitTest.Setup
+namespace Ichosys.Extensions.Configuration.UnitTest.Setup
 {
     /// <summary>
     /// Represents a test result description.

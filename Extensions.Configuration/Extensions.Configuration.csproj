@@ -3,12 +3,12 @@
     <PropertyGroup>
 
         <TargetFramework>net5.0</TargetFramework>
-        <AssemblyName>Ichosoft.Extensions.Configuration</AssemblyName>
-        <RootNamespace>Ichosoft.Extensions.Configuration</RootNamespace>
+        <AssemblyName>Ichosys.Extensions.Configuration</AssemblyName>
+        <RootNamespace>Ichosys.Extensions.Configuration</RootNamespace>
         <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
         <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
 
-        <PackageId>Ichosoft.Extensions.Configuration</PackageId>
+        <PackageId>Ichosys.Extensions.Configuration</PackageId>
         <BuildNumber Condition="$(BuildNumber) == ''">0</BuildNumber>
         <!--Comment out build number to avoid auto-updating project build properties. Uncomment for release builds only.-->
         <!--<BuildNumber>$([System.DateTime]::UtcNow.ToString(mmff))</BuildNumber>-->
@@ -18,10 +18,10 @@
         <Copyright>2021 hoeyi</Copyright>
         <Authors>hoeyi</Authors>
         <Company>hoeyi</Company>
-        <Product>Ichosoft.Extensions.Configuration</Product>
+        <Product>Ichosys.Extensions.Configuration</Product>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-        <PackageProjectUrl>https://github.com/Ichosoft/Extensions.Configuration</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/Ichosys/Extensions.Configuration</PackageProjectUrl>
 
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 
@@ -58,7 +58,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Ichosoft.Extensions.Common" Version="1.0.0.3035" />
+        <PackageReference Include="Ichosys.Extensions.Common" Version="1.4.0.592" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">

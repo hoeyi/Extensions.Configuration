@@ -3,9 +3,9 @@ using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-[assembly: InternalsVisibleTo("Ichosoft.Extensions.Configuration.UnitTest")]
+[assembly: InternalsVisibleTo("Ichosys.Extensions.Configuration.UnitTest")]
 
-namespace Ichosoft.Extensions.Configuration
+namespace Ichosys.Extensions.Configuration
 {
     /// <summary>
     /// Proviates extension methods for classes in <see cref="Microsoft.Extensions.Configuration"/> namespace.

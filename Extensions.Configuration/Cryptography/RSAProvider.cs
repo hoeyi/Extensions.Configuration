@@ -2,10 +2,10 @@
 using System.Text;
 using System.Security.Cryptography;
 using Microsoft.Extensions.Logging;
-using Ichosoft.Extensions.Configuration.Resources;
-using Ichosoft.Extensions.Common;
+using Ichosys.Extensions.Configuration.Resources;
+using Ichosys.Extensions.Common.Logging;
 
-namespace Ichosoft.Extensions.Configuration.Cryptography
+namespace Ichosys.Extensions.Configuration.Cryptography
 {
     /// <summary>
     /// Represents a means to access an RSA public/private key pair for encrypting/decrypting values.

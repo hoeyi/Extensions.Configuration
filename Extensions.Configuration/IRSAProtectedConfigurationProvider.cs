@@ -1,4 +1,4 @@
-﻿namespace Ichosoft.Extensions.Configuration
+﻿namespace Ichosys.Extensions.Configuration
 {
     /// <summary>
     /// Represents a configuration provider that encrypts in-memory and persisted values.

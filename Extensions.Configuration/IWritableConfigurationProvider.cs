@@ -1,4 +1,4 @@
-﻿namespace Ichosoft.Extensions.Configuration
+﻿namespace Ichosys.Extensions.Configuration
 {
     /// <summary>
     /// Provides persistable key/values for an application.
