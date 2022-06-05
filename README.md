@@ -22,7 +22,7 @@ Use `IConfigurationBuilder` extension methods `AddJsonWritable` and `AddSecureJs
 
 // Build configuration.
 IConfigurationRoot unprotectedConfig = new ConfigurationBuider()
-        .AddSecureJsonWritable(
+        .AddJsonWritable(
             path: "appsettings.json",
             optional: true,
             reloadOnChange: false);
