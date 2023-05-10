@@ -21,9 +21,9 @@
         <Product>Ichosys.Extensions.Configuration</Product>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-        <PackageProjectUrl>https://github.com/Ichosys/Extensions.Configuration</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/hoeyi/Extensions.Configuration</PackageProjectUrl>
 
-        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 
         <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
