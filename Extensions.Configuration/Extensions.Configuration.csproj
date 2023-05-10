@@ -58,7 +58,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Ichosys.Extensions.Common" Version="1.4.0.592" />
+        <PackageReference Include="Ichosys.Extensions.Common" Version="1.5.0.5645" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
