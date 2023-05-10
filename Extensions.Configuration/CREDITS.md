@@ -6,7 +6,7 @@ This project uses some libraries written by others. Credits for each referenced 
 ### Microsoft.Extensions.Configuration.Json ###
 https://dot.net/
 
-Microsoft.Extensions.Configuration.Json version 6.0.0
+Microsoft.Extensions.Configuration.Json version 7.0.0
 
 MIT License 
 
@@ -35,7 +35,7 @@ SOFTWARE.
 ### Microsoft.Extensions.Logging ###
 https://dot.net/
 
-Microsoft.Extensions.Logging version 6.0.0
+Microsoft.Extensions.Logging version 7.0.0
 
 MIT License 
 
@@ -95,7 +95,7 @@ SOFTWARE.
 ### Newtonsoft.Json ###
 https://www.newtonsoft.com/json
 
-Json.NET version 13.0.1
+Json.NET version 13.0.3
 
 MIT License
 
