@@ -2,7 +2,7 @@
 
     <PropertyGroup>
 
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <AssemblyName>Ichosys.Extensions.Configuration</AssemblyName>
         <RootNamespace>Ichosys.Extensions.Configuration</RootNamespace>
         <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
