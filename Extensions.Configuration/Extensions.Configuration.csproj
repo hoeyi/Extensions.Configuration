@@ -23,7 +23,7 @@
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <PackageProjectUrl>https://github.com/hoeyi/Extensions.Configuration</PackageProjectUrl>
 
-        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 
         <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
