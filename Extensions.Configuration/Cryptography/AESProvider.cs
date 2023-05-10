@@ -81,7 +81,7 @@ namespace Ichosys.Extensions.Configuration.Cryptography
             return Decrypt(
                 cipher: Convert.FromBase64String(cipherTextWithIV[24..]),
                 aesKey: Convert.FromBase64String(aesKey),
-                aesIV: Convert.FromBase64String(cipherTextWithIV.Substring(0, 24)));
+                aesIV: Convert.FromBase64String(cipherTextWithIV[..24]));
         }
 
         /// <summary>
@@ -125,7 +125,8 @@ namespace Ichosys.Extensions.Configuration.Cryptography
         /// <returns>The decrypted data as a string.</returns>
         private static string Decrypt(byte[] cipher, byte[] aesKey, byte[] aesIV)
         {
-            using AesCryptoServiceProvider aes = new();
+            using var aes = Aes.Create();
+
             aes.Key = aesKey;
             aes.IV = aesIV;
             aes.Mode = CipherMode.CBC;
