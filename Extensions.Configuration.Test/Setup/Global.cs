@@ -3,10 +3,10 @@ using System.Reflection;
 using System.Text;
 using Microsoft.Extensions.Logging;
 
-namespace Ichosys.Extensions.Configuration.UnitTest.Setup
+namespace Ichosys.Extensions.Configuration.Test.Setup
 {
     /// <summary>
-    /// Contains variables scoped to the Ichosys.Extensions.Configuration.UnitTest assembly. 
+    /// Contains variables scoped to the Ichosys.Extensions.Configuration.Test assembly. 
     /// </summary>
     class Global
     {

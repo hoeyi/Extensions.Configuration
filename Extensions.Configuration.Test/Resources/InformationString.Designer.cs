@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Ichosys.Extensions.Configuration.UnitTest.Resources {
+namespace Ichosys.Extensions.Configuration.Test.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Ichosys.Extensions.Configuration.UnitTest.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ichosys.Extensions.Configuration.UnitTest.Resources.InformationString", typeof(InformationString).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ichosys.Extensions.Configuration.Test.Resources.InformationString", typeof(InformationString).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

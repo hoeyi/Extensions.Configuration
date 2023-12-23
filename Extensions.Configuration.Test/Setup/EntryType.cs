@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ichosys.Extensions.Configuration.UnitTest.Setup
+namespace Ichosys.Extensions.Configuration.Test.Setup
 {
     /// <summary>
     /// Represents a type of entry in a test log.
