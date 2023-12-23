@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-[assembly: InternalsVisibleTo("Ichosys.Extensions.Configuration.UnitTest")]
+[assembly: InternalsVisibleTo("Ichosys.Extensions.Configuration.Test")]
 
 namespace Ichosys.Extensions.Configuration
 {

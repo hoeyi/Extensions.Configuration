@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
 
-    <AssemblyName>Ichosys.Extensions.Configuration.UnitTest</AssemblyName>
+    <AssemblyName>Ichosys.Extensions.Configuration.Test</AssemblyName>
 
-    <RootNamespace>Ichosys.Extensions.Configuration.UnitTest</RootNamespace>
+    <RootNamespace>Ichosys.Extensions.Configuration.Test</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

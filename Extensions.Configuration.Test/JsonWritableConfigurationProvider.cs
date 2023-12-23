@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Ichosys.Extensions.Configuration.UnitTest.Setup;
-using Ichosys.Extensions.Configuration.UnitTest.Resources;
+using Ichosys.Extensions.Configuration.Test.Setup;
+using Ichosys.Extensions.Configuration.Test.Resources;
 
-namespace Ichosys.Extensions.Configuration.UnitTest
+namespace Ichosys.Extensions.Configuration.Test
 {
     [TestClass]
     public class JsonWritableConfigurationProvider
